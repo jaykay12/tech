@@ -9,10 +9,10 @@ name: Tech Blog
 author: Jalaz Kumar
 
 # Short bio or description (displayed in the header)
-description: Technical Blog having articles, learnings, blogs and demos related to Computer Science and Information Technology.
+description: Technical Articles | Short Tutorials | Demos
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: /images/reverie-text.png
+avatar: /images/engineer.jpg
 
 #
 # Flags below are optional
@@ -26,9 +26,9 @@ footer-links:
   flickr:
   github: jaykay12/tech
   instagram:
-  linkedin:
+  linkedin: jalazkumar
   pinterest:
-  rss: rss
+  rss:
   twitter: jalazkumar
   stackoverflow:
   youtube: # channel/<your_long_string> or user/<user-name>
@@ -41,7 +41,7 @@ footer-links:
 disqus:
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics:
+google_analytics: UA-155615668-2
 
 # Your website URL (e.g. http://amitmerchant1990.github.io or http://www.amitmerchant.com)
 # Used for Sitemap.xml and your RSS feed
