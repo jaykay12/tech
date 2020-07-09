@@ -26,11 +26,20 @@ curl -i --request POST \
 
 ### Setting up the project files
 
-**Step 1:** Get local copy of the project using `git clone https://github.com/jaykay12/demo-sendgrid-azure.git`
+**Step 1:** Get local copy of the project using
+```bash
+wget https://github.com/jaykay12/tech/assets/demos/flask-sendgrid-azure.zip
+```
 
-**Step 2:** Create a virtualenv for the web app using `virtualenv venv`
+**Step 2:** Create a virtualenv for the python web app using
+```bash
+virtualenv venv
+```
 
-**Step 3:** Activate the virtualenv using `source venv/bin/activate`
+**Step 3:** Activate the virtualenv using
+```bash
+source venv/bin/activate
+```
 
 **Step 4:** Update your environment with SendGrid-API Key generated in Step 3 of Phase 1 using,
 ```bash
@@ -38,9 +47,15 @@ echo "export SENDGRID_API_KEY=<YOUR_API_KEY>" > sendgrid.env
 source ./sendgrid.env
 ```
 
-**Step 5:** Install all the dependencies of the web-app using `pip install -r requirements.txt`
+**Step 5:** Install all the dependencies of the web-app using
+```bash
+pip install -r requirements.txt
+```
 
-**Step 6:** Check if the app is running locally using `FLASK_APP=application.py flask run`
+**Step 6:** Check if the app is running locally using
+```bash
+FLASK_APP=application.py flask run
+```
 
 **Step 7:** Hit: `127.0.0.1:5000/` from browser & check if the simple mail sending is working or not.
 
