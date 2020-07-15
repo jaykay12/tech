@@ -8,7 +8,7 @@ categories: [Deployment, Python]
 
 **Step 1:** Create a SendGrid Free Account from [here](https://sendgrid.com/free?source=sendgrid-python)
 
-**Step 2:** Create a Microsoft Azure Account: [Free-Tier](https://azure.microsoft.com/en-in/free/) | [Student-Pack](https://azure.microsoft.com/en-in/free/students/)
+**Step 2:** Create a Microsoft Azure Account: [Free-Tier](https://azure.microsoft.com/en-in/free/) / [Student-Pack](https://azure.microsoft.com/en-in/free/students/)
 
 **Step 3:** Create your SendGrid API Key from [here](https://app.sendgrid.com/settings/api_keys)
 
