@@ -73,7 +73,40 @@ if __name__ == '__main__':
 **Step 5:** On hitting, `localhost:5000`, if you get _Flask App Running...!_. Kudos, You got your flask API running locally.
 
 ## Using already created flask API
-_<--Coming soon-->_
+**Step 1:**
+Get local copy of the project using
+```bash
+wget https://github.com/jaykay12/tech/assets/demos/flask-heroku.zip
+```
+
+**Step 2:** Create a virtualenv for the python web app using
+```bash
+virtualenv venv
+```
+
+**Step 3:** Activate the virtualenv using
+```bash
+source venv/bin/activate
+```
+
+**Step 4:** Install all the packages using
+```bash
+pip install -r requirements.txt
+```
+
+**Step 5:** Run the flask app using `python app.py`
+```bash
+(venv) jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ python app.py
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+```
+
+**Step 5:** On hitting, `localhost:5000`, if you get _Flask App Running...!_. Kudos, You got your flask API running locally.
 
 ## Deploying on Heroku
+
 _<--Coming soon-->_
