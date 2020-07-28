@@ -6,9 +6,7 @@ categories: [Deployment, Python, Heroku]
 
 ## Terminology
  - **virtualenv:** A tool to create isolated Python environments
- - **flask:** A micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries.
-
- It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions.
+ - **flask:** A micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. _It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions._
  - **heroku:** A cloud platform as a service supporting several programming languages.
 
 ## Creating a flask API locally
@@ -109,4 +107,97 @@ pip install -r requirements.txt
 
 ## Deploying on Heroku
 
-_<--Coming soon-->_
+**Step 1:** Logging into Heroku using heroku cli
+```bash
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ heroku login
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/xxxx-xxx-xxx
+Logging in... done
+Logged in as jalazkumar1208@gmail.com
+```
+
+![Login Success](../assets/images/FH-1.png)
+
+**Step 2:** Create a heroku app inside the directory
+```bash
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ heroku create flask-heroku-jalaz
+Creating ⬢ flask-heroku-jalaz... done
+https://flask-heroku-jalaz.herokuapp.com/ | https://git.heroku.com/flask-heroku-jalaz.git
+```
+
+**Step 3:** Set Buildpacks for the app
+```bash
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ heroku buildpacks:set heroku/python --app flask-heroku-jalaz
+Buildpack set. Next release on flask-heroku-jalaz will use heroku/python.
+Run git push heroku master to create a new release using this buildpack.
+```
+
+**Step 4:** Create `requirements.txt` file for the project if it doesn't exist using `pip freeze > requirements.txt`
+
+**Step 5:** Create a `Procfile` with the following content.
+```text
+web: gunicorn app:app
+```
+
+_Procfile: A text file in the root directory of your application, to explicitly declare what command should be executed to start your app_
+
+**Step 6:** Commit these new deployment changes.
+```bash
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	Procfile
+nothing added to commit but untracked files present (use "git add" to track)
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ git add Procfile
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ git commit -m "Added Procfile"
+[master 1210ae4] Added Procfile
+ 1 file changed, 1 insertion(+)
+ create mode 100644 Procfile
+```
+
+**Step 7:** Push to deploy.
+```bash
+jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ git push heroku master
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (10/10), 1001 bytes | 500.00 KiB/s, done.
+Total 10 (delta 1), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Python app detected
+remote: -----> Installing python-3.6.11
+remote: -----> Installing pip
+remote: -----> Installing SQLite3
+remote: -----> Installing requirements with pip
+remote:        Collecting click==7.1.2
+remote:          Downloading click-7.1.2-py2.py3-none-any.whl (82 kB)
+remote:        Collecting Flask==1.1.2
+remote:          Downloading Flask-1.1.2-py2.py3-none-any.whl (94 kB)
+remote:        Collecting itsdangerous==1.1.0
+remote:          Downloading itsdangerous-1.1.0-py2.py3-none-any.whl (16 kB)
+remote:        Collecting Jinja2==2.11.2
+remote:          Downloading Jinja2-2.11.2-py2.py3-none-any.whl (125 kB)
+remote:        Collecting MarkupSafe==1.1.1
+remote:          Downloading MarkupSafe-1.1.1-cp36-cp36m-manylinux1_x86_64.whl (27 kB)
+remote:        Collecting Werkzeug==1.0.1
+remote:          Downloading Werkzeug-1.0.1-py2.py3-none-any.whl (298 kB)
+remote:        Installing collected packages: click, Werkzeug, itsdangerous, MarkupSafe, Jinja2, Flask
+remote:        Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 click-7.1.2 itsdangerous-1.1.0
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 45.1M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://flask-heroku-jalaz.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/flask-heroku-jalaz.git
+ * [new branch]      master -> master
+```
