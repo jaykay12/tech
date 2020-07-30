@@ -28,7 +28,7 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 - [ ] reactJS (functional components)
 - [ ] reactJS (React Hooks)
 - [ ] Apache SolR
-- [ ] oAuth
+- [x] OAuth
 - [ ] Spring Boot
 - [ ] Java Spring
 - [ ] Pandas
@@ -40,10 +40,10 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 
 ## Demos
 
-- [ ] Enabling GA Tracking on any Website
+- [x] Enabling GA Tracking on any Website
 - [ ] Deploying nodeJS app to Heroku
-- [ ] Deploying python-flask app to Heroku
-- [ ] Deploying python-flask app to Microsoft Azure
+- [x] Deploying python-flask app to Heroku
+- [x] Deploying python-flask app to Microsoft Azure
 - [ ] Deploying reactJS app to Netlify
 - [ ] Setting up CI/CD using Travis CI/Heroku
 - [ ] Setting up CI/CD using GitHub Actions/Heroku
