@@ -108,4 +108,120 @@ nodeJS app listening at http://localhost:9211
 ```
 
 ## Deploying API on Heroku
-_<Coming soon>_
+
+**Step 1:** Logging into Heroku using heroku cli
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ heroku login
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/xxxxx-xxx-xxxxxxx-xxx-xxxxx
+Logging in... done
+Logged in as jalazkumar1208@gmail.com
+```
+
+**Step 2:** Create a heroku app inside the directory
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ heroku create nodejs-heroku-jalaz
+Creating ⬢ nodejs-heroku-jalaz... done
+https://nodejs-heroku-jalaz.herokuapp.com/ | https://git.heroku.com/nodejs-heroku-jalaz.git
+```
+
+**Step 3:** Set Buildpacks for the app
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ heroku buildpacks:set heroku/nodejs --app nodejs-heroku-jalaz
+Buildpack set. Next release on nodejs-heroku-jalaz will use heroku/nodejs.
+Run git push heroku master to create a new release using this buildpack.
+```
+
+**Step 4:** Create a `Procfile` with the following content.
+```text
+web: node index.js
+```
+
+_Procfile: A text file in the root directory of your application, to explicitly declare what command should be executed to start your app_
+
+**Step 5:** Commit these new deployment changes.
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	Procfile
+
+nothing added to commit but untracked files present (use "git add" to track)
+jalaz@jalaz-personal:~/nodejs-heroku$ git add Procfile
+jalaz@jalaz-personal:~/nodejs-heroku$ git commit -m "Added Procfile for heroku deploy"
+[master 7883275] Added Procfile for heroku deploy
+ 1 file changed, 1 insertion(+)
+ create mode 100644 Procfile
+```
+
+**Step 6:** Link heroku app with heroku git repo
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ git remote add heroku https://git.heroku.com/nodejs-heroku-jalaz.git
+jalaz@jalaz-personal:~/nodejs-heroku$ git remote -v
+heroku	https://git.heroku.com/nodejs-heroku-jalaz.git (fetch)
+heroku	https://git.heroku.com/nodejs-heroku-jalaz.git (push)
+```
+
+**Step 7:** Push to deploy.
+```bash
+jalaz@jalaz-personal:~/nodejs-heroku$ git push heroku master
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (9/9), 5.23 KiB | 1.74 MiB/s, done.
+Total 9 (delta 1), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Node.js app detected
+remote:        
+remote: -----> Creating runtime environment
+remote:        
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:        NODE_VERBOSE=false
+remote:        
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  unspecified
+remote:        engines.npm (package.json):   unspecified (use default)
+remote:        
+remote:        Resolving node version 12.x...
+remote:        Downloading and installing node 12.18.3
+remote:        Using default npm version: 6.14.6
+remote:        
+remote: -----> Installing dependencies
+remote:        Installing node modules (package.json + package-lock)
+remote:        added 50 packages from 37 contributors and audited 50 packages in 1.732s
+remote:        found 0 vulnerabilities
+remote:        
+remote:        
+remote: -----> Build
+remote:        
+remote: -----> Caching build
+remote:        - node_modules
+remote:        
+remote: -----> Pruning devDependencies
+remote:        audited 50 packages in 0.68s
+remote:        found 0 vulnerabilities
+remote:        
+remote:        
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 22.7M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://nodejs-heroku-jalaz.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/nodejs-heroku-jalaz.git
+ * [new branch]      master -> master
+```
+
+_Get local copy of the project using `wget https://github.com/jaykay12/tech/assets/demos/nodejs-heroku.zip`_
