@@ -8,6 +8,7 @@ categories: [Deployment, Python, Heroku]
  - **virtualenv:** A tool to create isolated Python environments
  - **flask:** A micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. _It has no database abstraction layer, form validation, or any other components where pre-existing third-party libraries provide common functions._
  - **heroku:** A cloud platform as a service supporting several programming languages.
+ - **pip:** A de facto standard package-management system used to install and manage software packages written in Python.
 
 ## Creating a flask API locally
 
