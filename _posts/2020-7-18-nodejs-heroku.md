@@ -14,7 +14,7 @@ categories: [Deployment, Javascript, Heroku]
 
 **Heroku:** Heroku is a cloud platform as a service supporting several programming languages.
 
-> Check if nodeJS & NPM is installed in your workstation using,
+> Check if nodeJS & NPM is installed in your workstation using,   
 > `node --version` & `npm --version`
 
 ## Creating a nodeJS API locally
@@ -90,7 +90,8 @@ jalaz@jalaz-personal:~/nodejs-heroku$ node index.js
 nodeJS app listening at http://localhost:9211
 ```
 
-> Now hit http://localhost:9211/ from browser, if `nodeJS API Running!` is returned, then you got your nodeJS app running on local machine.
+> Now hit http://localhost:9211/ from browser,   
+if `nodeJS API Running!` is returned, then you got your nodeJS app running on local machine.
 
 **Step 5:** In Step 4, You can alo edit `package.json` to have following entry in the key "scripts"
 ```json
@@ -224,4 +225,5 @@ To https://git.heroku.com/nodejs-heroku-jalaz.git
  * [new branch]      master -> master
 ```
 
-_Get local copy of the project using `wget https://github.com/jaykay12/tech/assets/demos/nodejs-heroku.zip`_
+_Get local copy of the project using    
+`wget https://github.com/jaykay12/tech/assets/demos/nodejs-heroku.zip`_

@@ -6,19 +6,19 @@ categories: [Automation, Miscellaneous]
 
 Google Sheets API allows Read, write, and format data in Sheets. The Sheets API gives you full control over the content and appearence of your spreadsheet data. Find more data at [Home Page](https://developers.google.com/sheets/api)
 
-## Setting up Google Sheets API (Required Only once)
+## Setting up Google Sheets API
 
 **Step 1:** Log into the Google developer [API console](https://console.developers.google.com/) & create a project enabling Google Sheets API.
 
 ![google-api-console](../assets/images/GSA-3.png)
 
-**Step 2:** Enable the Google Sheets API by toggling button
+**Step 2:** Enable the Google Sheets API by toggling enable button
 
 ![sheets-api-disabled](../assets/images/GSA-5.png)
 
 ![sheets-api-enabled](../assets/images/GSA-6.png)
 
-**Step 3:** You can track the API usage
+**Step 3:** You can track & monitor the API usage
 
 ![sheets-api-usage](../assets/images/GSA-9.png)
 
@@ -26,21 +26,21 @@ Google Sheets API allows Read, write, and format data in Sheets. The Sheets API 
 
 ![sheets-api-credentials](../assets/images/GSA-7.png)
 
-**Step 2:** Copy the credentials file and store it in local system with name `credentials.json`
+**Step 5:** Copy the credentials and store it in local system with name `credentials.json`
 
 ![sheets-api-credentials-file](../assets/images/GSA-8.png)
 
-## Setting up Google Spreadsheets (Required everytime)
+## Setting up Google Spreadsheets
 
-**Step 2:** Create a blank spreadsheet from [Google Sheets](https://docs.google.com/spreadsheets/u/0/)
+**Step 1:** Create a blank spreadsheet from [Google Sheets](https://docs.google.com/spreadsheets/u/0/)
 
 ![spreadsheet-creation](../assets/images/GSA-1.png)
 
-**Step 3:** Copy the spreadsheet id from the sheet URL
+**Step 2:** Copy the spreadsheet id from the sheet URL
 
 ![spreadsheet-id-extraction](../assets/images/GSA-2.png)
 
-**Step 4:** Share the spreadheet with the account associated to Google Sheets API with an editor access
+**Step 3:** Share the spreadsheet with the account associated to Google Sheets API with an editor access
 
 ![spreadsheet-shared](../assets/images/GSA-4.png)
 
@@ -78,7 +78,7 @@ pip install googleapiclient
 pip install google.oauth2
 ```
 
-**Step 2:** Add following content to the script file for impprting dependencies & creating connection
+**Step 2:** Add following content to the script file for importing dependencies & creating connection
 ```python
 import httplib2
 import os
