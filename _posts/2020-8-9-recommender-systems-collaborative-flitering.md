@@ -127,9 +127,48 @@ Algorithms in which statistical techniques are applied to the entire dataset to 
 
 - Model-based approaches which involve a step to reduce or compress the large but sparse user-item matrix. For sparse matrix, Dimensionality Reduction is used & achieved using Matrix factorization, Autoencoders, Single Value decompositions etc.
 
-**User-Based Collaborative Filtering:**
+**<ins>User-Based Collaborative Filtering:<ins>**
 
 To find the rating **R** that a user **U** would give to an item **I**, the approach includes:
 
 1. Finding users similar to **U** who have rated the item **I**.
 2. Calculating the rating **R** based on the ratings of users found in Step 1.
+
+For general, assume the items to be dimensions on which users are pointed at the vector space.
+So, a movie recommender having 10 movies will be a 10-dimensional vector space wherein each user will be having a fixed coordinate on the basis of ratings provided to [1-10] movies.
+
+Now, distance between 2 users can be found as Eucledian distance, using `scipy.spatial.distance.euclidean`, but this is not better manner to find similarity.
+In CF, similarity between 2 users(data points on m-dimensional space) is calculated using cosine distance, using `scipy.spacial.distance.cosine`.
+> cosine similarity is 1 subtracted from cosine distance.
+
+**Step 1:** <ins>Finding Similar Users<ins>
+
+In CF, the angle between the 2 lines joining origin to data points(users) denotes the similarity between the 2 data points. If this angle is increased, then the similarity decreases, and if the angle is zero, then the users are very similar.
+
+To calculate similarity using angle, we need a function that returns a higher similarity or smaller distance for a lower angle and a lower similarity or larger distance for a higher angle. The cosine of an angle is a function that decreases from 1 to -1 as the angle increases from 0 to 180.
+
+_Note: In this case, person 1 giving rating 5 in all 4 movies, person 2 rating 3 in all 4 movies & person 3 giving rating of 1 in all 4 are similar users. As they rate movies in similar manner. Person 3 is critic & is called tough raters._
+
+To factor in such individual user preferences, you will need to bring all users to the same level by removing their biases. You can do this by subtracting the average rating given by that user to all items from each item rated by that user
+The cosine of the angle between the adjusted vectors is called **centered cosine**.
+Also, for sparse matrices, this concept of **centered cosine** is used.
+In this, all missing ratings are filled up by the average rating of each user.
+
+**Step 2:** <ins>Calculating Ratings<ins>
+
+Once similar users to a user **U** are identified, we require to calculate the rating **R** which **U** will provide to the item: **I**.        
+
+There are 2 approaches for this:
+
+1. <ins>Average Rating of Top N Similar Users:<ins>
+
+Prediction of **R** for an item **I** will be close to the average of the ratings given to **I** by the top 5 or top 10 users (top N) most similar to U
+> ![Recommendation Systems](../assets/images/CF-2.png)
+
+2. <ins> Weighted Average Ratings: <ins>
+
+There will be situations where the N similar users that you found are not equally similar to the target user U. The top 3 of them might be very similar, and the rest might not be as similar to U as the top 3.
+
+In this approach, each rating is multiplied by a similarity factor(which tells how similar the users are). By multiplying with the similarity factor, weights are added to the ratings. The heavier the weight, the more the rating would matter.
+
+> ![Recommendation Systems](../assets/images/CF-3.png)
