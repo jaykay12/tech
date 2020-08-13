@@ -121,13 +121,13 @@ One important thing to keep in mind is that in an approach based purely on colla
 - Memory-based approaches     
 Algorithms in which statistical techniques are applied to the entire dataset to calculate the predictions.
 
-    - User-Based Collaborative Filtering (_Will be discussed in detail_)
-    - Item-Based Collaborative Filtering (_Will be discussed in detail_)
+    - User-Based Collaborative Filtering
+    - Item-Based Collaborative Filtering
 
 
-- Model-based approaches which involve a step to reduce or compress the large but sparse user-item matrix. For sparse matrix, Dimensionality Reduction is used & achieved using Matrix factorization, Autoencoders, Single Value decompositions etc.
+- `Model-based approaches` which involve a step to reduce or compress the large but sparse user-item matrix. For sparse matrix, Dimensionality Reduction is used & achieved using Matrix factorization, Autoencoders, Single Value decompositions etc.
 
-**<ins>User-Based Collaborative Filtering:<ins>**
+**User-Based Collaborative Filtering:**
 
 To find the rating **R** that a user **U** would give to an item **I**, the approach includes:
 
@@ -141,7 +141,7 @@ Now, distance between 2 users can be found as Eucledian distance, using `scipy.s
 In CF, similarity between 2 users(data points on m-dimensional space) is calculated using cosine distance, using `scipy.spacial.distance.cosine`.
 > cosine similarity is 1 subtracted from cosine distance.
 
-**Step 1:** <ins>Finding Similar Users<ins>
+**Step 1:** `Finding Similar Users`
 
 In CF, the angle between the 2 lines joining origin to data points(users) denotes the similarity between the 2 data points. If this angle is increased, then the similarity decreases, and if the angle is zero, then the users are very similar.
 
@@ -154,7 +154,7 @@ The cosine of the angle between the adjusted vectors is called **centered cosine
 Also, for sparse matrices, this concept of **centered cosine** is used.
 In this, all missing ratings are filled up by the average rating of each user.
 
-**Step 2:** <ins>Calculating Ratings<ins>
+**Step 2:** `Calculating Ratings`
 
 Once similar users to a user **U** are identified, we require to calculate the rating **R** which **U** will provide to the item: **I**.        
 
@@ -172,3 +172,19 @@ There will be situations where the N similar users that you found are not equall
 In this approach, each rating is multiplied by a similarity factor(which tells how similar the users are). By multiplying with the similarity factor, weights are added to the ratings. The heavier the weight, the more the rating would matter.
 
 > ![Recommendation Systems](../assets/images/CF-3.png)
+
+---
+
+**Item-Based Collaborative Filtering:**
+
+The two approaches are mathematically quite similar, but there is a conceptual difference between the two. Here’s how the two compare:
+
+`Item-based:` For an item **I**, with a set of similar items determined on the basis of rating vectors. The rating by a user **U**, who hasn’t rated **I**, is found by picking out N items from the similarity list that have been rated by **U** and calculating the rating based on these N ratings.
+
+- In a system where there are more users than items, item-based filtering is faster and more stable than user-based.
+
+- It is effective because usually, the average rating received by an item doesn’t change as quickly as the average rating given by a user to different items.
+
+- It’s also known to perform better than the user-based approach when the ratings matrix is sparse.
+
+For more details of the implementation part, feel free to contribute to my project: [KitabGhar-Recommend-API](https://github.com/jaykay12/KitabGhar-Recommend-API)
