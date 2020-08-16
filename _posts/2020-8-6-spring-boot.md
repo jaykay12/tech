@@ -138,6 +138,56 @@ Annotations is a form of metadata that provides data about a program. These are 
 
 **Spring Framework Stereotype Annotations :**
 
+- `@Component`: Class-level annotation | Used to mark a Java class as a bean. The Spring Framework pick it up during Component Scanning and configures it in the application context as a Spring Bean.
+
+```java
+    @Component  
+    public class ProductDTO {  
+    // ...  
+    }  
+```
+
+- `@Controller`: Class-level annotation | Specialization of _@Component_ | Marks a class as a web request handler & is often used to serve web pages.
+
+```java
+    @Controller  
+    @RequestMapping("products")  
+    public class ProductsController {
+        @RequestMapping(value = "/{name}", method = RequestMethod.GET)  
+        public Product getProductsByName() {  
+            return productsDTO;  
+        }
+        @RequestMapping(value = "/{id}", method = RequestMethod.GET)  
+        public Product getProductsById() {  
+            return productsDTO;  
+        }  
+    }  
+```
+
+- `@Service`: Class-level annotation | Tells the Spring that class contains the business logic.
+
+```java
+    package tech.jaykay12;  
+    @Service  
+    public class ProductsLogic {
+        public void exactMatchProducts() {  
+            //business code  
+        }  
+    }  
+```
+
+- `@Repository`: Class-level annotation | The repository is a DAOs (Data Access Object) that access the database directly. The repository does all the DB Operations.
+
+```java
+    package tech.jaykay12;  
+    @Repository   
+    public class DBOperations {
+        public void deleteProducts() {     
+            //persistence code  
+        }  
+    }  
+```
+
 **Spring Boot Annotations :**
 
 - `@EnableAutoConfiguration`: Auto-configures the bean that is present in the classpath and configures it to run the methods. Usage reduced now.
@@ -145,3 +195,31 @@ Annotations is a form of metadata that provides data about a program. These are 
 - `@SpringBootApplication`: A combination of three annotations _@EnableAutoConfiguration_, _@ComponentScan_, and _@Configuration_.
 
 **Spring MVC and REST Annotations :**
+
+- `@RequestMapping`: Used to map the web requests on the specific handler method. It has many optional elements like consumes, header, method, name, params, path, produces, and value. We use it with the class as well as the method.
+
+    - `@GetMapping`: Used to create a web service endpoint that fetches. Eqivalent to: _@RequestMapping(method = RequestMethod.GET)_
+
+    - `@PostMapping`: Used to create a web service endpoint that creates. Equivalent to: _@RequestMapping(method = RequestMethod.POST)_
+
+    - `@PutMapping:` Used to create a web service endpoint that creates or updates. Equivalent to:  _@RequestMapping(method = RequestMethod.PUT)_
+
+    - `@DeleteMapping`: Used to create a web service endpoint that deletes a resource. Equivalent to: _@RequestMapping(method = RequestMethod.DELETE)_
+
+    - `@PatchMapping`: Maps the HTTP PATCH requests on the specific handler method. Equivalent to: _@RequestMapping(method = RequestMethod.PATCH)_
+
+- `@ResponseBody`: Binds the method return value to the response body. Tells the Spring Boot Framework to serialize the return object into JSON and XML format.
+
+- `@RestController`: A combination of _@Controller_ & _@ResponseBody_ annotations. It eliminates the need for annotating each method with _@ResponseBody_.
+
+- **<ins>Request Annotations<ins>**
+
+   - `@RequestBody`: Used to bind HTTP request with an object in a method parameter. _HTTP MessageConverters_ is used internally.
+
+   - `@RequestParam`: Used to extract the query parameters from the URL. Most suitable for web applications.
+
+   - `@RequestHeader`: Used to get the details about the HTTP request headers. Used as a method parameter.
+
+   - `@RequestAttribute`: Binds a method parameter to request attribute.
+
+   - `@PathVariable`: Used to extract the values from the URI. It is most suitable for the RESTful web service, where the URL contains a path variable.
