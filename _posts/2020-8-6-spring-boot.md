@@ -161,7 +161,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Controller`: Class-level annotation. Specialization of _@Component_ | Marks a class as a web request handler & is often used to serve web pages.
+- `@Controller`: Class-level annotation. Specialization of _@Component_. Marks a class as a web request handler & is often used to serve web pages.
 
 ```java
     @Controller  
@@ -226,7 +226,7 @@ Annotations is a form of metadata that provides data about a program. These are 
 
 - `@RestController`: A combination of _@Controller_ & _@ResponseBody_ annotations. It eliminates the need for annotating each method with _@ResponseBody_.
 
-- **<ins>Request Annotations<ins>**
+- <ins>**Request Annotations**</ins>
 
    - `@RequestBody`: Used to bind HTTP request with an object in a method parameter. _HTTP MessageConverters_ is used internally.
 
@@ -237,3 +237,125 @@ Annotations is a form of metadata that provides data about a program. These are 
    - `@RequestAttribute`: Binds a method parameter to request attribute.
 
    - `@PathVariable`: Used to extract the values from the URI. It is most suitable for the RESTful web service, where the URL contains a path variable.
+
+## Dependency Management
+
+Spring Boot manages dependencies and configuration automatically. We do not have to specify the version of the dependencies in our configuration. Spring Boot manages them itself. Spring Boot upgrades all dependencies automatically as and when Spring Boot version is upgraded.
+
+`pom.xml` file is used for dependency management.
+
+Spring Boot provides a number of starters that allow us to add jars in the classpath. Spring Boot built-in starters make development easier and rapid. Spring Boot Starters are the dependency descriptors.
+Some prominent ones are as follows:
+
+- spring-boot-starter-parent
+- spring-boot-starter-web
+- spring-boot-starter-batch
+- spring-boot-starter-test
+- spring-boot-starter-actuator
+- spring-boot-starter-jdbc
+- spring-boot-starter-websocket
+- spring-boot-starter-logging
+- spring-boot-starter-log4j2
+- spring-boot-starter-tomcat
+- spring-boot-starter-jetty
+- spring-boot-starter-undertow
+
+**Spring Boot Starter Parent**
+spring-boot-starter-parent is a project starter. It provides default configurations for the Spring applications. It is used internally by all dependencies. Majority of Spring Boot projects use spring-boot-starter-parent as a parent in pom.xml file.
+
+```xml
+    <parent>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-parent</artifactId>  
+        <version>1.4.0.RELEASE</version>  
+    </parent>  
+```
+
+Parent Poms allow us to manage the following things for multiple child projects and modules:
+- Configuration (Java versions, plugin configurations etc.)
+- Dependency Management
+
+Spring Boot Starter Parent defines spring-boot-dependencies as a parent pom. It inherits dependency management from spring-boot-dependencies.
+
+**Spring Boot Starter Web**
+There are two important features of spring-boot-starter-web, it is compatible for web development & auto-configurable nature.
+
+```xml
+    <dependency>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-web</artifactId>  
+        <version>2.2.2.RELEASE</version>  
+    </dependency>
+```
+
+Starter of Spring web uses Spring MVC, REST and Tomcat as a default embedded server. The single spring-boot-starter-web dependency transitively pulls in all dependencies related to web development.
+
+For using Jetty or Undertow as embedded server instead of tomcat, modify `pom.xml` as follows:
+```xml
+    <dependency>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-web</artifactId>  
+        <exclusions>  
+            <exclusion>  
+                <groupId>org.springframework.boot</groupId>  
+                <artifactId>spring-boot-starter-tomcat</artifactId>  
+            </exclusion>  
+        </exclusions>  
+    </dependency>  
+    <dependency>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-jetty</artifactId>  
+    </dependency>  
+```
+
+**Spring Boot Starter Actuator**
+Basically a sub-project of the Spring Boot Framework. It includes a number of additional features that help us to monitor and manage the Spring Boot application. If we want to get production-ready features in an application, we should use the Spring Boot actuator.
+
+3 main features:
+
+- <ins>Endpoint:</ins> The actuator endpoints allows us to monitor and interact with the application. Spring Boot provides a number of built-in endpoints. We can also create our own endpoint. We can enable and disable each endpoint individually. For example, the /health endpoint provides the basic health information of an application.
+
+- <ins>Metrics:</ins> Spring Boot Actuator provides dimensional metrics by integrating with the micrometer. The micrometer is integrated into Spring Boot. It is the instrumentation library powering the delivery of application metrics from Spring.
+
+- <ins>Audit:</ins> Spring Boot provides a flexible audit framework that publishes events to an AuditEventRepository. It automatically publishes the authentication events if spring-security is in execution.
+
+We can enable actuator by injecting the dependency spring-boot-starter-actuator in the pom.xml file.
+
+**Spring Boot Starter Test**
+The spring-boot-starter-test is the primary dependency for the test. It contains the majority of elements required for our tests.
+
+We have to write different types of tests(unit tests, integration tests, functional tests) for testing & automating the health of application.
+
+```xml
+    <dependency>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-test</artifactId>  
+        <version>2.2.2.RELEASE</version>  
+        <scope>test</scope>  
+    </dependency>  
+```
+
+It pulls all the dependencies related to test. After adding it, we can build up a simple unit test.
+_<scope>test</scope>_: It means when the application is bundled and packaged for deployment, any dependency that is declared with the test scopes is ignored. The test scope dependencies are only available when running in the development and Maven test modes.
+
+## Spring Boot Packaging
+
+In J2EE application, modules are packed in 3 compressed file formats: JAR, WAR, and EAR.
+
+- **WAR** stands for Web Archive.
+     - WAR file represents the web application.
+     - Web module contains servlet classes, JSP files, HTML files, JavaScripts, etc. are packaged as a JAR file with .war extension. It contains a special directory called WEB-INF.
+     - WAR is a module that loads into a web container of the Java Application Server. The Java Application Server has two containers:
+          - The Web Container hosts the web applications based on Servlet API and JSP.
+          - An EJB Container hosts Enterprise Java beans based on EJB API.
+
+
+- **JAR** stands for Java Archive.
+     - An EJB (Enterprise Java Beans) module that contains bean files (class files), a manifest, and EJB deployment descriptor (XML file) are packaged as JAR files with the extension .jar.
+     - It is used by software developers to distribute Java classes and various metadata.
+
+
+- **EAR** stands for Enterprise Archive.
+     - EAR file represents the enterprise application. The above two files are packaged as a JAR file with the .ear extension.
+     - It is deployed into the Application Server. It can contain multiple EJB modules (JAR) and Web modules (WAR).
+     - It is a special JAR that contains an application.xml file in the META-INF folder.
