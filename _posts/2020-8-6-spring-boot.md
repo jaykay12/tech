@@ -69,7 +69,8 @@ For Eg: If Spring Boot starter “pom” for “JPA” is listed, it will autoco
 - Offers several plugins for working with an embedded and in-memory database such as H2.
 - Comes with the concept of starter in pom.xml file that internally takes care of downloading the dependencies JARs based on the requirement.
 
----
+
+![Spring Boot Architecture Flow](../assets/images/SB-2.png)
 
 **Layers in Spring Boot:**
 - Presentation Layer :
@@ -94,7 +95,6 @@ For Eg: If Spring Boot starter “pom” for “JPA” is listed, it will autoco
     - Actual Database
     - CRUD (create, retrieve, update, delete) operations}_
 
-![Spring Boot Architecture Flow](../assets/images/SB-2.png)
 
 ## Annotations
 
@@ -260,7 +260,7 @@ Some prominent ones are as follows:
 - spring-boot-starter-jetty
 - spring-boot-starter-undertow
 
-**Spring Boot Starter Parent**
+#### **Spring Boot Starter Parent**
 spring-boot-starter-parent is a project starter. It provides default configurations for the Spring applications. It is used internally by all dependencies. Majority of Spring Boot projects use spring-boot-starter-parent as a parent in pom.xml file.
 
 ```xml
@@ -277,7 +277,7 @@ Parent Poms allow us to manage the following things for multiple child projects 
 
 Spring Boot Starter Parent defines spring-boot-dependencies as a parent pom. It inherits dependency management from spring-boot-dependencies.
 
-**Spring Boot Starter Web**
+#### **Spring Boot Starter Web**
 There are two important features of spring-boot-starter-web, it is compatible for web development & auto-configurable nature.
 
 ```xml
@@ -308,23 +308,23 @@ For using Jetty or Undertow as embedded server instead of tomcat, modify `pom.xm
     </dependency>  
 ```
 
-**Spring Boot Starter Actuator**
+#### **Spring Boot Starter Actuator**
 Basically a sub-project of the Spring Boot Framework. It includes a number of additional features that help us to monitor and manage the Spring Boot application. If we want to get production-ready features in an application, we should use the Spring Boot actuator.
 
 3 main features:
 
-- <ins>Endpoint:</ins> The actuator endpoints allows us to monitor and interact with the application. Spring Boot provides a number of built-in endpoints. We can also create our own endpoint. We can enable and disable each endpoint individually. For example, the /health endpoint provides the basic health information of an application.
+- <ins>**Endpoint:**</ins> The actuator endpoints allows us to monitor and interact with the application. Spring Boot provides a number of built-in endpoints. We can also create our own endpoint. We can enable and disable each endpoint individually. For example, the /health endpoint provides the basic health information of an application.
 
-- <ins>Metrics:</ins> Spring Boot Actuator provides dimensional metrics by integrating with the micrometer. The micrometer is integrated into Spring Boot. It is the instrumentation library powering the delivery of application metrics from Spring.
+- <ins>**Metrics:**</ins> Spring Boot Actuator provides dimensional metrics by integrating with the micrometer. The micrometer is integrated into Spring Boot. It is the instrumentation library powering the delivery of application metrics from Spring.
 
-- <ins>Audit:</ins> Spring Boot provides a flexible audit framework that publishes events to an AuditEventRepository. It automatically publishes the authentication events if spring-security is in execution.
+- <ins>**Audit:**</ins> Spring Boot provides a flexible audit framework that publishes events to an AuditEventRepository. It automatically publishes the authentication events if spring-security is in execution.
 
 We can enable actuator by injecting the dependency spring-boot-starter-actuator in the pom.xml file.
 
-**Spring Boot Starter Test**
+#### **Spring Boot Starter Test**
 The spring-boot-starter-test is the primary dependency for the test. It contains the majority of elements required for our tests.
 
-We have to write different types of tests(unit tests, integration tests, functional tests) for testing & automating the health of application.
+We have to write different types of tests (unit tests, integration tests, functional tests) for testing & automating the health of application.
 
 ```xml
     <dependency>  
@@ -336,7 +336,7 @@ We have to write different types of tests(unit tests, integration tests, functio
 ```
 
 It pulls all the dependencies related to test. After adding it, we can build up a simple unit test.
-_<scope>test</scope>_: It means when the application is bundled and packaged for deployment, any dependency that is declared with the test scopes is ignored. The test scope dependencies are only available when running in the development and Maven test modes.
+`<scope>test</scope>`: It means when the application is bundled and packaged for deployment, any dependency that is declared with the test scopes is ignored. The test scope dependencies are only available when running in the development and Maven test modes.
 
 ## Spring Boot Packaging
 
@@ -359,3 +359,17 @@ In J2EE application, modules are packed in 3 compressed file formats: JAR, WAR, 
      - EAR file represents the enterprise application. The above two files are packaged as a JAR file with the .ear extension.
      - It is deployed into the Application Server. It can contain multiple EJB modules (JAR) and Web modules (WAR).
      - It is a special JAR that contains an application.xml file in the META-INF folder.
+
+Spring Boot Framework comes with a built-in mechanism for application configuration using a file called `application.properties`. It is located inside the src/main/resources folder.       
+The properties have default values for Spring application configurations which can be modified. Spring Boot also allows us to define our own property if required. The application.properties file allows us to run an application in a different environment.
+
+Prominent properties are as follows:
+- Debug _(false)_
+- server.port _(8080)_
+- logging.file
+- logging.file.path
+- spring.config.name _(application)_
+- spring.http.multipart.enabled
+- spring.servlet.multipart.max-file-size
+- spring.social.facebook.app-id
+- spring.social.linkedin.app-id
