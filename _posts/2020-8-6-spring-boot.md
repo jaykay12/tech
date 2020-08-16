@@ -72,13 +72,27 @@ For Eg: If Spring Boot starter “pom” for “JPA” is listed, it will autoco
 ---
 
 **Layers in Spring Boot:**
-- Presentation Layer : _{Handles HTTP Requests | Authentication | JSON Transactions | Front-End Views}_
+- Presentation Layer :
+    - Handles HTTP Requests
+    - Authentication
+    - JSON Transactions
+    - Front-End Views
 
-- Business Layer : _{Handles Business Logic | Authorization | Validation}_
 
-- Persistence Layer : _{Handles Storage Logic | Translates Business Objects from and to DB Rows}_
+- Business Layer :
+    - Handles Business Logic
+    - Authorization
+    - Validation
 
-- Database Layer : _{Actual Database | CRUD (create, retrieve, update, delete) operations}_
+
+- Persistence Layer :
+    - Handles Storage Logic
+    - Translates Business Objects from and to DB Rows
+
+
+- Database Layer :
+    - Actual Database
+    - CRUD (create, retrieve, update, delete) operations}_
 
 ![Spring Boot Architecture Flow](../assets/images/SB-2.png)
 
@@ -115,7 +129,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Configuration`: Class-level annotation | Used as a source of bean definitions.
+- `@Configuration`: Class-level annotation. Used as a source of bean definitions.
 
 - `@ComponentScan`: Used to scan a package for beans. Used with the annotation _@Configuration_
 
@@ -127,7 +141,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Bean`: Method-level annotation | Alternative of XML <bean> tag. Tells the method to produce a bean to be managed by Spring Container.
+- `@Bean`: Method-level annotation. Alternative of XML <bean> tag. Tells the method to produce a bean to be managed by Spring Container.
 
 ```java
     @Bean  
@@ -138,7 +152,7 @@ Annotations is a form of metadata that provides data about a program. These are 
 
 **Spring Framework Stereotype Annotations :**
 
-- `@Component`: Class-level annotation | Used to mark a Java class as a bean. The Spring Framework pick it up during Component Scanning and configures it in the application context as a Spring Bean.
+- `@Component`: Class-level annotation. Used to mark a Java class as a bean. The Spring Framework pick it up during Component Scanning and configures it in the application context as a Spring Bean.
 
 ```java
     @Component  
@@ -147,7 +161,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Controller`: Class-level annotation | Specialization of _@Component_ | Marks a class as a web request handler & is often used to serve web pages.
+- `@Controller`: Class-level annotation. Specialization of _@Component_ | Marks a class as a web request handler & is often used to serve web pages.
 
 ```java
     @Controller  
@@ -164,7 +178,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Service`: Class-level annotation | Tells the Spring that class contains the business logic.
+- `@Service`: Class-level annotation. Tells the Spring that class contains the business logic.
 
 ```java
     package tech.jaykay12;  
@@ -176,7 +190,7 @@ Annotations is a form of metadata that provides data about a program. These are 
     }  
 ```
 
-- `@Repository`: Class-level annotation | The repository is a DAOs (Data Access Object) that access the database directly. The repository does all the DB Operations.
+- `@Repository`: Class-level annotation. The repository is a DAOs (Data Access Object) that access the database directly. The repository does all the DB Operations.
 
 ```java
     package tech.jaykay12;  
