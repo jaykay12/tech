@@ -78,13 +78,62 @@ This is an optional constraint and is used the least. Permits client functionali
 
 ## REST Challenges
 
-- Endpoint Consensus
-- API Versioning
-- Authentication
-- Security
-- Multiple Requests and Unnecessary Data
+The success of REST owes much to its simplicity. Developers are free to implement RESTful APIs as they like, but there are few challenges:
 
-These REST conundrums led Facebook to create GraphQL — a web service query language.
+- **Endpoint Consensus :**
+As the codebase & number of stakeholders increase, maintaining consistency throughout the API seems difficult.       
+For fetching data of user:_123_, all these are valid endpoints:
+    - /user/123
+    - /user/id/123
+    - /user/?id=123
+
+
+- **API Versioning**
+In the continous development scenario, API changes are inevitable, but endpoint URLs couldn't be invalidated as they're being used either internally or by any client property.
+    - Proper decommisioning is required.
+    - APIs are often versioned such as _/2.0/auth-api/facebook_ supersedes _/auth-api/facebook_
+    - These versions increases the workload, as multiple APIs are maintained.
+
+
+- **Authentication**
+For APIs which access private data or permits update/delete requests, authorization is required.
+API authentication will vary depending on the use context.
+Client-side applications on the same domain as RESTful API, authorization of user can be ensured using cookies.
+Third-party applications must use the following methods os authorization and authentication:
+
+    - <ins>HTTP basic authentication:</ins>
+    An HTTP Authorization header containing a base64-encoded username:password string is passed in the request header.
+
+    - <ins>API keys:</ins>
+    Permission to use an API is granted by issuing a key which may have specific rights. This key is required to be passed with every API request.
+
+    - <ins>OAuth:</ins>
+    A token is obtained before any request is made by sending a Client ID and Client Secret to an OAuth Provider Server. This OAuth token is then passed with each API request unitl it expires.
+
+    - <ins>JSON Web Tokens (JWT):</ins>
+    Digitally-signed authentication tokens are securely transmitted in both the request and response header
+
+- **Security**
+RESTful API is a route for accessing and manipulating the application. Even after implementing all the authentication measures, a badly behaved client could send thousands of requests every second and crash the servers. (DDoS Attack)
+Best Practises for ensuring Secure RESTful APIs are:
+     - Use HTTPS
+     - Use a robust Authentication method
+     - Use CORS to limit client-side calls to specific domains
+     - Provide minimum functionality exposed through APIs
+     - Validate all endpoint URLs and body data
+     - Block unexpectedly large payloads
+     - Block access from unknown domains or IP addresses
+     - Respond with an appropriate HTTP status code and caching header
+     - Log each and every requests and investigate those failures
+     - Consider rate limiting - Requests using the same API token or IP address are limited to N per minute
+
+
+- **Multiple Requests and Unnecessary Data**
+Restful APIs are limited by implementation. Either the response may contain more data than needed or we have to make multiple requests to gather all data.
+Sometimes, (N+1) problem is encountered in RESTful APIs; N API requests must be made for each result in the parent request.
+
+
+These REST conundrums led Facebook to create `GraphQL` — a web service query language.        
 GraphQL addresses many of the challenges posed by RESTful APIs. It’s worth considering GraphQL once your RESTful API evolves beyond its simple starting point.
 
 ## Extra information
