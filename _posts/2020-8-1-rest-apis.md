@@ -158,7 +158,37 @@ In the **REST** architectural style, data and functionality are considered resou
 > REST != HTTP
 
 `SWAGGER`:
+A variety of tools to help design, document, mock, test, and monitor REST APIs.
+[Official Site](https://swagger.io/)
 
 `POSTMAN & POSTWOMAN`:
+RESTful API testing applications. Also supports API documentations.
 
-`SOAP APIs`:
+`SOAP APIs vs REST APIs`:
+
+![REST API](../assets/images/RA-2.jpg)
+
+| Feature | SOAP APIs | REST APIs |
+|---|---|---|
+|Representation|SOAP - Simple Object Access Protocol|REST - Representational State Transfer|
+|Standarization|Has an official standard because it is a protocol|Has no has no official standard at all because it is an architectural style|
+|Definition|Standards-based web services access protocol|Another standard, Seeks to fix the problems with SOAP and provide a simpler method of accessing web services|
+|Disparity|SOAP is a protocol, it follows a strict standard to allow communication between the client and the server|REST is an architectural style that doesn’t follow any strict standard but follows 6 constraints|
+|Supported formats|SOAP uses only XML for exchanging information in its message format|REST is not restricted to XML and its the choice of implementer which Media-Type to use like XML, JSON, Plain-text|
+|Relation|SOAP cannot use REST|REST can use SOAP protocol|
+|Implementation|SOAP is difficult to implement and it requires more bandwidth|REST is easy to implement and requires less bandwidth|
+|ACID complaints transactions|Supports this|REST lacks in it|
+|Security|SOAP has SSL( Secure Socket Layer) and WS-security|REST has SSL and HTTPS|
+|Secure Transactions|In the case of Bank Account Password, Card Number, etc. SOAP is preferred over REST.||
+|Dependency|Language, platform, and transport independent||
+|Transportation|SOAP can be sent over almost any protocol such as HTTP, SMTP, TCP, or JMS.|REST requires use of HTTP|
+|Environment|Works well in distributed enterprise environments|REST assumes direct point-to-point communication|
+|Efficiency|SOAP uses XML for all messages|REST mostly uses smaller message formats like JSON|
+|Speed|Relatively slow|Fast (no extensive processing required)|
+|Error Handling|Built-in error handling|No functionality|
+||strongly function-driven|data-driven|
+||SOAP APIs is largely based on HTTP and XML.|REST APIs uses multiple standards like HTTP, JSON, URL, and XML|
+|Resource Utilization|Uses XML for the creation of Payload and results in the large sized file|Deploys multiple standards, so it takes fewer resources and bandwidth|
+||Follow too many standards - results in error if miscommunicated & standards not met|Doesn't make emphasis on too many standards - results in corrupt API in the end|
+
+> SOAP is like an envelope while REST is just a postcard.
