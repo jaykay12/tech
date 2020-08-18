@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Enabling Google Analytics on a website and tracking
-categories: [Analytics,Web]
+categories: [Analytics, Web Development]
 ---
 
 ### Google Analytics

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Basics of REST APIs
-categories: [Web Development]
+categories: [Web Development, Miscellaneous]
 ---
 
 It stands for `REpresentational State Transfer`. It is a set of rules or architectural style that developers should follow while creating APIs or Web Services. Presented by Roy Fielding in 2000 as doctoral dissertation.       
