@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fundamentals of Java
+title: Basics of Java
 categories: [Java, Core]
 ---
 
@@ -93,22 +93,22 @@ There are many operators in Java:
 
 - <ins>Bitwise Operator</ins>
    - Examples: `& ^ |`
-   - Bitwise AND operator (&)
+   - Bitwise AND operator (`&`)
       - Always checks both conditions whether first condition is true or false.
-   - Bitwise OR operator (|)
+   - Bitwise OR operator (`|`)
       - Always checks both conditions whether first condition is true or false.
-   - Bitwise XOR operator (^)
+   - Bitwise XOR operator (`^`)
 
 
 - <ins>Logical Operator</ins>
    - Examples: `&& || !`
-   - Logical AND operator (&&)
+   - Logical AND operator (`&&`)
       - Doesn't check second condition if first condition is false.
       - It checks second condition only if first one is true.
-   - Logical OR operator (||)
+   - Logical OR operator (`||`)
       - Doesn't check second condition if first condition is true.
       - It checks second condition only if first one is false.
-   - Logical NOT operator (!)
+   - Logical NOT operator (`!`)
 
 ```java
     class OperatorBitwiseVSLogical {  
@@ -402,3 +402,38 @@ Used to break loop or switch statement. In case of inner loop, it breaks only in
     */
 
 ```
+
+### Naming Conventions
+
+- **<ins>Class</ins> :**
+   - Should start with the uppercase letter.
+   - Should be a noun such as Color, Button, System, Thread, etc.
+
+
+- **<ins>Interface</ins> :**
+   - Should start with the uppercase letter.
+   - Should be an adjective such as Runnable, Remote, ActionListener.
+
+
+- **<ins>Method</ins> :**
+   - Should start with lowercase letter.
+   - Should be a verb such as main(), print(), println().
+   - For multi-word name, use camel case such as stringParser()
+
+
+- **<ins>Variables</ins> :**
+   - Should start with a lowercase letter.
+   - Should be meaningful such as id, name.
+   - Should not start with the special characters like & (ampersand), $ (dollar), _ (underscore).
+   - For multi-word name, use camel case such as updatedCounter.
+
+
+- **<ins>Package</ins> :**
+   - Should be a lowercase letter
+   - Should cover all consisting classes such as java.lang, java.io etc.
+
+
+- **<ins>Constants</ins> :**
+   - Should be in uppercase letters only.
+   - Should be meaningful such as RED, YELLOW.
+   - For multi-word name, use _ (underscore) such as MAX_LIMIT.

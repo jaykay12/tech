@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introduction to Java
+title: Features and Architecture of Java
 categories: [Java, Core]
 ---
 
@@ -13,22 +13,22 @@ The current stable release of Java is `Java SE 10`.
 
 There are mainly 4 types of applications that can be created using Java programming:
 - <ins>**Standalone Application**</ins> (Desktop Applications)       
-Traditional software that we need to install on every machine.
-Examples: Media player, Antivirus
-AWT and Swing are used in Java for creating standalone applications.
+   - Traditional software that we need to install on every machine.
+   - Examples: Media player, Antivirus
+   - AWT and Swing are used in Java for creating standalone applications.
 
 - <ins>**Web Application**</ins>       
-Runs on the server side and creates a dynamic page on client.
-Servlet, JSP, Struts, Spring, Hibernate, JSF, etc. are used for creating web applications.
+   - Runs on the server side and creates a dynamic page on client.
+   - Servlet, JSP, Struts, Spring, Hibernate, JSF, etc. are used for creating web applications.
 
 - <ins>**Enterprise Application**</ins>       
-An application that is distributed in nature. Offers benefits like high-level security, load balancing, and clustering.
-Examples: Banking Applications
-In Java, EJB is used for creating enterprise applications.
+   - An application that is distributed in nature. Offers benefits like high-level security, load balancing, and clustering.
+   - Examples: Banking Applications
+   - In Java, EJB is used for creating enterprise applications.
 
 - <ins>**Mobile Application**</ins>       
-Application created for mobile devices.
-Currently, Android and Java ME are used for creating mobile applications.
+   - Application created for mobile devices.
+   - Currently, Android and Java ME are used for creating mobile applications.
 
 **Java Platforms:**
 - <ins>Java SE</ins> (Java Standard Edition)
@@ -120,6 +120,8 @@ Facilitates carrying the Java bytecode to any platform, without requiring any pr
 - <ins>Distributed:</ins>
 Facilitates developers to create distributed applications using RMI and EJB.
 
+---
+
 `C++ VS Java`
 
 |Feature|Java|C++|
@@ -191,6 +193,8 @@ Facilitates developers to create distributed applications using RMI and EJB.
  - We can execute `javac Jalaz.java` having class "Tech" which after compilation will result into bytecode as `Tech.class`. But this class need not be public.
 
  - We can have multiple classes in a single file, each one after compiling source file will form a bytecode as `A.class`, `B.class` & `C.class`
+
+---
 
 **JDK, JRE & JVM :**
 
