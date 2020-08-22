@@ -301,4 +301,104 @@ Executes one statement from multiple conditions. It is like if-else-if ladder st
     }    
 ```
 
-**Iterations :**
+### Iterations :
+
+![Java Data Types](../assets/images/JF-2.png)
+
+**for loop :**
+
+- <ins>Simple For loop</ins>:
+```java
+    for(init;condition;incr/decr) {  
+        // code to be executed
+    }
+```
+- <ins>ForEach loop:</ins>
+Used to traverse array or collection in java. It works on elements basis not index. It returns element one by one in the defined variable
+```java
+    public class ForEachUsage {  
+        public static void main(String[] args) {  
+
+            int arr[]={12,23,44,56,78};  
+            for(int entry:arr){  
+                System.out.println(entry);  
+            }  
+        }  
+    }  
+```
+
+- <ins>Labelled & Nested for loop</ins>:
+```java
+    public class LabeledForExample {  
+        public static void main(String[] args) {  
+
+            outer:  
+            for(int i=1;i<=3;i++){  
+                inner:  
+                for(int j=1;j<=3;j++){  
+                    if(i==2&&j==2){  
+                        break outer;  
+                    }  
+                    System.out.println(i+" "+j);  
+                }  
+            }  
+        }  
+    }
+```
+
+- <ins>Infinte for loop</ins>:
+```java
+    for(;;) {  
+        //code to be executed  
+    }
+```
+
+**while loop :**
+```java
+    while(condition) {  
+        //code to be executed  
+    }
+```
+
+For infintive while loop: set condition as `true`.
+
+**do-while loop :**
+```java
+    do{  
+        //code to be executed  
+    } while(condition);  
+```
+
+For infintive while loop: set condition as `true`.
+
+**Important Points :**
+
+When a `break` statement is encountered inside a loop, the loop is immediately terminated and the program control resumes at the next statement following the loop.
+Used to break loop or switch statement. In case of inner loop, it breaks only inner loop.     
+
+
+`continue` statement is used to continue the loop. It continues the current flow of the program and skips the remaining code at the specified condition. In case of an inner loop, it continues the inner loop only.
+
+
+`Comments`:
+- Single Line Comment
+- Multi Line Comment
+- Documentation Comment
+
+```java
+    //This is single line comment
+
+    /*
+    This is a
+    multi line
+    comment
+    */
+
+    /**
+    This is a
+    documentation comment
+    which is generated
+    using javadoc
+    */
+
+```
