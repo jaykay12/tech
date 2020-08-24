@@ -767,6 +767,70 @@ Inheritance should be used only if the relationship `IS-A` is maintained through
 
 ## Java Polymorphism
 
+||Method Overloading|Method Overriding|
+|---|---|---|
+|Basic Definition|If a class has multiple methods having same name but different in parameters|If subclass has the same method as declared in the parent class|
+|Usage|Increases the readability of the program|Provides the specific implementation of the method that is already provided by its super class|
+|Scope|Performed within a single class|Occurs in two classes that have IS-A (inheritance) relationship|
+|Type|Compile-time polymorphism|Run-time polymorphism|
+|Method Parameters|Must be different, in number and data type|Must be the same|
+|Method Return-type|Can't be performed by changing this only. Can be same or different|Must be same or covariant|
+|main()|Yes, can be overloaded but the one which receives string array as arguments will be called by JVM.|No, It is a static method. Static methods can't be overridden. Static method is bound with class (class area) whereas instance method is bound with an object (heap area).|
+|Example|![Overloading](../assets/images/JO-10.png)|![Overloading](../assets/images/JO-11.png)|
+
+**Method Overloading:**
+- 2 ways to achieve:
+    - By changing number of arguments
+    - By changing the data type
+
+
+- Not possible by changing the return type of the method only because of ambiguity.
+```java
+    class Adder {  
+        static int add(int a,int b){return a+b;}  
+        static double add(int a,int b){return a+b;}  
+    }
+
+    class Overloading {  
+        public static void main(String[] args){  
+            System.out.println(Adder.add(11,11));         //ambiguity: Compile Time Error
+        }
+    }
+```
+
+
+- For matching overloaded functions definitions, data-types are type promoted only if no matching types are found in normal run.
+This also laeds to compile-time error if after type-promotion, ambiguity arises between different overloaded function definitions.
+```java
+    class Overloading {  
+        void sum(int a,long b){System.out.println("a method invoked");}  
+        void sum(long a,int b){System.out.println("b method invoked");}  
+
+        public static void main(String args[]){  
+            Overloading obj=new Overloading();  
+            obj.sum(20,20);                     //ambiguity Compile time error
+        }  
+    }
+```
+
+**Run-time polymorphism:**
+
+**Dynamic VS Static Binding:**
+
+#### super Keyword
+
+#### final Keyword
+
+#### Extra Points
+
+1. covariant return-type
+
+2. Instance initializer Block
+
+3. instanceof Operator
+
+---
+
 **Java Encapsulation :**
 
 **Java Key Terms :**
