@@ -590,11 +590,182 @@ If local variables(formal arguments) and instance variables are different, there
 
 ---
 
-## Java Inheritence
+#### Java Inheritence
 
-**Java Abstraction :**
+Inheritance in Java is a mechanism in which one object acquires all the properties and behaviors of a parent object.          
 
-**Java Polymorphism :**
+The idea is that we can create new classes that are built upon existing classes.
+When you inherit from an existing class, you can reuse methods and fields of the parent class. Moreover, you can add new methods and fields in your current class also.
+
+`IS-A relationship` which is also known as a parent-child relationship.
+
+For a parent class _Employee_, sub-class _Programmer_. _Programmer_ and _Employee_ carry IS_A relationship because _Programmer_ IS-A _Employee_
+
+<ins>Usage:</ins>
+- For method overriding, achieving run-time polymorphism.
+- For Code Reusability.
+
+**Types of Inheritance:**
+
+|Supported in Java using Classes|Supported in Java using Interfaces|
+|---|---|
+|![Classes](../assets/images/JO-8.png)|![Interfaces](../assets/images/JO-9.jpg)|
+
+- `Single Inheritence`
+```java
+    class Animal {  
+        void eat() {
+            System.out.println("eating...");
+        }  
+    }
+
+    class Dog extends Animal {  
+        void bark() {
+            System.out.println("barking...");
+        }  
+    }
+
+    class SingleInheritance {  
+        public static void main(String args[]){  
+            Dog d = new Dog();  
+            d.bark();  
+            d.eat();  
+        }
+    }
+```
+
+- `Multilevel Inheritance`
+```java
+    class Animal {  
+        void eat() {
+            System.out.println("eating...");
+        }  
+    }
+
+    class Dog extends Animal {  
+        void bark() {
+            System.out.println("barking...");
+        }  
+    }
+
+    class BabyDog extends Dog {  
+        void weep() {
+            System.out.println("weeping...");
+        }  
+    }
+
+    class MultiLevelInheritence {  
+        public static void main(String args[]){  
+            BabyDog b = new BabyDog();
+            b.weep();  
+            b.bark();  
+            b.eat();  
+        }
+    }
+```
+
+- `Hierarchical Inheritance`
+```java
+    class Animal {  
+        void eat() {
+            System.out.println("eating...");
+        }  
+    }
+
+    class Dog extends Animal {  
+        void bark() {
+            System.out.println("barking...");
+        }  
+    }
+
+    class Cat extends Animal {  
+        void meow() {
+            System.out.println("meowing...");
+        }  
+    }
+
+    class HierarchicalInheritence{  
+        public static void main(String args[]){  
+            Cat c = new Cat();  
+            c.meow();  
+            c.eat();  
+            //c.bark();           //Compile-time Error  
+        }
+    }
+```
+
+To reduce the complexity and simplify the language, `multiple inheritance` is not supported in java using class.
+
+Consider a scenario where A, B, and C are three classes. The C class inherits A and B classes. If A and B classes have the same method and you call it from child class object, there will be ambiguity to call the method of A or B class.
+
+Since compile-time errors are better than runtime errors, Java renders compile-time error if you inherit 2 classes.
+
+#### Java Aggregation
+
+If a class have an entity reference, it is known as Aggregation. Aggregation represents `HAS-A relationship`.
+
+```java
+    class Employee {  
+        int id;  
+        String name;  
+        Address address;      //Address is a class  
+        ...  
+    }
+```
+
+_Employee_ contains many informations such as id, name, emailId etc. It contains one more object named address, derived from class: _Address_ which contains its own informations such as city, state, country, zipcode etc.
+
+_Employee_ has an entity reference _address_, so relationship is _Employee_ HAS-A _address_.
+
+Inheritance should be used only if the relationship `IS-A` is maintained throughout the lifetime of the objects involved; otherwise, aggregation is the best choice.
+
+`Address.java`
+```java
+    public class Address {  
+        String city, state, country;  
+
+        public Address(String city, String state, String country) {  
+            this.city = city;  
+            this.state = state;  
+            this.country = country;  
+        }    
+    }
+```
+
+`Employee.java`
+```java
+    public class Employee {  
+        int id;  
+        String name;  
+        Address address;  
+
+        public Employee(int id, String name, Address address) {  
+            this.id = id;  
+            this.name = name;  
+            this.address = address;  
+        }  
+
+        void display() {  
+            System.out.println(id+" "+name);  
+            System.out.println(address.city+" "+address.state+" "+address.country);  
+        }  
+
+        public static void main(String[] args) {  
+            Address a1 = new Address("Almora","UK","India");  
+            Address a2 = new Address("Hamirpur","HP","India");  
+
+            Employee e1 = new Employee(111,"Ram",address1);  
+            Employee e2 = new Employee(112,"Shyam",address2);  
+
+            e1.display();  
+            e2.display();  
+        }  
+    }
+```
+
+---
+
+## Java Polymorphism
 
 **Java Encapsulation :**
 
