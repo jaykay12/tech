@@ -422,15 +422,171 @@ Java provides this class which can be used to get the internal information of a 
 
 #### static Keyword
 
+> static is mainly used for memory management in Java.
+
 **static Variable :**
+- Used to refer to the common property of all objects (which is not unique for each object), For Eg: College name for students.
+
+- They gets memory only once in the class area at the time of class loading.
+```java
+    class Counter {  
+        static int count=0;  
+
+        Counter() {  
+            count++;  
+            System.out.println(count);  
+        }  
+
+        public static void main(String args[]){  
+            Counter c1=new Counter();              // 1
+            Counter c2=new Counter();              // 2
+            Counter c3=new Counter();              // 3
+        }  
+    }  
+```
+
+![Static Variable](../assets/images/JO-6.jpg)
 
 **static Method :**
+- Belongs to the class rather than the object of a class.
+
+- Can be invoked without the need for creating an object.
+
+- Can access static data member and can change the value of it.
+
+- 2 main restrictions for the static method are:
+   - static method can not use non-static data member or call non-static method directly.
+
+   - `this` and `super` cannot be used in static context.
+
+```java
+    class Student{  
+         int rollno;  
+         String name;  
+         static String college = "APSA";  
+
+         static void change(){  
+             college = "NITH";  
+         }  
+
+         Student(int r, String n) {  
+             this.rollno = r;  
+             this.name = n;  
+         }  
+
+         void display() {
+             System.out.println(rollno+" "+name+" "+college);
+         }  
+    }  
+
+    public class TestStaticMethod {  
+        public static void main(String args[]){  
+            Student s1 = new Student(111,"Ram");
+            Student.change();
+            Student s2 = new Student(222,"Shyam");  
+
+            s1.display();                          // 111 Ram APSA
+            s2.display();                          // 222 Shyam NITH
+        }  
+    }  
+```
 
 **static Block :**
 
-**Important Points :**
+- Used to initialize the static data member.
+
+- Executed before the main method at the time of classloading.
+
+```java
+    class TestStaticBlock {  
+      static {
+          System.out.println("Static block is invoked");
+      }  
+
+      public static void main(String args[]) {  
+          System.out.println("Hello main");  
+      }  
+    }
+
+    //--------------------OUTPUT---------------------
+    // Static block is invoked
+    // Hello main
+```
+
+- Since JDK 1.7, it is not possible to execute a Java class without the main method.
+Earlier, static block were a way to achieve so.
 
 #### this Keyword
+
+`this` is a reference variable that refers to the current object.
+
+There are 6 major usages of this:
+- Referring current class instance variable.
+- Invoking current class method. (implicitly)
+- Invoking current class constructor. (useful for constructor chaining)
+- Passing as an argument in the method call.
+- Passing as argument in the constructor call.
+- Returning the current class instance from the method.
+
+1. If there is ambiguity between the instance variables and parameters, `this` keyword resolves the problem of ambiguity.
+```java
+    class Student {  
+        int rollno;  
+
+        Student(int rollno) {  
+            this.rollno = rollno;    
+        }
+
+        void display() {
+            System.out.println(rollno);
+        }  
+    }  
+
+    class ThisInVariable{  
+        public static void main(String args[]){  
+            Student s1=new Student(111);
+            Student s2=new Student(112);
+            s1.display();
+            s2.display();
+        }
+    }
+```
+If local variables(formal arguments) and instance variables are different, there is no need to use `this` keyword.
+
+2. Invoking the method of the current class by using `this` keyword. If we don't use `this` keyword, compiler automatically adds `this` keyword while invoking the method. This is done implicitly.
+![Implicit this](../assets/images/JO-7.jpg)
+
+3. Invoking the current class constructor. It is used to reuse the constructor. In other words, it is used for constructor chaining.
+```java
+    class Student{  
+        int rollno;  
+        String name, course;  
+        float fee;  
+
+        Student(int rollno, String name, String course) {  
+            this.rollno = rollno;  
+            this.name = name;  
+            this.course = course;  
+        }
+
+        Student(int rollno, String name, String course, float fee){  
+        this(rollno, name, course);  
+        this.fee = fee;  
+        }  
+        void display(){System.out.println(rollno+" "+name+" "+course+" "+fee);}  
+    }
+
+    class ThisInConstructor{  
+        public static void main(String args[]){  
+            Student s1=new Student(111,"ram","java");  
+            Student s2=new Student(112,"shyam","java",6000f);
+
+            s1.display();                              // 111 ram java 0
+            s2.display();                              // 112 shyam java 6000
+        }
+    }
+```
+> Call to this() must be the first statement in constructor or else compile-time error is thrown
 
 ---
 
