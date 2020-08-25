@@ -778,7 +778,7 @@ Inheritance should be used only if the relationship `IS-A` is maintained through
 |main()|Yes, can be overloaded but the one which receives string array as arguments will be called by JVM.|No, It is a static method. Static methods can't be overridden. Static method is bound with class (class area) whereas instance method is bound with an object (heap area).|
 |Example|![Overloading](../assets/images/JO-10.png)|![Overloading](../assets/images/JO-11.png)|
 
-**Method Overloading:**
+**<ins>Method Overloading:</ins>**
 - 2 ways to achieve:
     - By changing number of arguments
     - By changing the data type
@@ -813,13 +813,220 @@ This also laeds to compile-time error if after type-promotion, ambiguity arises 
     }
 ```
 
-**Run-time polymorphism:**
+**<ins>Run-time polymorphism:</ins>**
+- Process in which a call to an overridden method is resolved at runtime rather than compile-time.
 
-**Dynamic VS Static Binding:**
+- Also called, `Dynamic Method Dispatch`.
+
+- An overridden method is called through the reference variable of a superclass. The determination of the method to be called is based on the object being referred to by the reference variable.
+
+- If the reference variable of Parent class refers to the object of Child class, it is known as `upcasting`.
+```java
+    class Bike {  
+        void run() {System.out.println("running");}  
+    }
+
+    class Splendor extends Bike {  
+        void run() {System.out.println("running safely with 60km");}  
+
+        public static void main(String args[]){  
+            Bike b = new Splendor();                 //upcasting  
+            b.run();  
+        }  
+    }
+    //-------------------OUTPUT-----------------------
+    // running safely with 60km
+```
+
+- Method invocation is determined by the JVM not compiler, it is known as runtime polymorphism.
+
+- Runtime polymorphism can't be achieved by data members.
+```java
+    class Bike {  
+        int speedlimit = 90;  
+    }
+    class Honda extends Bike {  
+        int speedlimit = 150;  
+        public static void main(String args[]) {  
+            Bike obj = new Honda();  
+            System.out.println(obj.speedlimit);        //90
+        }
+    }
+```
+
+**<ins>Dynamic vs Static Binding:</ins>**
+Connecting a method call to the method body is known as binding.
+
+There are 2 types of binding:
+- `Static Binding` (Early Binding).
+    - When type of the object is determined at compiled time.
+    - Performed by the compiler.
+    - Happens if there is any private, final or static method in a class.
+    ```java
+     class Dog {  
+        private void eat() {System.out.println("dog is eating...");}  
+
+        public static void main(String args[]) {  
+           Dog d1 = new Dog();  
+           d1.eat();  
+        }  
+     }
+    ```     
+
+- `Dynamic Binding` (Late Binding).
+    - When type of the object is determined at run-time.
+    - Performed by JVM.
+    ```java
+      class Animal {  
+          void eat() {System.out.println("animal is eating...");}  
+      }  
+
+      class Dog extends Animal {  
+          void eat() {System.out.println("dog is eating...");}  
+
+           public static void main(String args[]) {  
+                Animal a = new Dog();  
+                a.eat();  
+           }  
+      }
+    ```
+    - In above, object type cannot be determined by the compiler, because the instance of Dog is also an instance of Animal. So compiler doesn't know its type, only its base type.
 
 #### super Keyword
 
+`super` is a reference variable used to refer immediate parent class object.
+
+There are 3 major usages of super:
+- Referring immediate parent class instance variable.
+- Invoking immediate parent class method.
+- super() can be used for invoking immediate parent class constructor.
+
+1. Used to access the data member of parent class. It is used mainly(primarily to resolve ambiguity between local and inherited variable) if parent class and child class have same fields.
+```java
+    class Animal {  
+        String color = "white";  
+    }
+
+    class Dog extends Animal {  
+        String color = "black";  
+        void printColor() {  
+            System.out.println(color);             //prints color of Dog class  
+            System.out.println(super.color);       //prints color of Animal class  
+        }  
+    }
+
+    class SuperWithVariable {  
+        public static void main(String args[]){  
+            Dog d = new Dog();  
+            d.printColor();  
+        }
+    }
+```
+
+2. Used to invoke parent class method. It is used if the method is overridden.
+```java
+    class Animal {  
+        void eat(){System.out.println("eating...");}  
+    }  
+
+    class Dog extends Animal {  
+        void eat() {System.out.println("eating bread...");}  
+        void bark() {System.out.println("barking...");}  
+        void work() {  
+            super.eat();                // Invokes eat() of Animal class
+            bark();                     // Invokes bark()
+        }  
+    }
+
+    class SuperWithMethod {  
+        public static void main(String args[]){  
+            Dog d = new Dog();  
+            d.work();  
+        }
+    }
+```
+
+3. Used to invoke the parent class constructor.
+```java
+    class Person {  
+        int id;  
+        String name;  
+        Person(int id, String name) {  
+            this.id = id;  
+            this.name = name;  
+        }  
+    }
+
+    class Employee extends Person {  
+        float salary;  
+        Employee(int id, String name, float salary) {  
+            super(id, name);                 //reusing parent constructor  
+            this.salary = salary;  
+        }  
+        void display() {System.out.println(id+" "+name+" "+salary);}  
+    }
+
+    class SuperWithConstructor {  
+        public static void main(String[] args){  
+            Employee e = new Employee(1,"ankit",45000f);  
+            e.display();  
+        }
+    }  
+```
+
+> super() is added in each class constructor automatically as first statement by compiler if there is no super() or this()
+
 #### final Keyword
+
+`final` keyword in java is used to restrict the user.
+
+**final Variable :**
+We can't change the value of final variable (It will be constant). Throws Compile-time error if one tries to do so.
+```java
+    class Bike {  
+       final int speedlimit = 90;          // final variable  
+       void run() {  
+          speedlimit = 400;  
+       }
+
+       public static void main(String args[]) {  
+           Bike obj = new  Bike();  
+           obj.run();                     // Compile Time error
+       }  
+    }
+```
+
+**final Method :**
+We can't override a final Method. Throws Compile-time error if one tries to do so.
+```java
+    class Bike {  
+        final void run() {System.out.println("running");}     // final Method
+    }  
+
+    class Honda extends Bike {  
+         void run() {System.out.println("running safely with 100kmph");}  
+
+         public static void main(String args[]) {  
+             Honda honda = new Honda();  
+             honda.run();                                     // Compile time error
+         }  
+    }
+```
+
+**final Class :**
+We can't extend a final Class. Means, can't use it for inheritence. Throws Compile-time error if one tries to do so.
+```java
+    final class Bike {}  
+
+    class Honda extends Bike {  
+        void run() {System.out.println("running safely with 100kmph");}  
+
+        public static void main(String args[]) {  
+            Honda1 honda = new Honda();  
+            honda.run();  
+        }  
+    }
+```
 
 #### Extra Points
 
