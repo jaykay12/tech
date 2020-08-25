@@ -1030,14 +1030,104 @@ We can't extend a final Class. Means, can't use it for inheritence. Throws Compi
 
 #### Extra Points
 
-1. covariant return-type
+1. `covariant` Return Type:
+    - It is possible to override method by changing the return type.
 
-2. Instance initializer Block
+    - Only if subclass overrides any method whose return type is of non-primitive type and in sub-class changes its return type to subclass type
 
-3. instanceof Operator
+    - Before Java5, it was not possible to override any method by changing the return type.
+
+    ```java
+        class A {  
+            A get(){return this;}  
+        }  
+
+        class B extends A {  
+            B get() {return this;}  
+            void message() {System.out.println("This is covariant return type");}  
+
+            public static void main(String args[]) {  
+                new B().get().message();  
+            }  
+        }
+    ```
+
+    - Java doesn't allow the return type based overloading but JVM always allows return type based overriding as JVM uses full signature of a method for lookup/resolution.
+
+
+
+2. `Instance initializer` Block:
+    - Used to initialize the instance data member.
+
+    - It run each time when object of the class is created.
+
+    - We can directly assign value to a data member but instance initializer block is preferred if we have to perform some operations before assignment(or error handling).
+
+    ```java
+        class Bike{  
+            int speed;  
+
+            Bike() {System.out.println("speed is "+speed);}  
+
+            { speed=100; }  
+
+            public static void main(String args[]){  
+                Bike b1=new Bike();
+            }      
+        }
+    ```
+
+    - The java compiler copies the instance initializer block in the constructor after the first statement super() implicitly, thus after parent constructor's call, initializer block statements are executed and then other calls of constructor are carried out.
+
+    ```java
+        class A{  
+            A() { System.out.println("Parent Class Constructor"); }  
+        }
+
+        class B extends A{  
+            B() {  
+                super();  
+                System.out.println("Child Class Constructor");  
+            }  
+
+            { System.out.println("Instance Initializer Block"); }  
+
+            public static void main(String args[]){  
+                B b = new B();  
+            }  
+        }
+        //-----------------OUTPUT----------------
+        // Parent Class Constructor
+        // Instance Initializer Block
+        // Child Class Constructor
+    ```
+
+    - Rules associated:
+       - Is created when instance of the class is created.
+       - Is invoked after the parent class constructor is invoked (i.e. after super() constructor call).
+       - Comes in the order in which they appear.
+
+3. `instanceof` Operator:
+
+    - Used to test whether the object is an instance of the specified type (class or subclass or interface).
+
+    - Also known as <ins>type comparison operator</ins>
+
+    - It returns either true or false.
+
+    ```java
+        class Animal {}  
+        class Dog extends Animal {  
+             public static void main(String args[]){  
+                Dog d = new Dog();
+                System.out.println(d instanceof Dog);       // true  
+                System.out.println(d instanceof Animal);    // true  {object of subclass type is also a type of parent class}
+             }  
+        }
+    ```
 
 ---
 
-**Java Encapsulation :**
+## Abstraction & Encapsulation
 
 **Java Key Terms :**
