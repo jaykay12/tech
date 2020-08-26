@@ -1130,4 +1130,162 @@ We can't extend a final Class. Means, can't use it for inheritence. Throws Compi
 
 ## Abstraction & Encapsulation
 
-**Java Key Terms :**
+**Abstraction in Java**
+
+- Process of hiding the implementation details and showing only the functionality to the user.
+
+- Lets us focus on what the object does instead of how it does it.
+
+- Abstract Method:
+   - Method declared using `abstract` keyword.
+
+   - Does not have any implementation.
+   ```java
+    abstract void printStatus();    //no method body and abstract  
+   ```
+
+
+- 2 ways to achieve abstraction in java:
+   - Abstract class (0 to 100% abstraction)
+   - Interface (100% abstraction)
+
+||Abstract Class|Interface|
+|---|---|---|
+|||A blueprint of a class. It has static constants and abstract methods. Can't have a method body|
+||Can have abstract and non-abstract methods|Can have only abstract methods|
+|Multiple Inheritance|Doesn't support|Supports|
+||Can have final, non-final, static and non-static variables|Has only static and final variables|
+||Can provide the implementation of interface|Can't provide the implementation of abstract class|
+|Declared using|`abstract` keyword|`interface` keyword|
+|Inheritence|Can extend another class and implement multiple intefaces|Can extend another interface |
+|How to inherit|Using `extends` keyword|Using `implements` keyword|
+|Visibility scope|Can have class members like private, protected, etc.|Class members are public by default|
+|||![Implicit Conversions](../assets/images/JO-12.png)|
+
+![](../assets/images/JO-13.jpg)
+
+```java
+    interface A {  
+        void a();           //bydefault, public and abstract  
+        void b();
+    }  
+
+    //Abstract class that provides the implementation of one method of A interface  
+    abstract class B implements A {  
+        public void b() {System.out.println("B is implemented here");}  
+    }  
+
+    //Subclass of abstract class, now the implementation of rest methods is required  
+    class M extends B {  
+        public void a() {System.out.println("A is implemented here");}  
+    }  
+
+    class CallerClass {  
+        public static void main(String args[]){  
+            A a = new M();  
+            a.a();  
+            a.b();
+        }
+    }
+```
+
+> If there is an abstract method in a class, that class must be abstract.
+
+If you are extending an abstract class that has an abstract method, you must either provide the implementation of the method or make this class abstract.
+
+If you are implementing an interface, you must provide implementation of all abstract methods by overriding.
+
+
+#### Encapsulation in Java:
+
+Process of wrapping code and data together into a single unit.
+A fully encapsulated class in Java is creating by making all the data members of the class private. Now we can use setter and getter methods to set and get the data in it.
+
+`Java Bean` class is the example of a fully encapsulated class.
+
+<ins>Advantages of Encapsulation:</ins>
+   - Choice of making the class read-only or write-only, by skipping getters or setters.
+   - Provides better control over the data.
+   - A way to achieve data hiding as other class will not be able to access the private data members.
+   - Encapsulated class is easy to test. So, it is better for unit testing.
+
+`Student.java`
+```java
+    package tech.jaykay12;
+
+    public class Student {   
+        private String name;  
+
+        //getter method for name  
+        public String getName() {  
+            return name;  
+        }  
+
+        //setter method for name  
+        public void setName(String name) {  
+            this.name=name  
+        }  
+    }
+```
+
+> There can be only one public class in a java source file and it must be saved by the public class name.
+
+**java Package:**
+   - A group of similar types of classes, interfaces and sub-packages.
+
+
+   - 2 types of packages:
+      - built-in package like java, lang, io etc.
+      - user-defined package.
+
+
+   -  Advantages:
+      - Categorizing the classes and interfaces for easy maintainence.
+      - Provides access protection.
+      - Removes naming collision.
+
+
+   - Accessing package from other packages:
+      - `import package.*;`
+
+      All the classes and interfaces of this package will be accessible but not subpackages
+
+      - `import package.classname;`
+
+      Only declared class of this package will be accessible.
+
+      - `fully qualified name`
+
+      Only declared class of this package will be accessible. No need to import, but need to use fully qualified name every time.
+
+      It is generally used when two packages have same class name e.g. java.util and java.sql packages contain Date class.
+
+> If you import a package, subpackages will not be imported.
+
+**Access Modifiers**
+
+- Specifies the accessibility or scope of a field, method, constructor, or class.
+- 4 types of Java access modifiers:
+
+    - <ins>**Private:**</ins>
+        - The access level is only within the class.
+        - It cannot be accessed from outside the class.
+        - If you make any class constructor private, you cannot create the instance of that class from outside the class.
+
+    - <ins>**Default:**</ins>
+        - The access level is only within the package.
+        - It cannot be accessed from outside the package.
+        - If you do not specify any access level, it will be the default.
+        - It provides more accessibility than private. But, it is more restrictive than protected, and public.
+
+    - <ins>**Protected:**</ins>
+        - The access level is within the package and outside the package through child class.
+        - If you do not make the child class, it cannot be accessed from outside the package.
+        - The protected access modifier can be applied on the data member, method and constructor. It can't be applied on the class.
+
+    - <ins>**Public:**</ins>
+        - The access level is everywhere.
+        - It can be accessed from within the class, outside the class, within the package and outside the package.
+        - It has the widest scope among all other modifiers
+
+> A class cannot be private or protected except nested class.
