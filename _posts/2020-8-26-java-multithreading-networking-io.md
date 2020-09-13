@@ -35,6 +35,8 @@ String objects are stored in a special memory area known as the "string constant
 
 Each time a `string literal` is created, JVM checks the "string constant pool" first. If the string already exists in the pool, a reference to the pooled instance is returned. If the string doesn't exist in the pool, a new string instance is created and placed in the pool.
 
+![String](../assets/images/JA-10.JPG)
+
 **Immutable String**
 
 The `CharSequence` interface is used to represent the sequence of characters. `String`, `StringBuffer` and `StringBuilder` classes implement it. We can create strings in java by using these three classes.
