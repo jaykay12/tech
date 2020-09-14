@@ -18,6 +18,8 @@ categories: [Java, Core]
 
 - **Object Cloning**
 
+---
+
 ## Java String
 
 In Java, string is basically an object that represents sequence of char values. An array of characters works same as Java string.
@@ -28,12 +30,13 @@ String s2 = "jalaz";
 ```
 
 `java.lang.String` class provides a lot of methods to perform operations on strings.
-It implements Serializable, Comparable and CharSequence interfaces.
-It is used to create a string object. s1 is created using "new" keyword and s2 is created using "string literal".
+   - It implements Serializable, Comparable and CharSequence interfaces.
+   - It is used to create a string object.
+   - s1 is created using "new" keyword and s2 is created using "string literal".
 
 String objects are stored in a special memory area known as the "string constant pool".
 
-Each time a `string literal` is created, JVM checks the "string constant pool" first. If the string already exists in the pool, a reference to the pooled instance is returned. If the string doesn't exist in the pool, a new string instance is created and placed in the pool.
+Each time a string literal is created, JVM checks the `string constant pool` first. If the string already exists in the pool, a reference to the pooled instance is returned. If the string doesn't exist in the pool, a new string instance is created and placed in the pool.
 
 ![String](../assets/images/JA-10.JPG)
 
@@ -49,37 +52,39 @@ The `CharSequence` interface is used to represent the sequence of characters. `S
 
  This is for the reason that java uses the concept of string literal and stores them all in `string constant pool`. Suppose there are 5 reference variables, all refers to one object "jalaz". If one reference variable changes the value of the object, it will be affected to all the reference variables.
 
-**String Comparision**
+<ins>**String Comparision**</ins>
 
 String in java is compared on the basis of content and reference. 3 prominent ways of achieving this:
 
-- <ins>**equals() method**</ins>
+- <ins>equals() method</ins>
     - Used in authentication.
     - Compares the original content of the string. It compares values of string for equality.
-    - `public boolean equals(Object another)` & `public boolean equalsIgnoreCase(String another)` are 2 variations.
+    - 2 variations are:
+       - _public boolean equals(Object another)_
+       - _public boolean equalsIgnoreCase(String another)_
 
 
-- <ins>**== operator**</ins>
+- <ins>== operator</ins>
     - Used for reference matching.
     - Compares references not values.
 
 
-- <ins>**compareTo() method**</ins>
+- <ins>compareTo() method</ins>
     - Used in sorting.
     - Compares values lexicographically and returns an integer value that describes if first string is less than, equal to or greater than second string.
 
 
-**String Concatenation**
+<ins>**String Concatenation**</ins>
 
 Forms a new string that is the combination of multiple strings. 2 ways for achieving this:
 
-- <ins>**+ operator**</ins>
+- <ins>+ operator</ins>
     - Also called string concatenation operator.
-    - `String s = "Jalaz"+" Kumar";` is converted into `String s = (new StringBuilder()).append("Jalaz").append(" Kumar).toString();` by the JVM.
+    - _String s = "Jalaz"+" Kumar";_ is converted into _String s = (new StringBuilder()).append("Jalaz").append(" Kumar).toString();_ by the JVM compiler.
 
 
-- <ins>**concat() method**</ins>
-    - Achieved using `String s3 = s1.concat(s2);`  
+- <ins>concat() method</ins>
+    - Achieved using _String s3 = s1.concat(s2);_  
 
 
 ```java
@@ -125,36 +130,39 @@ Forms a new string that is the combination of multiple strings. 2 ways for achie
 
 ```
 
-**StringBuffer class**
+<ins>**StringBuffer class**</ins>
 
-Used to create mutable (modifiable) string. StringBuffer is synchronized i.e. thread safe. Multiple threads cannot access it simultaneously. So it is safe and will result in an order.
+  - Used to create mutable (modifiable) string.
+  - StringBuffer is synchronized i.e. thread safe. Multiple threads cannot access it simultaneously. So it is safe and will result in an order.
 
-```java
-  class StringBufferExample {  
-      public static void main(String args[]) {  
-          StringBuffer s1 = new StringBuffer("Hello ");  
-          s1.append("Java");
-          System.out.println(s1);                           // Hello Java
-          StringBuffer s2 = new StringBuffer("Hello ");  
-          s2.insert(1,"Java");
-          System.out.println(s2);                           // HJavaello
-          StringBuffer s3 = new StringBuffer("Hello");  
-          s3.replace(1,3,"Java");  
-          System.out.println(sb);                           // HJavalo
-          StringBuffer s4 = new StringBuffer("Hello");  
-          s4.delete(1,3);  
-          System.out.println(s4);                           // Hlo
-          StringBuffer s5 = new StringBuffer("Hello");  
-          s5.reverse();
-          System.out.println(s5);                           // olleH
-      }  
-  }
-```
+  ```java
+    class StringBufferExample {  
+        public static void main(String args[]) {  
+            StringBuffer s1 = new StringBuffer("Hello ");  
+            s1.append("Java");
+            System.out.println(s1);                           // Hello Java
+            StringBuffer s2 = new StringBuffer("Hello ");  
+            s2.insert(1,"Java");
+            System.out.println(s2);                           // HJavaello
+            StringBuffer s3 = new StringBuffer("Hello");  
+            s3.replace(1,3,"Java");  
+            System.out.println(sb);                           // HJavalo
+            StringBuffer s4 = new StringBuffer("Hello");  
+            s4.delete(1,3);  
+            System.out.println(s4);                           // Hlo
+            StringBuffer s5 = new StringBuffer("Hello");  
+            s5.reverse();
+            System.out.println(s5);                           // olleH
+        }  
+    }
+  ```
 
-**StringBuilder class**
+<ins>**StringBuilder class**</ins>
 
-Used to create mutable (modifiable) string. Is same as StringBuffer class except that it is non-synchronized i.e. not thread safe. Available since JDK 1.5.
-Major methods of StringBuffer are same here.
+   - Used to create mutable (modifiable) string.
+   - Is same as StringBuffer class except that it is non-synchronized i.e. not thread safe.
+   - Available since JDK 1.5.
+   - Major methods of StringBuffer are same here.
 
 `StringBuilder` is more efficient than `StringBuffer`.
 
@@ -184,7 +192,7 @@ We can also create immutable class by creating final class that have final data 
     }
 ```
 
-**toString() method**:
+<ins>**toString() method**</ins>
 
 Returns the string representation of the object.
 If we print any object, java compiler internally invokes the toString() method on the object.
@@ -289,36 +297,36 @@ Errors and Unchecked exceptions are treated as same by Oracle definitons.
      - Doesn't throw an exception, rather specifies that there may occur an exception in the method.
      - Always used with method signature.
 
+  ```java
+      public class JavaException {  
+          public static void main(String args[]) {  
+             try {   
+                    int a1 = 50/0;                      //ArithmeticException
+                    String s1 = null;  
+                    int len = s1.length();              //NullPointerException
+                    String s2 = "abc";
+                    int i = Integer.parseInt(s);        //NumberFormatException
+                    int a2[] = new int[5];
+                    a2[10] = 50;                        //ArrayIndexOutOfBoundsException
 
-```java
-    public class JavaException {  
-        public static void main(String args[]) {  
-           try {   
-                  int a1 = 50/0;                      //ArithmeticException
-                  String s1 = null;  
-                  int len = s1.length();              //NullPointerException
-                  String s2 = "abc";
-                  int i = Integer.parseInt(s);        //NumberFormatException
-                  int a2[] = new int[5];
-                  a2[10] = 50;                        //ArrayIndexOutOfBoundsException
-
-           } catch(ArithmeticException e) {System.out.println(e);
-           } catch(NullPointerException e) {System.out.println(e);
-           } catch(NumberFormatException e) {System.out.println(e);
-           } catch(ArrayIndexOutOfBoundsException e) {System.out.println(e);
-           }
-           finally {
-                System.out.println("finally block is always executed");
-           }  
-           System.out.println("Rest code ...");  
-        }  
-    }  
-```
+             } catch(ArithmeticException e) {System.out.println(e);
+             } catch(NullPointerException e) {System.out.println(e);
+             } catch(NumberFormatException e) {System.out.println(e);
+             } catch(ArrayIndexOutOfBoundsException e) {System.out.println(e);
+             }
+             finally {
+                  System.out.println("finally block is always executed");
+             }  
+             System.out.println("Rest code ...");  
+          }  
+      }  
+  ```
 
 ![](../assets/images/JA-2.JPG)
 
 `try` block can be followed by one or more `catch` blocks. Each catch block must contain a different exception handler.
    - At a time only one exception occurs and at a time only one catch block is executed.
+
    - All catch blocks must be ordered from most specific to most general, i.e. catch for ArithmeticException must come before catch for Exception. (If not done, then compile-time error is generated)
 
 `finally` Block
@@ -329,7 +337,8 @@ Errors and Unchecked exceptions are treated as same by Oracle definitons.
 
 > For each try block there can be zero or more catch blocks, but only one finally block.
 
-**Exception Propagation**
+<ins>**Exception Propagation**</ins>
+
 An exception is first thrown from the top of the stack and if it is not caught, it drops down the call stack to the previous method, if not caught there, the exception again drops down to the previous method, and so on until they are caught or until they reach the very bottom of the call stack.
 
 
@@ -338,21 +347,23 @@ An exception is first thrown from the top of the stack and if it is not caught, 
 
 ![Finally](../assets/images/JA-4.JPG)
 
+**Difference between throw & throws**
 
-  ||throw|throws|
+  |throw|throws|
+  |---|---|
+  |Used for explicitly throwing an exception|Used for declaring an exception|
+  |Used within the method|Used with the method signature|
+  |Used mainly with unchecked exceptions|Used mainly with checked exceptions|
+  |Can't throw multiple exceptions|Can declare multiple exceptions like `public void method()throws IOException, SQLException`|
+  |![throw](../assets/images/JA-5.png)|![throws](../assets/images/JA-6.png)|
+
+**Difference between final, finally & finalise**
+
+  |final|finally|finalize|
   |---|---|---|
-  |Usage|Explicitly throwing an exception|Declaring an exception|
-  |Scope|Used within the method|Used with the method signature|
-  ||Used mainly with unchecked exceptions|Used mainly with checked exceptions|
-  ||Can't throw multiple exceptions|Can declare multiple exceptions like `public void method()throws IOException, SQLException`|
-  |Example|![throw](../assets/images/JA-5.png)|![throws](../assets/images/JA-6.png)|
-
-
-  ||final|finally|finalize|
-  |---|---|---|---|
-  |Usage|Applying restrictions on class, method and variable|Placing important code, for execution whether exception is handled or not|Performing clean up processing just before object is garbage collected|
-  |Origin|keyword|Block|Method|
-  |Example|![final](../assets/images/JA-7.png)|![finally](../assets/images/JA-8.png)|![finalise](../assets/images/JA-9.png)|
+  |Applying restrictions on class, method and variable|Placing important code, for execution whether exception is handled or not|Performing clean up processing just before object is garbage collected|
+  |is keyword|is Block|is Method|
+  |![final](../assets/images/JA-7.png)|![finally](../assets/images/JA-8.png)|![finalise](../assets/images/JA-9.png)|
 
 <ins>**Custom Exceptions**</ins>
 
@@ -386,6 +397,7 @@ Creating your own Exception that is known as custom exception or user-defined ex
        }  
   }
 ```
+
 
 ---
 
@@ -421,6 +433,8 @@ Creating your own Exception that is known as custom exception or user-defined ex
 
 ## Java Logging
 
+---
+
 ## Java Regex
 This is an API to define a pattern for searching or manipulating strings.
 It is widely used to define the constraint on strings such as password and email validation.
@@ -431,7 +445,7 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
    - Pattern class
    - PatternSyntaxException class
 
-**Matcher class**
+<ins>**Matcher class**</ins>
    - Implements the MatchResult interface
    - It is a regex engine which is used to perform match operations on a character sequence.
    - Following are the important methods:
@@ -444,7 +458,7 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
       - int groupCount()
 
 
-**Pattern class**
+<ins>**Pattern class**</ins>
   - It is the compiled version of a regular expression.
   - It is used to define a pattern for the regex engine.
   - Following are the important methods:
@@ -453,7 +467,6 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
       - static boolean matches(String regex, CharSequence input)
       - String[] split(CharSequence input)
       - String pattern()
-
 
   ```java
       import java.util.regex.*;
@@ -474,9 +487,9 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
       }
   ```
 
-**RegEx Essentials**
+<ins>**RegEx Essentials**</ins>
 
-||Usage|
+|RegEx Character/Symbol|Usage & Meaning|
 |---|---|
 |^regex|match at the beginning of the line|
 |regex$|match at the end of the line|
@@ -501,6 +514,8 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
 |a(?!b)|(Negative look ahead) match "a" if "a" is not followed by "b".|
 
 > The regex is applied on the text from left to right.
+
+---
 
 ## Java JDBC
 
