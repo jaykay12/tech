@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Topics in Java - I
+title: Advanced Topics in Java I
 categories: [Java, Core]
 ---
 
@@ -40,6 +40,7 @@ categories: [Java, Core]
       - clone() creates the shallow copy of the Java MD array which means it copies the references.
 
 <ins>Single Dimensional Array</ins>
+
 ```java
     class SDArray {  
         public static void main(String args[]){  
@@ -61,6 +62,7 @@ categories: [Java, Core]
 ```
 
 <ins>Anonymous Array</ins>
+
 ```java
     public static void main(String args[]) {  
         printArray(new int[]{10,22,44,66});          // anonymous array
@@ -68,10 +70,10 @@ categories: [Java, Core]
 ```
 
 <ins>Two Dimensional Array</ins>
+
 ```java
     class DDArray {  
         public static void main(String args[]){  
-            int arr[][] = {{1,2,3},{2,4,5},{4,4,5}};          // declaration, instantiation and initialization
 
             for(int i=0;i<3;i++) {                            // traversal
                for(int j=0;j<3;j++) {  
@@ -85,6 +87,7 @@ categories: [Java, Core]
 
 <ins>Jagged Array</ins>
 If we are creating odd number of columns in a 2D array, it is known as a jagged array.
+
 ```java
     class JaggedArray {  
         public static void main(String[] args) {  
