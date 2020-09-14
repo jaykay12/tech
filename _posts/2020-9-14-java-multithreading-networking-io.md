@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Topics in Java (II)
+title: Advanced Topics in Java - II
 categories: [Java, Core]
 ---
 

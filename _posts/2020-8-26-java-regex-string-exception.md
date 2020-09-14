@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Topics in Java (I)
+title: Advanced Topics in Java - I
 categories: [Java, Core]
 ---
 
@@ -183,9 +183,55 @@ If we are creating odd number of columns in a 2D array, it is known as a jagged 
     ```
 
 
-- **Wrapper Classes**
+**Wrapper Classes**
+
+Provides the mechanism to convert primitive into object and object into primitive.
+
+Since J2SE 5.0, `autoboxing` and `unboxing` feature convert primitives into objects and objects into primitives automatically.
+
+Requirement of Wrapper class:
+  - <ins>Changing the value in Method</ins>:
+
+  Java supports only call by value. So, if we pass a primitive value, it will not change the original value. But, if we convert the primitive value in an object, it will change the original value.
+
+  - <ins>Serialization</ins>: objects are converted into streams for performing serialization.
+
+  - <ins>Synchronization</ins>: Java synchronization works with objects in Multithreading.
+
+  - <ins>Collection Framework</ins>: Works with objects only. All classes of the collection framework (ArrayList, LinkedList, Vector, HashSet, LinkedHashSet, TreeSet, PriorityQueue, ArrayDeque, etc.) deal with objects only.
+
+There are 8 wrapper classes in Java defined in `java.lang` package.
+ - boolean - Boolean
+ - char - Character
+ - byte - Byte
+ - short - Short
+ - int - Integer
+ - long - Long
+ - float - Float
+ - double - Double
+
+
+ ```java
+     public class WrapperExample {  
+         public static void main(String args[]) {  
+
+         int a = 20;  
+         Integer i = Integer.valueOf(a);                     // converting int into Integer explicitly  
+         Integer j = a;                                      // autoboxing, compiler handles rest
+         System.out.println(a+" "+i+" "+j);                  // 20 20 20
+
+         Integer a = new Integer(3);    
+         int i = a.intValue();                               // converting Integer to int explicitly  
+         int j = a;                                          // unboxing, compiler handles implictedly
+         System.out.println(a+" "+i+" "+j);                  // 3 3 3
+
+         }
+     }
+ ```
+
 
 - **Command line Args**
+
 
 - **Math Class**
 
