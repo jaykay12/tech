@@ -1,12 +1,110 @@
 ---
 layout: post
-title: Advanced Topics in Java
+title: Advanced Topics in Java (I)
 categories: [Java, Core]
 ---
 
-## Important Concepts
+## Major Concepts
 
-- **Java Array**
+**Java Array**
+
+  - Java array is an object which contains elements of a similar data type.
+
+  - The elements are stored in a contiguous memory location.
+
+  - It is index-based, the first element of the array is stored at the 0th index and so on.
+
+  - In Java, we can get the array length using the length member. In C/C++, we need to use the sizeof operator.
+
+  - Java array inherits the Object class, and implements the Serializable as well as Cloneable interfaces.
+
+  - We can store primitive values or objects in an array in Java.
+
+  - Like C/C++, we can also create single dimentional or multidimentional arrays in Java.
+
+  - Java provides the feature of anonymous arrays which is not available in C/C++.
+
+  - Advantages:
+      - Optimised code. Retrieval and sorting is quite efficient.
+
+      - Random access: Data can be accessed from any location using index.
+
+  - Disadvantages:
+      - Has fixed size and doesn't grow at runtime.
+
+      - To tackle this, `Collections framework` is used.
+
+  - Java array implements the Cloneable interface
+      - clone() creates deep copy of the Java SD array which means it will copy the actual value.
+      
+      - clone() creates the shallow copy of the Java MD array which means it copies the references.
+
+<ins>Single Dimensional Array</ins>
+```java
+    class SDArray {  
+        public static void main(String args[]){  
+            int a1[] = new int[3];                    // declaration and instantiation  
+            a1[0]=10;                                 // initialization  
+            a1[1]=20;  
+            a1[2]=70;  
+
+            int a2[] = {33,3,4,5};                    //declaration, instantiation and initialization
+
+            for(int i=0;i<a1.length;i++)              // traversal using for loop
+                System.out.println(a1[i]);
+
+            for(int i:a2)                             // traversal using for-each loop
+                System.out.println(i);  
+
+        }
+    }
+```
+
+<ins>Anonymous Array</ins>
+```java
+    public static void main(String args[]) {  
+        printArray(new int[]{10,22,44,66});          // anonymous array
+    }  
+```
+
+<ins>Two Dimensional Array</ins>
+```java
+    class DDArray {  
+        public static void main(String args[]){  
+            int arr[][] = {{1,2,3},{2,4,5},{4,4,5}};          // declaration, instantiation and initialization
+
+            for(int i=0;i<3;i++) {                            // traversal
+               for(int j=0;j<3;j++) {  
+                  System.out.print(arr[i][j]+" ");  
+               }  
+               System.out.println();  
+            }  
+        }
+    }  
+```
+
+<ins>Jagged Array</ins>
+If we are creating odd number of columns in a 2D array, it is known as a jagged array.
+```java
+    class JaggedArray {  
+        public static void main(String[] args) {  
+
+            int arr[][] = new int[3][];
+            arr[0] = new int[3];  
+            arr[1] = new int[4];  
+            arr[2] = new int[2];  
+
+            for (int i=0; i<arr.length; i++){  
+                for (int j=0; j<arr[i].length; j++){  
+                    System.out.print(arr[i][j]+" ");  
+                }  
+                System.out.println();
+            }  
+        }  
+    }  
+```
+
+
 
 - **Object Class**
 
@@ -401,40 +499,6 @@ Creating your own Exception that is known as custom exception or user-defined ex
 
 ---
 
-## Java I/O
-
-- **Getting Inputs from Users**
-
-- **Handling text/data files**
-
-- **Handling CSV files**
-
-- **Handling JSON files**
-
-- **Handling XML files**
-
-## Java Networking
-
-- **Socket Programming**
-
-- **HttpUrlConnection**
-
-- **Retrofit**
-
-- **Volley**
-
-- **Classes:**
-    - `URL`
-    - `URLConnection`
-    - `InetAddress`
-    - `DatagramSocket`
-
-## Java Multithreading
-
-## Java Logging
-
----
-
 ## Java Regex
 This is an API to define a pattern for searching or manipulating strings.
 It is widely used to define the constraint on strings such as password and email validation.
@@ -516,29 +580,3 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
 > The regex is applied on the text from left to right.
 
 ---
-
-## Java JDBC
-
-- **Introduction**
-
-
-- **Connectivity**
-   - MySQL
-   - Oracle
-   - PostGreSQL
-   - MongoDB
-
-
-- **Concepts**
-   - Connection
-   - ResultSet
-   - DriverManager
-   - Statementtatement
-   - CallableStatement
-   - Storing & Retrieving Images
-   - Storing & Retrieving Files
-
-
-- **Transaction Management**
-
-- **Batch Processing**
