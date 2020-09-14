@@ -36,7 +36,7 @@ categories: [Java, Core]
 
   - Java array implements the Cloneable interface
       - clone() creates deep copy of the Java SD array which means it will copy the actual value.
-      
+
       - clone() creates the shallow copy of the Java MD array which means it copies the references.
 
 <ins>Single Dimensional Array</ins>
@@ -105,8 +105,83 @@ If we are creating odd number of columns in a 2D array, it is known as a jagged 
 ```
 
 
+**Object Class**
 
-- **Object Class**
+  - The parent class of all the classes in java by default.
+
+  - Is beneficial if we want to refer any object whose type is unknown. Using upcasting this is achieved.
+
+  - Important methods of Object class:
+
+     - public final Class getClass()
+
+     - public int hashCode()
+
+     - public boolean equals(Object obj)
+
+     - protected Object clone() throws CloneNotSupportedException
+
+     - public String toString()
+
+     - protected void finalize()throws Throwable
+
+     - public final void wait(long timeout)throws InterruptedException
+
+     - public final void notify()
+
+**Object Cloning**
+
+   - Object cloning is a way to create exact copy of an object
+
+   - The clone() method of Object class is used to clone an object.
+
+   - The `java.lang.Cloneable` interface must be implemented by the class whose object clone we want to create. If we don't implement Cloneable interface, clone() method generates CloneNotSupportedException.
+
+   - Advantages:
+
+      - Saves the extra processing task for creating the exact copy of an object. If we perform it by using the new keyword, it will take a lot of processing time to be performed.
+
+      - Clone() is the fastest way to copy array.
+
+      - No need to write lengthy and repetitive codes. Just use an abstract class with a 4- or 5-line long clone() method.
+
+   - Disadvantages:
+
+      - Object.clone() has some design issues.
+
+      - For using the Object.clone() method, we have to change a lot of syntaxes to our code, like implementing a Cloneable interface, defining the clone() method and handling CloneNotSupportedException, and finally, calling Object.clone() etc.
+
+      - Object.clone() is protected, so we have to provide our own clone() and indirectly call Object.clone() from it.
+
+      - Object.clone() supports only shallow copying but we will need to override it if we need deep cloning.
+
+    ```java
+        class Student implements Cloneable {   
+            String name;  
+
+            Student(String name) {  
+                this.name=name;  
+            }  
+
+            public Object clone() throws CloneNotSupportedException {  
+                return super.clone();  
+            }  
+
+            public static void main(String args[]) {  
+                try {  
+                Student s1 = new Student("jalaz");  
+
+                Student s2 = (Student)s1.clone();  
+
+                System.out.println(s1.name);               // jalaz
+                System.out.println(s2.name);               // jalaz
+
+                } catch(CloneNotSupportedException c){}  
+
+            }  
+        }
+    ```
+
 
 - **Wrapper Classes**
 
@@ -114,7 +189,6 @@ If we are creating odd number of columns in a 2D array, it is known as a jagged 
 
 - **Math Class**
 
-- **Object Cloning**
 
 ---
 
