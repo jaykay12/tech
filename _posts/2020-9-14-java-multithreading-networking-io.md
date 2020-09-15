@@ -147,7 +147,6 @@ Network Terminologies:
                } catch(Exception e) { System.out.println(e); }  
            }  
        }
-
      ```
 
   - `URLConnection`
@@ -155,42 +154,113 @@ Network Terminologies:
      - This class can be used to read and write data to the specified resource referred by the URL.
      - openConnection() method of URL class returns the object of URLConnection class, which can then be used to download the source-code of url.
      ```java
-     import java.io.*;  
-     import java.net.*;  
+       import java.io.*;  
+       import java.net.*;  
 
-     public class URLConnectionExample {  
-         public static void main(String[] args) {  
-             try{  
-                 URL url = new URL("https://jaykay12.github.io/tech/java-basics.md");  
-                 URLConnection urlcon = url.openConnection();  
-                 InputStream stream = urlcon.getInputStream();  
-                 int i;  
-                 while((i=stream.read())!=-1){  
-                    System.out.print((char)i);  
-                 }  
-             }catch(Exception e){System.out.println(e);}  
+       public class URLConnectionExample {  
+           public static void main(String[] args) {  
+               try{  
+                   URL url = new URL("https://jaykay12.github.io/tech/java-basics.md");  
+                   URLConnection urlcon = url.openConnection();  
+                   InputStream stream = urlcon.getInputStream();  
+                   int i;  
+                   while((i=stream.read())!=-1){  
+                      System.out.print((char)i);  
+                   }  
+               }catch(Exception e){System.out.println(e);}  
+           }  
+       }
+     ```
+
+  - `HttpUrlConnection`
+     - Represents http specific URLConnection. The java.net.HttpURLConnection is subclass of URLConnection class.
+     - It works for HTTP protocol only.
+     - We can information of any HTTP URL such as header information, status code, response code etc. using this.
+     ```java
+       import java.io.*;    
+       import java.net.*;  
+
+       public class HttpURLConnectionExample {    
+           public static void main(String[] args) {    
+               try {    
+                   URL url = new URL("https://jaykay12.github.io/tech/java-basics.md");    
+                   HttpURLConnection huc = (HttpURLConnection)url.openConnection();  
+                   for(int i=1;i<=8;i++) {
+                      System.out.println(huc.getHeaderFieldKey(i)+" = "+huc.getHeaderField(i));  
+                   }
+                   huc.disconnect();
+               } catch(Exception e) { System.out.println(e); }    
+           }    
+       }   
+     ```
+
+  - `InetAddress`
+     - Represents an IP address.
+     - java.net.InetAddress class provides methods to get the IP of any host name for example www.jaykay12.github.io
+     - InetAddress has a cache mechanism to store successful and unsuccessful host name resolutions.
+     ```java
+         import java.io.*;  
+         import java.net.*;
+
+         public class InetExample {  
+             public static void main(String[] args){  
+                 try{  
+                     InetAddress ip = InetAddress.getByName("www.jaykay12.github.io");  
+
+                     System.out.println("Host Name: " + ip.getHostName());         // jaykay12.github.io
+                     System.out.println("IP Address: " + ip.getHostAddress());     // 35.206.76.226
+                 } catch(Exception e) { System.out.println(e); }  
+             }  
          }  
-     }
-
      ```
 
 
-
-  - `InetAddress`
-  - `HttpUrlConnection`
-
 **Connection-less Socket Programming**
-    - <ins>DatagramSocket class</ins>
-    - <ins>DatagramPacket class</ins>
+  - <ins>DatagramSocket class</ins>
+     - Represents a connection-less socket for sending and receiving datagram packets.
+     - Most commonly used constructor, _DatagramSocket(int port, InetAddress address) throws SocketException_ which creates a datagram socket and binds it with the specified port number and host address.
+
+
+  - <ins>DatagramPacket class</ins>
+     - A datagram generally is an information but there is no guarantee of its content, arrival or arrival time.
+     - Java DatagramPacket is a message that can be sent or received.
+     - If multiple packet are sent, it may arrive in any order. Additionally, packet delivery is not guaranteed.
+     - _DatagramPacket(byte[] barr, int length)_ which is used to receive the packets after creation.
+     - _DatagramPacket(byte[] barr, int length, InetAddress address, int port)_, whichis used to send the packets after creation.
 
     `DGSender.java`
     ```java
+      import java.net.*;
 
+      public class DGSender {  
+          public static void main(String[] args) throws Exception {  
+              DatagramSocket ds = new DatagramSocket();  
+              String str = "Welcome java";  
+              InetAddress ip = InetAddress.getByName("127.0.0.1");  
+
+              DatagramPacket dp = new DatagramPacket(str.getBytes(), str.length(), ip, 3000);  
+              ds.send(dp);  
+              ds.close();  
+          }  
+      }
     ```
 
     `DGReceiver.java`
-    ```java
 
+    ```java
+      import java.net.*;
+
+      public class DGReceiver {  
+          public static void main(String[] args) throws Exception {  
+              DatagramSocket ds = new DatagramSocket(3000);  
+              byte[] buf = new byte[1024];  
+              DatagramPacket dp = new DatagramPacket(buf, 1024);  
+              ds.receive(dp);  
+              String str = new String(dp.getData(), 0, dp.getLength());  
+              System.out.println(str);  
+              ds.close();  
+          }  
+      }
     ```
 
 ## Java Multithreading
