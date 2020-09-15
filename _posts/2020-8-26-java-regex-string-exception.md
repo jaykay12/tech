@@ -233,11 +233,27 @@ There are 8 wrapper classes in Java defined in `java.lang` package.
  ```
 
 
-- **Command line Args**
+**Command line Args**
 
+Java command-line argument is an argument i.e. passed at the time of running the java program.
 
-- **Math Class**
+```java
+    class CommandLineExample {  
+        public static void main(String args[]) {  
+            System.out.println("Passed CLA is: "+args[0]);  
+        }  
+    }  
+```
 
+```bash
+> Compile using: javac CommandLineExample.java
+> Run using: java CommandLineExample Jalaz
+> prints: "Passed CLA is: Jalaz"
+```
+
+**Math Class**
+
+`java.lang.Math` class contains various methods for performing basic numeric operations such as the logarithm, cube root, and trigonometric functions etc.
 
 ---
 
