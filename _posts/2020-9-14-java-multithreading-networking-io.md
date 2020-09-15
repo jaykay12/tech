@@ -6,15 +6,199 @@ categories: [Java, Core]
 
 ## Java I/O
 
-- **Getting Inputs from Users**
+Java I/O (Input and Output) is used to process the input and produce the output.
 
-- **Handling text/data files**
+Java uses the concept of a stream to make I/O operation fast. The `java.io package` contains all the classes required for input and output operations.
 
-- **Handling CSV files**
+A stream is a sequence of data. 3 streams are created for us automatically.
+  - System.out
+  - System.in
+  - System.err
 
-- **Handling JSON files**
 
-- **Handling XML files**
+<ins>Output Stream</ins>
+  - Java application uses an output stream to write data to a destination; it may be a file, an array, peripheral device or socket.
+
+  - OutputStream class is an abstract class. Following are the important methods:
+     - _public void write(byte[])throws IOException_
+     - _public void flush()throws IOException_
+     - _public void close()throws IOException_
+
+
+  ![OutputStream](../assets/images/JA-12.png)
+
+
+<ins>Input Steam</ins>
+  - Java application uses an input stream to read data from a source; it may be a file, an array, peripheral device or socket.
+
+  - InputStream class is an abstract class. Following are the important methods:
+     - _public abstract int read()throws IOException_
+     - _public int available()throws IOException_
+     - _public void close()throws IOException_
+
+
+  ![InputStream](../assets/images/JA-13.png)
+
+**Getting Inputs from Console**
+
+`BufferedReader class`
+  - java.io.BufferedReader
+
+  ```java
+      import java.io.*;
+
+      public class BufferedReaderExample {    
+          public static void main(String args[]) throws Exception {             
+              InputStreamReader r = new InputStreamReader(System.in);    
+              BufferedReader br = new BufferedReader(r);            
+              System.out.println("Enter your name");    
+              String name = br.readLine();    
+              System.out.println("Welcome "+name);    
+          }    
+      }
+  ```
+
+`Scanner class`
+   - java.util.Scanner
+   - It is the simplest way to get input in Java.
+   - Breaks the input into tokens using a delimiter which is whitespace by default.
+   - Provides nextXXX() methods to return the type of value such as nextInt(), nextByte(), nextShort(), next(), nextLine(), nextDouble(), nextFloat(), nextBoolean(), etc.
+
+   ```java
+     import java.util.*;
+
+     public class ScannerExample {    
+           public static void main(String args[]) {                       
+               String s = "Hello, This is Jalaz.";   
+               Scanner scan = new Scanner(s);
+               System.out.println("Boolean Result: " + scan.hasNext());   
+               System.out.println("String: " +scan.nextLine());  
+               scan.close();
+
+               System.out.println("--------Enter Your Details-------- ");  
+               Scanner in = new Scanner(System.in);  
+               System.out.print("Enter your name: ");    
+               String name = in.next();         
+               System.out.print("Enter your age: ");  
+               int i = in.nextInt();
+               System.out.print("Enter your salary: ");  
+               double d = in.nextDouble();  
+               System.out.println("Name: " + name + "Age: " + i + "Salary: " + d);         
+               in.close();           
+               }    
+     }
+   ```
+
+**Handling text/data files**
+
+FileReader & FileWriter classes are prominently used for handling text files.
+
+Unlike FileOutputStream class, we don't need to convert string into byte array because FileWriter provides method to write string directly.
+
+`TextFileWriter.java`
+```java
+    import java.io.FileWriter;
+
+    public class TextFileWriter {  
+        public static void main(String args[]){    
+             try {    
+               FileWriter fw = new FileWriter("/home/jalaz/tech/java.txt");    
+               fw.write("These are articles written by Jalaz");    
+               fw.close();    
+              } catch(Exception e){ System.out.println(e); }     
+         }    
+    }
+```
+
+`TextFileReader.java`
+```java
+    import java.io.FileReader;
+
+    public class TextFileReader {  
+        public static void main(String args[]) throws Exception {    
+              FileReader fr = new FileReader("/home/jalaz/tech/java.txt");    
+              int i;    
+              while((i=fr.read())!=-1)    
+                  System.out.print((char)i);    
+              fr.close();  
+        }    
+    }
+```
+
+**Serialization & Deserialization**
+   - A mechanism of writing the state of an object into a byte-stream or vice-versa.
+
+   - It is mainly used in Hibernate, RMI, JPA, EJB and JMS technologies.
+
+   - Both are platform-independent, it means we can serialize an object in a platform and deserialize in different platform.
+
+   - For serializing the object, we call the writeObject() method of `ObjectOutputStream class`.
+
+   - For deserialization, we call the readObject() method of `ObjectInputStream class`.
+
+   - We must have to implement the `Serializable interface` for serializing the object.
+
+   - Is mainly used to travel object's state on the network (which is known as marshaling).
+
+   ![Serialization](../assets/images/JA-14.png)
+
+   - `java.io.Serializable` is a marker interface just like Clonable and Remote. Marker interfaces has no data member and method.
+
+   - The String class and all the wrapper classes implement the java.io.Serializable interface by default.
+
+   `Employee.java`
+   ```java
+     import java.io.Serializable;
+
+     public class Employee implements Serializable{  
+        int id;  
+        String name;  
+        public Employee(int id, String name) {  
+           this.id = id;  
+           this.name = name;  
+        }  
+     }
+   ```
+
+   `Serializer.java`
+   ```java
+     import java.io.*;
+
+      class Serializer {  
+          public static void main(String args[]) {  
+              try {  
+                 Employee e1 = new Employee(75655,"Jalaz Kumar");
+                 FileOutputStream fout = new FileOutputStream("indiamart.txt");  
+                 ObjectOutputStream out = new ObjectOutputStream(fout);  
+                 out.writeObject(e1);  
+                 out.flush();  
+                 out.close();  
+              } catch(Exception e) { System.out.println(e); }  
+          }  
+      }
+   ```
+
+   `Deserializer.java`
+   ```java
+      import java.io.*;
+
+      class Deserializer {  
+          public static void main(String args[]) {  
+              try {  
+                  ObjectInputStream in = new ObjectInputStream(new FileInputStream("indiamart.txt"));  
+                  Employee e = (Employee)in.readObject();   
+                  System.out.println(e.id+" "+e.name);
+                  in.close();  
+              } catch(Exception e) { System.out.println(e); }  
+          }  
+      }
+   ```
+
+**Handling CSV files**
+
+**Handling JSON files**
+
+**Handling XML files**
 
 ## Java Networking
 
