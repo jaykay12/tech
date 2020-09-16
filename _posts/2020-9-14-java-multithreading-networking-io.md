@@ -220,16 +220,18 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 
     - Setting up:
 
-        - In Maven, add the following to pom.xml:
-        ```xml
+        - In Maven, add the following to `pom.xml`:
+
+        ```bash  
         <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>4.1</version>
-        </dependency>
-        ```
+              <groupId>com.opencsv</groupId>
+              <artifactId>opencsv</artifactId>
+              <version>4.1</version>
+          </dependency>
+        ```        
 
         - In Gradle, add the following in build.gradle:
+
         ```bash
         compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
         ```
@@ -237,6 +239,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
         - In normal run, download the jar from [Link](https://repo1.maven.org/maven2/com/opencsv/opencsv/3.8/opencsv-3.8.jar). Either add this jar to project path or create a directory named lib, and add this jar to lib.
 
         - <ins>Reading using OpenCSV API</ins>
+        
         ```java
         import java.io.FileReader;
         import java.util.List;
@@ -298,6 +301,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
         ```
 
         - <ins>Writing using OpenCSV API</ins>
+
         ```java
         import java.io.*;
         import java.util.*;
@@ -333,8 +337,9 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 
    - The `JSON` is one of the widely used data-interchange formats and is a lightweight and language independent.
 
-   - In Maven, add the following to pom.xml:
-   ```xml
+   - In Maven, add the following to `pom.xml`:
+
+   ```bash
     <dependency>
         <groupId>com.googlecode.json-simple</groupId>
         <artifactId>json-simple</artifactId>
@@ -343,6 +348,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
    ```
 
    - <ins>Writing JSON to a file</ins>
+
    ```java
    import java.io.FileWriter;
    import java.io.IOException;
