@@ -327,10 +327,96 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 **Handling JSON files**
 
 - `json.simple`
+   - A lightweight JSON processing library that can be used to read and write JSON files.
 
-- Writing JSON to a file
+   - It can be used to encode or decode JSON text and fully compliant with JSON specification.
 
-- Reading JSON from a file
+   - The `JSON` is one of the widely used data-interchange formats and is a lightweight and language independent.
+
+   - In Maven, add the following to pom.xml:
+   ```xml
+    <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+        <version>1.1.1</version>
+    </dependency>
+   ```
+
+   - Writing JSON to a file
+   ```java
+   import java.io.FileWriter;
+   import java.io.IOException;
+
+   import org.json.simple.JSONArray;
+   import org.json.simple.JSONObject;
+
+   public class WriteJSONFile {
+       public static void main( String[] args ) {
+           JSONObject employeeDetails1 = new JSONObject();
+           employeeDetails1.put("name", "Jalaz Kumar");
+           employeeDetails1.put("email", "jalaz.kumar@indiamart.com");
+           JSONObject employeeObject1 = new JSONObject();
+           employeeObject1.put("employee", employeeDetails1);
+
+           JSONObject employeeDetails2 = new JSONObject();
+           employeeDetails2.put("name", "Narendra Dodwaria");
+           employeeDetails2.put("email", "narendra.dodwaria@indiamart.com");
+           JSONObject employeeObject2 = new JSONObject();
+           employeeObject2.put("employee", employeeDetails2);
+
+           JSONArray employeeList = new JSONArray();
+           employeeList.add(employeeObject1);
+           employeeList.add(employeeObject2);
+
+           try (FileWriter file = new FileWriter("/home/jalaz/tech/employees.json")) {
+               file.write(employeeList.toJSONString());
+               file.flush();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
+   }
+   ```
+
+   - Reading JSON from a file
+   ```java
+   import java.io.FileNotFoundException;
+   import java.io.FileReader;
+   import java.io.IOException;
+
+   import org.json.simple.JSONArray;
+   import org.json.simple.JSONObject;
+   import org.json.simple.parser.JSONParser;
+   import org.json.simple.parser.ParseException;
+
+   public class ReadJSONFile {
+       public static void main(String[] args) {
+           JSONParser jsonParser = new JSONParser();
+           try (FileReader reader = new FileReader("employees.json")){
+               Object obj = jsonParser.parse(reader);
+               JSONArray employeeList = (JSONArray) obj;
+
+               employeeList.forEach(emp -> parseEmployeeObject((JSONObject) emp));
+
+           } catch (FileNotFoundException e) {
+               e.printStackTrace();
+           } catch (IOException e) {
+               e.printStackTrace();
+           } catch (ParseException e) {
+               e.printStackTrace();
+           }
+       }
+
+       private static void parseEmployeeObject(JSONObject employee) {
+           JSONObject employeeObject = (JSONObject) employee.get("employee");
+
+           String name = (String) employeeObject.get("name");    
+           System.out.println(name);
+           String email = (String) employeeObject.get("email");    
+           System.out.println(email);
+       }
+   }
+   ```
 
 **Handling XML files**
 
