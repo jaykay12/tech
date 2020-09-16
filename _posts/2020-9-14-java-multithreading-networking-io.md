@@ -196,9 +196,151 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 
 **Handling CSV files**
 
+- Reading using java.util.Scanner
+  ```java
+    import java.io.*;  
+    import java.util.Scanner;
+
+    public class ReadCSVScanner {  
+        public static void main(String[] args) throws Exception {  
+            Scanner sc = new Scanner(new File("/home/jalaz/tech/check.csv"));  
+            sc.useDelimiter(",");
+            while (sc.hasNext())
+                System.out.print(sc.next());
+            sc.close();  
+        }  
+    }
+  ```
+- `com.opencsv` (Recommended Way)
+    - A CSV parser library for Java. OpenCSV supports all the basic CSV-type operations you are want to do.
+
+    - Java 7 is currently the minimum supported version for OpenCSV.
+
+    - The library can also read TDF (Tab-Delimited File) file format.
+
+    - Setting up:
+
+        - In Maven, add the following to pom.xml:
+        ```xml
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
+        ```
+
+        - In Gradle, add the following in build.gradle:
+        ```bash
+        compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+        ```
+
+        - In normal run, download the jar from [Link](https://repo1.maven.org/maven2/com/opencsv/opencsv/3.8/opencsv-3.8.jar). Either add this jar to project path or create a directory named lib, and add this jar to lib.
+
+        - Reading using OpenCSV API
+        ```java
+        import java.io.FileReader;
+        import java.util.List;
+        import com.opencsv.*;
+
+        public class ReadCSVData {
+            public static void main(String[] args) {
+              try {
+                  FileReader filereader = new FileReader("/home/jalaz/tech/onebyone.csv");
+                  CSVReader csvReader = new CSVReader(filereader);
+                  String[] nextRecord;
+
+                  while ((nextRecord = csvReader.readNext()) != null) {
+                      for (String cell:nextRecord) {
+                          System.out.print(cell + "\t");
+                      }
+                      System.out.println();
+                  }
+
+                  //------------------------------------------------------------------------
+
+                  FileReader filereader = new FileReader("/home/jalaz/tech/allatonce.csv");
+                  CSVReader csvReader = new CSVReaderBuilder(filereader)
+                                            .withSkipLines(1)
+                                            .build();
+                  List<String[]> allData = csvReader.readAll();
+
+                  for (String[] row : allData) {
+                      for (String cell : row) {
+                          System.out.print(cell + "\t");
+                      }
+                      System.out.println();
+                  }
+
+                  //------------------------------------------------------------------------
+
+                  FileReader filereader = new FileReader("/home/jalaz/tech/colonseparated.csv");
+                  CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
+                  CSVReader csvReader = new CSVReaderBuilder(filereader)
+                                            .withCSVParser(parser)
+                                            .build();
+
+                  List<String[]> allData = csvReader.readAll();
+
+                  for (String[] row : allData) {
+                      for (String cell : row) {
+                          System.out.print(cell + "\t");
+                      }
+                      System.out.println();
+                  }
+
+                  //------------------------------------------------------------------------   
+              }  
+              catch (Exception e) {
+                  e.printStackTrace();
+              }
+            }
+        }
+        ```
+
+        - Writing using OpenCSV API
+        ```java
+        import java.io.*;
+        import java.util.*;
+        import com.opencsv.CSVWriter;
+
+        public class WriteCSVData {
+            public static void main(String[] args) {
+                try {
+                    FileWriter outputfile = new FileWriter("/home/jalaz/tech/write.csv");
+                    CSVWriter writer = new CSVWriter(outputfile);
+
+                    List<String[]> data = new ArrayList<String[]>();
+                    data.add(new String[] { "Name", "RollNo", "Branch" });
+                    data.add(new String[] { "Jalaz", "14MI528", "CSE" });
+                    data.add(new String[] { "Sukhbir", "14MI535", "CSE" });
+                    writer.writeAll(data);
+                    writer.writeNext({"Saurabh", "14MI539", "CSE" });
+                    writer.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        ```
+
 **Handling JSON files**
 
+- `json.simple`
+
+- Writing JSON to a file
+
+- Reading JSON from a file
+
 **Handling XML files**
+
+- Introduction
+   - DOM Parser
+   - SAX Parser
+
+- Writing XML to a file using DOM API
+
+- Reading XML from a file using DOM API
 
 ## Java Networking
 
