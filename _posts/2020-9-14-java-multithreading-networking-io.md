@@ -236,7 +236,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 
         - In normal run, download the jar from [Link](https://repo1.maven.org/maven2/com/opencsv/opencsv/3.8/opencsv-3.8.jar). Either add this jar to project path or create a directory named lib, and add this jar to lib.
 
-        - Reading using OpenCSV API
+        - <ins>Reading using OpenCSV API</ins>
         ```java
         import java.io.FileReader;
         import java.util.List;
@@ -297,7 +297,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
         }
         ```
 
-        - Writing using OpenCSV API
+        - <ins>Writing using OpenCSV API</ins>
         ```java
         import java.io.*;
         import java.util.*;
@@ -342,7 +342,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
     </dependency>
    ```
 
-   - Writing JSON to a file
+   - <ins>Writing JSON to a file</ins>
    ```java
    import java.io.FileWriter;
    import java.io.IOException;
@@ -378,7 +378,27 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
    }
    ```
 
-   - Reading JSON from a file
+   - <ins>Reading JSON from a file</ins>
+
+   `employees.json`
+   ```json
+   [
+       {
+           "employee": {
+               "name": "Jalaz Kumar",
+               "email": "jalaz.kumar@indiamart.com"
+           }
+       },
+       {
+           "employee": {
+               "name": "Narendra Dodwaria",
+               "email": "narendra.dodwaria@indiamart.com"
+           }
+       }
+  ]
+   ```
+
+   `ReadJSONFile.java`
    ```java
    import java.io.FileNotFoundException;
    import java.io.FileReader;
@@ -419,14 +439,80 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
    ```
 
 **Handling XML files**
+   - Reading XML file in Java is much different from reading other files like .docx and .txt because XML file contains data between the tags.
 
-- Introduction
-   - DOM Parser
-   - SAX Parser
+   - 2 parsers in Java which parses an XML file:
+       - <ins>DOM Parser</ins>
+          - DOM API provides the classes to read and write an XML file.
+          - DOM parser parses the entire XML file and creates a DOM object in the memory.
+          - In DOM everything in an XML file is a node. The node represents a component of an XML file.
+          - DOM parser is slow in process and occupies lots of memory when it loads an XML file into memory.
 
-- Writing XML to a file using DOM API
+       - <ins>SAX Parser</ins>
+          - Stands for Simple API for XML
+          - Parses an XML file line by line. It triggers events when it encounters the opening tag, closing tag, and character data in an xml file. Also called the event-based parser.
+          - Does not load any XML file into memory.
+          - It does not create any object representation of the XML document.
+          - It is faster and uses less memory than DOM parser.
 
-- Reading XML from a file using DOM API
+   - <ins>Reading XML from a file using DOM API</ins>
+
+   `sample.xml`
+   ```XML
+   <?xml version="1.0"?>  
+   <indiamart>  
+       <employee>  
+           <id>75655</id>  
+           <name>Jalaz Kumar</name>
+           <email>jalaz.kumar@indiamart.com</email>
+       </employee>  
+
+       <employee>  
+           <id>75656</id>  
+           <name>Atul Agarwal</name>
+           <email>agarwal.atul1@indiamart.com</email>
+       </employee>
+   </indiamart>
+   ```
+
+   `ReadXMLFile.java`
+   ```java
+   import javax.xml.parsers.DocumentBuilderFactory;  
+   import javax.xml.parsers.DocumentBuilder;
+
+   import org.w3c.dom.Document;  
+   import org.w3c.dom.NodeList;  
+   import org.w3c.dom.Node;  
+   import org.w3c.dom.Element;  
+   import java.io.File;
+
+   public class ReadXMLFile {  
+       public static void main(String argv[]) {  
+           try {  
+               File file = new File("/home/jalaz/tech/sample.xml");
+               DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+               DocumentBuilder db = dbf.newDocumentBuilder();  
+               Document doc = db.parse(file);  
+               doc.getDocumentElement().normalize();
+
+               System.out.println("Root element: " + doc.getDocumentElement().getNodeName());  
+               NodeList nodeList = doc.getElementsByTagName("employee");
+               for(int itr = 0; itr < nodeList.getLength(); itr++) {  
+                   Node node = nodeList.item(itr);  
+                   System.out.println("\nNode Name :" + node.getNodeName());  
+                   if (node.getNodeType() == Node.ELEMENT_NODE) {  
+                       Element eElement = (Element) node;  
+                       System.out.println("Student id: "+ eElement.getElementsByTagName("id").item(0).getTextContent());  
+                       System.out.println("Name: "+ eElement.getElementsByTagName("name").item(0).getTextContent());
+                       System.out.println("EMail: "+ eElement.getElementsByTagName("email").item(0).getTextContent());
+                   }  
+               }  
+           } catch (Exception e) {  
+                e.printStackTrace();  
+           }  
+       }  
+   }
+   ```
 
 ## Java Networking
 
