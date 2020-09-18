@@ -1007,6 +1007,8 @@ Network Terminologies:
                   fout.close()
                }
 
+               //----------------------------------------------------------------------
+
                con.close();
 
            } catch (Exception e) { e.printStackTrace(); }  
@@ -1016,6 +1018,62 @@ Network Terminologies:
 
 
 **Storing & Retrieving Files**
+    - By the help of PreparedStatement we can retrieve and store the files in the database.
+
+    - _setCharacterStream()_ method of PreparedStatement is used to set character information
+
+    - _getClob()_ method of PreparedStatement is used to get file information from the database.
+
+    `SQL`
+    ```sql
+       CREATE TABLE "FILETABLE"   
+       (    
+        "ID" NUMBER,   
+        "NAME" CLOB
+       )
+    ```
+
+    `FileHandlingDB.java`
+    ```java
+    import java.sql.*;  
+    import java.io.*;
+
+    public class FileHandlingDB {  
+        public static void main(String[] args) {  
+            try {  
+                Class.forName("oracle.jdbc.driver.OracleDriver");  
+                Connection con=DriverManager.getConnection(  
+                "jdbc:oracle:thin:@<SERVER>:<PORT>:<DATABASE>","<USERNAME>","<PASSWORD>");
+
+                //-------------------------- Storing files -----------------------------
+
+                PreparedStatement ps=con.prepareStatement("INSERT into FILETABLE values(?,?)");
+                File f = new File("/home/jalaz/tech/upload.txt");
+                FileReader fr = new FileReader(f);
+                ps.setInt(1,101);  
+                ps.setCharacterStream(2, fr, (int)f.length());  
+                int i = ps.executeUpdate();
+
+                //-------------------------- Retrieving files --------------------------
+
+                PreparedStatement ps = con.prepareStatement("SELECT * from FILETABLE");
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                Clob c = rs.getClob(2);  
+                Reader r = c.getCharacterStream();              
+                FileWriter fw = new FileWriter("/home/jalaz/tech/download.txt");
+                while((int i = r.read())!=-1)
+                    fw.write((char)i);  
+                fw.close();
+
+                //-----------------------------------------------------------------------
+
+                con.close();
+
+            } catch (Exception e) { e.printStackTrace(); }  
+        }  
+    }
+    ```
 
 **Transaction Management**
 
