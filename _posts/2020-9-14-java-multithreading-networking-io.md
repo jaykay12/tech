@@ -464,7 +464,7 @@ categories: [Java, Core]
    - <ins>Reading XML from a file using DOM API</ins>
 
    `sample.xml`
-   ```XML
+   ```bash
    <?xml version="1.0"?>  
    <indiamart>  
        <employee>  
@@ -1025,7 +1025,7 @@ categories: [Java, Core]
     - A thread group can also include the other thread group.
 
     - 2 constructors for creating thread group: _ThreadGroup(String name)_ & _ThreadGroup(ThreadGroup parent, String name)_
-    
+
     - Useful methods:
         - _void checkAccess()_
         - _int activeCount()_
@@ -1098,6 +1098,8 @@ categories: [Java, Core]
 
 **Synchronization**
 
+**Callable & FutureTask**
+
 ---
 
 ## Java Logging
@@ -1123,18 +1125,23 @@ categories: [Java, Core]
  ![](../assets/images/JA-15.png)
 
  - `java.sql package` contains classes and interfaces for JDBC API. Few popular ones are:
-     - <ins>DriverManager class</ins>
+     - <ins>**DriverManager class**</ins>
         - Acts as an interface between user and drivers.
+
         - Keeps track of the drivers that are available and handles establishing a connection between a database and the appropriate driver.
+
         - Useful methods:
            - _public static void registerDriver(Driver driver)_
            - _public static void deregisterDriver(Driver driver)_
            - _public static Connection getConnection(String url,String userName,String password)_
 
-     - <ins>Connection interface</ins>
+     - <ins>**Connection interface**</ins>
         - Denotes the session between java application and database.
+
         - Is a factory of Statement, PreparedStatement, and DatabaseMetaData i.e. object of Connection can be used to get the object of Statement and DatabaseMetaData.
+
         - Provide many methods for transaction management.
+
         - Useful methods:
            - _public Statement createStatement()_
            - _public Statement createStatement(int resultSetType, int resultSetConcurrency)_
@@ -1143,17 +1150,20 @@ categories: [Java, Core]
            - _public void rollback()_
            - _public void close()_
 
-     - <ins>Statment interface</ins>
+     - <ins>**Statment interface**</ins>
         - Provides methods to execute queries with the database
+
         - Useful methods:
            - _public ResultSet executeQuery(String sql)_
            - _public int executeUpdate(String sql)_
            - _public boolean execute(String sql)_
            - _public int[] executeBatch()_
 
-     - <ins>ResultSet interface</ins>
+     - <ins>**ResultSet interface**</ins>
         - Maintains a cursor pointing to a row of a table. Initially, cursor points to before the first row.
+
         - By default, ResultSet object can be moved forward only and it is not updatable.
+
         - Useful methods:
            - _public boolean next()_
            - _public boolean previous()_
@@ -1167,9 +1177,11 @@ categories: [Java, Core]
            - _public String getString(String columnName)_
            - _public ResultSetMetaData getMetaData()_
 
-     - <ins>PreparedStatement interface</ins>
+     - <ins>**PreparedStatement interface**</ins>
         - Is a subinterface of Statement.
+
         - It is used to execute parameterized query.
+
         ```java
         PreparedStatement stmt = con.prepareStatement("INSERT into TABLE_NAME values(?,?)");  
         stmt.setInt(1,101);
@@ -1177,11 +1189,11 @@ categories: [Java, Core]
         int i=stmt.executeUpdate();
       ```
 
-     - <ins>CallableStatement Interface</ins>
+     - <ins>**CallableStatement Interface**</ins>
         - Used to call the stored procedures and functions.
 
         `Stored Procedure on DB`
-        ```bash
+        ```SQL
         CREATE or REPLACE procedure "insertR"  
         (id IN NUMBER, name IN VARCHAR2)  
         IS  
@@ -1199,17 +1211,20 @@ categories: [Java, Core]
         stmt.execute();
         ```
 
-     - <ins>ResultSetMetaData interface</ins>
+     - <ins>**ResultSetMetaData interface**</ins>
         - metadata means data about data i.e. we can get further information from the data.
+
         - metadata of a table like total number of column, column name, column type etc.
+
         - Useful methods:
            - _public int getColumnCount()throws SQLException_
            - _public String getColumnName(int index)throws SQLException_
            - _public String getColumnTypeName(int index)throws SQLException_
            - _public String getTableName(int index)throws SQLException_
 
-     - <ins>DatabaseMetaData interface</ins>
+     - <ins>**DatabaseMetaData interface**</ins>
         - Provides methods to get meta data of a database such as database product name, database product version, driver name, name of total number of tables, name of total number of views etc.
+
         - Useful methods:
            - _public String getDriverName()throws SQLException_
            - _public String getDriverVersion()throws SQLException_
@@ -1350,62 +1365,62 @@ categories: [Java, Core]
    ```
 
 **Storing & Retrieving Files**
-    - By the help of PreparedStatement we can retrieve and store the files in the database.
+  - By the help of PreparedStatement we can retrieve and store the files in the database.
 
-    - _setCharacterStream()_ method of PreparedStatement is used to set character information
+  - _setCharacterStream()_ method of PreparedStatement is used to set character information
 
-    - _getClob()_ method of PreparedStatement is used to get file information from the database.
+  - _getClob()_ method of PreparedStatement is used to get file information from the database.
 
-    `SQL`
-    ```sql
-       CREATE TABLE "FILETABLE"   
-       (    
-        "ID" NUMBER,   
-        "NAME" CLOB
-       )
-    ```
+  `SQL`
+  ```sql
+     CREATE TABLE "FILETABLE"   
+     (    
+      "ID" NUMBER,   
+      "NAME" CLOB
+     )
+  ```
 
-    `FileHandlingDB.java`
-    ```java
-    import java.sql.*;  
-    import java.io.*;
+  `FileHandlingDB.java`
+  ```java
+  import java.sql.*;  
+  import java.io.*;
 
-    public class FileHandlingDB {  
-        public static void main(String[] args) {  
-            try {  
-                Class.forName("oracle.jdbc.driver.OracleDriver");  
-                Connection con=DriverManager.getConnection(  
-                "jdbc:oracle:thin:@<SERVER>:<PORT>:<DATABASE>","<USERNAME>","<PASSWORD>");
+  public class FileHandlingDB {  
+      public static void main(String[] args) {  
+          try {  
+              Class.forName("oracle.jdbc.driver.OracleDriver");  
+              Connection con=DriverManager.getConnection(  
+              "jdbc:oracle:thin:@<SERVER>:<PORT>:<DATABASE>","<USERNAME>","<PASSWORD>");
 
-                //-------------------------- Storing files -----------------------------
+              //-------------------------- Storing files -----------------------------
 
-                PreparedStatement ps=con.prepareStatement("INSERT into FILETABLE values(?,?)");
-                File f = new File("/home/jalaz/tech/upload.txt");
-                FileReader fr = new FileReader(f);
-                ps.setInt(1,101);  
-                ps.setCharacterStream(2, fr, (int)f.length());  
-                int i = ps.executeUpdate();
+              PreparedStatement ps=con.prepareStatement("INSERT into FILETABLE values(?,?)");
+              File f = new File("/home/jalaz/tech/upload.txt");
+              FileReader fr = new FileReader(f);
+              ps.setInt(1,101);  
+              ps.setCharacterStream(2, fr, (int)f.length());  
+              int i = ps.executeUpdate();
 
-                //-------------------------- Retrieving files --------------------------
+              //-------------------------- Retrieving files --------------------------
 
-                PreparedStatement ps = con.prepareStatement("SELECT * from FILETABLE");
-                ResultSet rs = ps.executeQuery();
-                rs.next();
-                Clob c = rs.getClob(2);  
-                Reader r = c.getCharacterStream();              
-                FileWriter fw = new FileWriter("/home/jalaz/tech/download.txt");
-                while((int i = r.read())!=-1)
-                    fw.write((char)i);  
-                fw.close();
+              PreparedStatement ps = con.prepareStatement("SELECT * from FILETABLE");
+              ResultSet rs = ps.executeQuery();
+              rs.next();
+              Clob c = rs.getClob(2);  
+              Reader r = c.getCharacterStream();              
+              FileWriter fw = new FileWriter("/home/jalaz/tech/download.txt");
+              while((int i = r.read())!=-1)
+                  fw.write((char)i);  
+              fw.close();
 
-                //-----------------------------------------------------------------------
+              //-----------------------------------------------------------------------
 
-                con.close();
+              con.close();
 
-            } catch (Exception e) { e.printStackTrace(); }  
-        }  
-    }
-    ```
+          } catch (Exception e) { e.printStackTrace(); }  
+      }  
+  }
+  ```
 
 **Transaction Management**
    - Transaction represents a single unit of work.
