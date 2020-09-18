@@ -27,7 +27,6 @@ A stream is a sequence of data. 3 streams are created for us automatically.
 
   ![OutputStream](../assets/images/JA-12.png)
 
-
 <ins>Input Steam</ins>
   - Java application uses an input stream to read data from a source; it may be a file, an array, peripheral device or socket.
 
@@ -41,89 +40,89 @@ A stream is a sequence of data. 3 streams are created for us automatically.
 
 **Getting Inputs from Console**
 
-`BufferedReader class`
-  - java.io.BufferedReader
+  `BufferedReader class`
+    - java.io.BufferedReader
 
   ```java
-      import java.io.*;
+  import java.io.*;
 
-      public class BufferedReaderExample {    
-          public static void main(String args[]) throws Exception {             
-              InputStreamReader r = new InputStreamReader(System.in);    
-              BufferedReader br = new BufferedReader(r);            
-              System.out.println("Enter your name");    
-              String name = br.readLine();    
-              System.out.println("Welcome "+name);    
-          }    
-      }
+  public class BufferedReaderExample {    
+      public static void main(String args[]) throws Exception {             
+          InputStreamReader r = new InputStreamReader(System.in);    
+          BufferedReader br = new BufferedReader(r);            
+          System.out.println("Enter your name");    
+          String name = br.readLine();    
+          System.out.println("Welcome "+name);    
+      }    
+  }
   ```
 
-`Scanner class`
-   - java.util.Scanner
-   - It is the simplest way to get input in Java.
-   - Breaks the input into tokens using a delimiter which is whitespace by default.
-   - Provides nextXXX() methods to return the type of value such as nextInt(), nextByte(), nextShort(), next(), nextLine(), nextDouble(), nextFloat(), nextBoolean(), etc.
+  `Scanner class`
+     - java.util.Scanner
+     - It is the simplest way to get input in Java.
+     - Breaks the input into tokens using a delimiter which is whitespace by default.
+     - Provides nextXXX() methods to return the type of value such as nextInt(), nextByte(), nextShort(), next(), nextLine(), nextDouble(), nextFloat(), nextBoolean(), etc.
 
    ```java
-     import java.util.*;
+  import java.util.*;
 
-     public class ScannerExample {    
-           public static void main(String args[]) {                       
-               String s = "Hello, This is Jalaz.";   
-               Scanner scan = new Scanner(s);
-               System.out.println("Boolean Result: " + scan.hasNext());   
-               System.out.println("String: " +scan.nextLine());  
-               scan.close();
+  public class ScannerExample {    
+       public static void main(String args[]) {                       
+           String s = "Hello, This is Jalaz.";   
+           Scanner scan = new Scanner(s);
+           System.out.println("Boolean Result: " + scan.hasNext());   
+           System.out.println("String: " +scan.nextLine());  
+           scan.close();
 
-               System.out.println("--------Enter Your Details-------- ");  
-               Scanner in = new Scanner(System.in);  
-               System.out.print("Enter your name: ");    
-               String name = in.next();         
-               System.out.print("Enter your age: ");  
-               int i = in.nextInt();
-               System.out.print("Enter your salary: ");  
-               double d = in.nextDouble();  
-               System.out.println("Name: " + name + "Age: " + i + "Salary: " + d);         
-               in.close();           
-               }    
-     }
+           System.out.println("--------Enter Your Details-------- ");  
+           Scanner in = new Scanner(System.in);  
+           System.out.print("Enter your name: ");    
+           String name = in.next();         
+           System.out.print("Enter your age: ");  
+           int i = in.nextInt();
+           System.out.print("Enter your salary: ");  
+           double d = in.nextDouble();  
+           System.out.println("Name: " + name + "Age: " + i + "Salary: " + d);         
+           in.close();           
+           }    
+  }
    ```
 
 **Handling text/data files**
 
-FileReader & FileWriter classes are prominently used for handling text files.
+  FileReader & FileWriter classes are prominently used for handling text files.
 
-Unlike FileOutputStream class, we don't need to convert string into byte array because FileWriter provides method to write string directly.
+  Unlike FileOutputStream class, we don't need to convert string into byte array because FileWriter provides method to write string directly.
 
-`TextFileWriter.java`
-```java
-    import java.io.FileWriter;
+  `TextFileWriter.java`
+  ```java
+  import java.io.FileWriter;
 
-    public class TextFileWriter {  
-        public static void main(String args[]){    
-             try {    
-               FileWriter fw = new FileWriter("/home/jalaz/tech/java.txt");    
-               fw.write("These are articles written by Jalaz");    
-               fw.close();    
-              } catch(Exception e){ System.out.println(e); }     
-         }    
-    }
-```
+  public class TextFileWriter {  
+      public static void main(String args[]){    
+           try {    
+             FileWriter fw = new FileWriter("/home/jalaz/tech/java.txt");    
+             fw.write("These are articles written by Jalaz");    
+             fw.close();    
+            } catch(Exception e){ System.out.println(e); }     
+       }    
+  }
+  ```
 
-`TextFileReader.java`
-```java
-    import java.io.FileReader;
+  `TextFileReader.java`
+  ```java
+  import java.io.FileReader;
 
-    public class TextFileReader {  
-        public static void main(String args[]) throws Exception {    
-              FileReader fr = new FileReader("/home/jalaz/tech/java.txt");    
-              int i;    
-              while((i=fr.read())!=-1)    
-                  System.out.print((char)i);    
-              fr.close();  
-        }    
-    }
-```
+  public class TextFileReader {  
+      public static void main(String args[]) throws Exception {    
+            FileReader fr = new FileReader("/home/jalaz/tech/java.txt");    
+            int i;    
+            while((i=fr.read())!=-1)    
+                System.out.print((char)i);    
+            fr.close();  
+      }    
+  }
+  ```
 
 **Serialization & Deserialization**
    - A mechanism of writing the state of an object into a byte-stream or vice-versa.
@@ -164,7 +163,7 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
    ```java
      import java.io.*;
 
-      class Serializer {  
+     class Serializer {  
           public static void main(String args[]) {  
               try {  
                  Employee e1 = new Employee(75655,"Jalaz Kumar");
@@ -196,253 +195,252 @@ Unlike FileOutputStream class, we don't need to convert string into byte array b
 
 **Handling CSV files**
 
-- Reading using java.util.Scanner
-  ```java
-    import java.io.*;  
-    import java.util.Scanner;
+  - Reading using java.util.Scanner
+    ```java
+      import java.io.*;  
+      import java.util.Scanner;
 
-    public class ReadCSVScanner {  
-        public static void main(String[] args) throws Exception {  
-            Scanner sc = new Scanner(new File("/home/jalaz/tech/check.csv"));  
-            sc.useDelimiter(",");
-            while (sc.hasNext())
-                System.out.print(sc.next());
-            sc.close();  
-        }  
-    }
-  ```
-- `com.opencsv` (Recommended Way)
-    - A CSV parser library for Java. OpenCSV supports all the basic CSV-type operations you are want to do.
+      public class ReadCSVScanner {  
+          public static void main(String[] args) throws Exception {  
+              Scanner sc = new Scanner(new File("/home/jalaz/tech/check.csv"));  
+              sc.useDelimiter(",");
+              while (sc.hasNext())
+                  System.out.print(sc.next());
+              sc.close();  
+          }  
+      }
+    ```
+  - `com.opencsv` (Recommended Way)
+      - A CSV parser library for Java. OpenCSV supports all the basic CSV-type operations you are want to do.
 
-    - Java 7 is currently the minimum supported version for OpenCSV.
+      - Java 7 is currently the minimum supported version for OpenCSV.
 
-    - The library can also read TDF (Tab-Delimited File) file format.
+      - The library can also read TDF (Tab-Delimited File) file format.
 
-    - Setting up:
+      - Setting up:
 
-        - In Maven, add the following to `pom.xml`:
+          - In Maven, add the following to `pom.xml`:
 
-        ```bash  
-        <dependency>
-              <groupId>com.opencsv</groupId>
-              <artifactId>opencsv</artifactId>
-              <version>4.1</version>
-          </dependency>
-        ```        
+          ```bash  
+          <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>4.1</version>
+            </dependency>
+          ```        
 
-        - In Gradle, add the following in build.gradle:
+          - In Gradle, add the following in build.gradle:
 
-        ```bash
-        compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
-        ```
+          ```bash
+          compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+          ```
 
-        - In normal run, download the jar from [Link](https://repo1.maven.org/maven2/com/opencsv/opencsv/3.8/opencsv-3.8.jar). Either add this jar to project path or create a directory named lib, and add this jar to lib.
+          - In normal run, download the jar from [Link](https://repo1.maven.org/maven2/com/opencsv/opencsv/3.8/opencsv-3.8.jar). Either add this jar to project path or create a directory named lib, and add this jar to lib.
 
-        - <ins>Reading using OpenCSV API</ins>
-        
-        ```java
-        import java.io.FileReader;
-        import java.util.List;
-        import com.opencsv.*;
+          - <ins>Reading using OpenCSV API</ins>
 
-        public class ReadCSVData {
-            public static void main(String[] args) {
-              try {
-                  FileReader filereader = new FileReader("/home/jalaz/tech/onebyone.csv");
-                  CSVReader csvReader = new CSVReader(filereader);
-                  String[] nextRecord;
+          ```java
+          import java.io.FileReader;
+          import java.util.List;
+          import com.opencsv.*;
 
-                  while ((nextRecord = csvReader.readNext()) != null) {
-                      for (String cell:nextRecord) {
-                          System.out.print(cell + "\t");
-                      }
-                      System.out.println();
-                  }
-
-                  //------------------------------------------------------------------------
-
-                  FileReader filereader = new FileReader("/home/jalaz/tech/allatonce.csv");
-                  CSVReader csvReader = new CSVReaderBuilder(filereader)
-                                            .withSkipLines(1)
-                                            .build();
-                  List<String[]> allData = csvReader.readAll();
-
-                  for (String[] row : allData) {
-                      for (String cell : row) {
-                          System.out.print(cell + "\t");
-                      }
-                      System.out.println();
-                  }
-
-                  //------------------------------------------------------------------------
-
-                  FileReader filereader = new FileReader("/home/jalaz/tech/colonseparated.csv");
-                  CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
-                  CSVReader csvReader = new CSVReaderBuilder(filereader)
-                                            .withCSVParser(parser)
-                                            .build();
-
-                  List<String[]> allData = csvReader.readAll();
-
-                  for (String[] row : allData) {
-                      for (String cell : row) {
-                          System.out.print(cell + "\t");
-                      }
-                      System.out.println();
-                  }
-
-                  //------------------------------------------------------------------------   
-              }  
-              catch (Exception e) {
-                  e.printStackTrace();
-              }
-            }
-        }
-        ```
-
-        - <ins>Writing using OpenCSV API</ins>
-
-        ```java
-        import java.io.*;
-        import java.util.*;
-        import com.opencsv.CSVWriter;
-
-        public class WriteCSVData {
-            public static void main(String[] args) {
+          public class ReadCSVData {
+              public static void main(String[] args) {
                 try {
-                    FileWriter outputfile = new FileWriter("/home/jalaz/tech/write.csv");
-                    CSVWriter writer = new CSVWriter(outputfile);
+                    FileReader filereader = new FileReader("/home/jalaz/tech/onebyone.csv");
+                    CSVReader csvReader = new CSVReader(filereader);
+                    String[] nextRecord;
 
-                    List<String[]> data = new ArrayList<String[]>();
-                    data.add(new String[] { "Name", "RollNo", "Branch" });
-                    data.add(new String[] { "Jalaz", "14MI528", "CSE" });
-                    data.add(new String[] { "Sukhbir", "14MI535", "CSE" });
-                    writer.writeAll(data);
-                    writer.writeNext({"Saurabh", "14MI539", "CSE" });
-                    writer.close();
-                }
-                catch (IOException e) {
+                    while ((nextRecord = csvReader.readNext()) != null) {
+                        for (String cell:nextRecord) {
+                            System.out.print(cell + "\t");
+                        }
+                        System.out.println();
+                    }
+
+                    //------------------------------------------------------------------------
+
+                    FileReader filereader = new FileReader("/home/jalaz/tech/allatonce.csv");
+                    CSVReader csvReader = new CSVReaderBuilder(filereader)
+                                              .withSkipLines(1)
+                                              .build();
+                    List<String[]> allData = csvReader.readAll();
+
+                    for (String[] row : allData) {
+                        for (String cell : row) {
+                            System.out.print(cell + "\t");
+                        }
+                        System.out.println();
+                    }
+
+                    //------------------------------------------------------------------------
+
+                    FileReader filereader = new FileReader("/home/jalaz/tech/colonseparated.csv");
+                    CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
+                    CSVReader csvReader = new CSVReaderBuilder(filereader)
+                                              .withCSVParser(parser)
+                                              .build();
+
+                    List<String[]> allData = csvReader.readAll();
+
+                    for (String[] row : allData) {
+                        for (String cell : row) {
+                            System.out.print(cell + "\t");
+                        }
+                        System.out.println();
+                    }
+
+                    //------------------------------------------------------------------------   
+                }  
+                catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        }
-        ```
+              }
+          }
+          ```
+
+          - <ins>Writing using OpenCSV API</ins>
+
+          ```java
+          import java.io.*;
+          import java.util.*;
+          import com.opencsv.CSVWriter;
+
+          public class WriteCSVData {
+              public static void main(String[] args) {
+                  try {
+                      FileWriter outputfile = new FileWriter("/home/jalaz/tech/write.csv");
+                      CSVWriter writer = new CSVWriter(outputfile);
+
+                      List<String[]> data = new ArrayList<String[]>();
+                      data.add(new String[] { "Name", "RollNo", "Branch" });
+                      data.add(new String[] { "Jalaz", "14MI528", "CSE" });
+                      data.add(new String[] { "Sukhbir", "14MI535", "CSE" });
+                      writer.writeAll(data);
+                      writer.writeNext({"Saurabh", "14MI539", "CSE" });
+                      writer.close();
+                  }
+                  catch (IOException e) {
+                      e.printStackTrace();
+                  }
+              }
+          }
+          ```
 
 **Handling JSON files**
+  - `json.simple`
+     - A lightweight JSON processing library that can be used to read and write JSON files.
 
-- `json.simple`
-   - A lightweight JSON processing library that can be used to read and write JSON files.
+     - It can be used to encode or decode JSON text and fully compliant with JSON specification.
 
-   - It can be used to encode or decode JSON text and fully compliant with JSON specification.
+     - The `JSON` is one of the widely used data-interchange formats and is a lightweight and language independent.
 
-   - The `JSON` is one of the widely used data-interchange formats and is a lightweight and language independent.
+     - In Maven, add the following to `pom.xml`:
 
-   - In Maven, add the following to `pom.xml`:
+     ```bash
+      <dependency>
+          <groupId>com.googlecode.json-simple</groupId>
+          <artifactId>json-simple</artifactId>
+          <version>1.1.1</version>
+      </dependency>
+     ```
 
-   ```bash
-    <dependency>
-        <groupId>com.googlecode.json-simple</groupId>
-        <artifactId>json-simple</artifactId>
-        <version>1.1.1</version>
-    </dependency>
-   ```
+     - <ins>Writing JSON to a file</ins>
 
-   - <ins>Writing JSON to a file</ins>
+     ```java
+     import java.io.FileWriter;
+     import java.io.IOException;
 
-   ```java
-   import java.io.FileWriter;
-   import java.io.IOException;
+     import org.json.simple.JSONArray;
+     import org.json.simple.JSONObject;
 
-   import org.json.simple.JSONArray;
-   import org.json.simple.JSONObject;
+     public class WriteJSONFile {
+         public static void main( String[] args ) {
+             JSONObject employeeDetails1 = new JSONObject();
+             employeeDetails1.put("name", "Jalaz Kumar");
+             employeeDetails1.put("email", "jalaz.kumar@indiamart.com");
+             JSONObject employeeObject1 = new JSONObject();
+             employeeObject1.put("employee", employeeDetails1);
 
-   public class WriteJSONFile {
-       public static void main( String[] args ) {
-           JSONObject employeeDetails1 = new JSONObject();
-           employeeDetails1.put("name", "Jalaz Kumar");
-           employeeDetails1.put("email", "jalaz.kumar@indiamart.com");
-           JSONObject employeeObject1 = new JSONObject();
-           employeeObject1.put("employee", employeeDetails1);
+             JSONObject employeeDetails2 = new JSONObject();
+             employeeDetails2.put("name", "Narendra Dodwaria");
+             employeeDetails2.put("email", "narendra.dodwaria@indiamart.com");
+             JSONObject employeeObject2 = new JSONObject();
+             employeeObject2.put("employee", employeeDetails2);
 
-           JSONObject employeeDetails2 = new JSONObject();
-           employeeDetails2.put("name", "Narendra Dodwaria");
-           employeeDetails2.put("email", "narendra.dodwaria@indiamart.com");
-           JSONObject employeeObject2 = new JSONObject();
-           employeeObject2.put("employee", employeeDetails2);
+             JSONArray employeeList = new JSONArray();
+             employeeList.add(employeeObject1);
+             employeeList.add(employeeObject2);
 
-           JSONArray employeeList = new JSONArray();
-           employeeList.add(employeeObject1);
-           employeeList.add(employeeObject2);
+             try (FileWriter file = new FileWriter("/home/jalaz/tech/employees.json")) {
+                 file.write(employeeList.toJSONString());
+                 file.flush();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+     ```
 
-           try (FileWriter file = new FileWriter("/home/jalaz/tech/employees.json")) {
-               file.write(employeeList.toJSONString());
-               file.flush();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-   }
-   ```
+     - <ins>Reading JSON from a file</ins>
 
-   - <ins>Reading JSON from a file</ins>
+     `employees.json`
+     ```json
+     [
+         {
+             "employee": {
+                 "name": "Jalaz Kumar",
+                 "email": "jalaz.kumar@indiamart.com"
+             }
+         },
+         {
+             "employee": {
+                 "name": "Narendra Dodwaria",
+                 "email": "narendra.dodwaria@indiamart.com"
+             }
+         }
+    ]
+     ```
 
-   `employees.json`
-   ```json
-   [
-       {
-           "employee": {
-               "name": "Jalaz Kumar",
-               "email": "jalaz.kumar@indiamart.com"
-           }
-       },
-       {
-           "employee": {
-               "name": "Narendra Dodwaria",
-               "email": "narendra.dodwaria@indiamart.com"
-           }
-       }
-  ]
-   ```
+     `ReadJSONFile.java`
+     ```java
+     import java.io.FileNotFoundException;
+     import java.io.FileReader;
+     import java.io.IOException;
 
-   `ReadJSONFile.java`
-   ```java
-   import java.io.FileNotFoundException;
-   import java.io.FileReader;
-   import java.io.IOException;
+     import org.json.simple.JSONArray;
+     import org.json.simple.JSONObject;
+     import org.json.simple.parser.JSONParser;
+     import org.json.simple.parser.ParseException;
 
-   import org.json.simple.JSONArray;
-   import org.json.simple.JSONObject;
-   import org.json.simple.parser.JSONParser;
-   import org.json.simple.parser.ParseException;
+     public class ReadJSONFile {
+         public static void main(String[] args) {
+             JSONParser jsonParser = new JSONParser();
+             try (FileReader reader = new FileReader("employees.json")){
+                 Object obj = jsonParser.parse(reader);
+                 JSONArray employeeList = (JSONArray) obj;
 
-   public class ReadJSONFile {
-       public static void main(String[] args) {
-           JSONParser jsonParser = new JSONParser();
-           try (FileReader reader = new FileReader("employees.json")){
-               Object obj = jsonParser.parse(reader);
-               JSONArray employeeList = (JSONArray) obj;
+                 employeeList.forEach(emp -> parseEmployeeObject((JSONObject) emp));
 
-               employeeList.forEach(emp -> parseEmployeeObject((JSONObject) emp));
+             } catch (FileNotFoundException e) {
+                 e.printStackTrace();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             } catch (ParseException e) {
+                 e.printStackTrace();
+             }
+         }
 
-           } catch (FileNotFoundException e) {
-               e.printStackTrace();
-           } catch (IOException e) {
-               e.printStackTrace();
-           } catch (ParseException e) {
-               e.printStackTrace();
-           }
-       }
+         private static void parseEmployeeObject(JSONObject employee) {
+             JSONObject employeeObject = (JSONObject) employee.get("employee");
 
-       private static void parseEmployeeObject(JSONObject employee) {
-           JSONObject employeeObject = (JSONObject) employee.get("employee");
-
-           String name = (String) employeeObject.get("name");    
-           System.out.println(name);
-           String email = (String) employeeObject.get("email");    
-           System.out.println(email);
-       }
-   }
-   ```
+             String name = (String) employeeObject.get("name");    
+             System.out.println(name);
+             String email = (String) employeeObject.get("email");    
+             System.out.println(email);
+         }
+     }
+     ```
 
 **Handling XML files**
    - Reading XML file in Java is much different from reading other files like .docx and .txt because XML file contains data between the tags.
@@ -718,7 +716,6 @@ Network Terminologies:
          }  
      ```
 
-
 **Connection-less Socket Programming**
   - <ins>DatagramSocket class</ins>
      - Represents a connection-less socket for sending and receiving datagram packets.
@@ -773,15 +770,111 @@ Network Terminologies:
 
 ## Java JDBC
 
-- **Introduction**
+**Introduction**
+ - JDBC stands for Java Database Connectivity
+
+ - Java API to connect and execute the query with the database.
+
+ - Is a part of JavaSE.
+
+ - API uses JDBC drivers to connect with the database. We can save, update, delete and fetch data from the database. 4 types of drivers:
+    - JDBC-ODBC Bridge Driver (Discontinued)
+    - Native Driver (vendor client library)
+    - Network Protocol Driver (Uses middleware)
+    - Thin Driver (Mostly recommended) (fully written in java)
 
 
-- **Connectivity**
-   - MySQL
-   - Oracle
-   - PostGreSQL
-   - MongoDB
+ ![](../assets/images/JA-15.png)
 
+ - `java.sql package` contains classes and interfaces for JDBC API. Few popular ones are:
+    - Interfaces:
+       - Driver
+       - Connection
+       - Statement
+       - PreparedStatement
+       - CallableStatement
+       - ResultSet
+       - ResultSetMetaData
+       - DatabaseMetaData
+       - RowSet
+    - Classes:
+       - DriverManager
+       - Blob
+       - Types
+
+
+**Connectivity**
+
+![](../assets/images/JA-16.jpg)
+
+ - <ins>**MySQL**</ins>
+
+   `mysqlconnector.jar` is required.
+   ```java
+   import java.sql.*;
+
+   class MySQLConnection {  
+       public static void main(String args[]) {  
+           try {  
+               Class.forName("com.mysql.jdbc.Driver");  
+               Connection con = DriverManager.getConnection("jdbc:mysql://<SERVER>:<PORT>/<DATABASE>","<USERNAME>","<PASSWORD>");
+
+               Statement stmt = con.createStatement();  
+               ResultSet rs = stmt.executeQuery("SELECT * from XYZ");  
+               while(rs.next())  
+                  System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+               con.close();
+
+           } catch(Exception e) { System.out.println(e); }  
+       }  
+   }  
+   ```
+
+ - <ins>**Oracle**</ins>
+
+   `ojdbc14.jar` is required.
+   ```java
+   import java.sql.*;
+
+   class OracleConnection {  
+       public static void main(String args[]) {  
+           try {
+               Class.forName("oracle.jdbc.driver.OracleDriver");
+               Connection con = DriverManager.getConnection("jdbc:oracle:thin:@<SERVER>:<PORT>:<DATABASE>","<USERNAME>","<PASSWORD>");  
+
+               Statement stmt = con.createStatement();
+               ResultSet rs = stmt.executeQuery("SELECT * from XYZ");  
+               while(rs.next())  
+                  System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));   
+               con.close();  
+
+           } catch(Exception e) { System.out.println(e); }  
+       }  
+   }
+   ```
+
+ - <ins>**PostGreSQL**</ins>
+
+   Download the latest jar from [Official Website](https://jdbc.postgresql.org/download.html), `postgresql-9.2-1002.jdbc.jar` type is required.
+   ```java
+   import java.sql.*;
+
+   public class PostgreSQLConnection {
+      public static void main( String args[] ) {
+         try {
+            Class.forName("org.postgresql.Driver");
+            Connection con = DriverManager.getConnection("jdbc:postgresql://<SERVER>:<PORT>/<DATABASE>","<USERNAME>", "<PASSWORD>");
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * from XYZ");  
+            while(rs.next())  
+               System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));   
+            con.close();
+
+         } catch ( Exception e ) { System.err.println(e); }
+      }
+   }
+   ```
 
 - **Concepts**
    - Connection
