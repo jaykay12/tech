@@ -957,7 +957,6 @@ Network Terminologies:
    }
    ```
 
-
 **Storing & Retrieving Images**
    - By the help of PreparedStatement we can retrieve and store the image in the database.
 
@@ -1015,7 +1014,6 @@ Network Terminologies:
        }  
    }
    ```
-
 
 **Storing & Retrieving Files**
     - By the help of PreparedStatement we can retrieve and store the files in the database.
@@ -1076,6 +1074,52 @@ Network Terminologies:
     ```
 
 **Transaction Management**
+   - Transaction represents a single unit of work.
+
+   - ACID properties describes the transaction management well. ACID stands for Atomicity, Consistency, isolation and durability.
+      - Atomicity means either all successful or none.
+      - Consistency ensures bringing the database from one consistent state to another consistent state.
+      - Isolation ensures that transaction is isolated from other transaction.
+      - Durability means once a transaction has been committed, it will remain so, even in the event of errors, power loss etc.
+
+   - TXN Management provides fast performance, as database is hit only at the time of commit.
+
+   ```java
+   import java.sql.*;  
+   import java.io.*;
+
+   class TXNManagement {  
+       public static void main(String args[]) {  
+           try {  
+               Class.forName("oracle.jdbc.driver.OracleDriver");  
+               Connection con = DriverManager.getConnection("jdbc:oracle:thin:@<SERVER>:<PORT>:<DATABASE>","<USERNAME>","<PASSWORD>");  
+               con.setAutoCommit(false);  
+
+               PreparedStatement ps = con.prepareStatement("INSERT into USERS values(?)");  
+
+               BufferedReader br = new BufferedReader(new InputStreamReader(System.in));  
+               while(true){  
+                   System.out.println("Name: ");  
+                   String s1 = br.readLine();  
+                   int id = Integer.parseInt(s1);  
+
+                   ps.setString(1,name);  
+                   ps.executeUpdate();  
+
+                   System.out.println("commit/rollback");  
+                   String answer = br.readLine();  
+                   if(answer.equals("commit"))
+                      con.commit();   
+                   else if(answer.equals("rollback"))
+                      con.rollback();  
+                   else
+                      break;
+              }
+           } catch(Exception e) { System.out.println(e); }  
+
+       }
+   }
+   ```
 
 **Batch Processing**
 
