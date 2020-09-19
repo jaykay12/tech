@@ -342,6 +342,297 @@ categories: [Java, Core]
 
 ## Synchronization
 
+Synchronization is the capability to control the access to any shared resource. It is used when we want to allow only one thread to access the shared resource.
+
+Synchronization is used to prevent thread interference & prevent consistency issues.
+
+2 Types of Synchronization:
+ - Process Synchronization
+ - Thread Synchronization
+
+In Java, only Thread Synchronization is achieved for 2 main domains:
+ - Mutual Exclusion using synchronized block, synchronized method & static Synchronization.
+ - Cooperation using Inter-thread communication.
+
+Synchronization uses an internal entity known as the `lock` or `monitor`.
+ - Every object has an lock associated with it.
+ - By convention, a thread that needs consistent access to an object's fields has to acquire the object's lock before accessing them, and then release the lock when it's done with them.
+ - the package `java.util.concurrent.locks` contains several lock implementations.
+
+<ins>**An example of Unsynchronized world**</ins>
+
+```java
+class Table {  
+    void printTable(int n){                            // Unsynchronized method
+        for(int i=1;i<=5;i++) {  
+           System.out.println(n*i);  
+           try {  
+              Thread.sleep(400);  
+           } catch(Exception e) { System.out.println(e); }  
+        }  
+    }  
+}  
+
+public class UnsynchronizedExample {  
+    public static void main(String args[]){  
+        final Table obj = new Table();                  //only one object  
+
+        Thread t1 = new Thread() {  
+            public void run(){  
+                obj.printTable(5);
+            }  
+        };
+
+        Thread t2 = new Thread() {  
+            public void run(){  
+                obj.printTable(100);
+            }  
+        };  
+
+        t1.start();  
+        t2.start();  
+    }  
+}
+```
+
+`OUTPUT`
+```bash
+5
+100
+10
+200
+15
+300
+20
+400
+25
+500
+```
+
+<ins>**Synchronized method**</ins>
+
+If we declare any method as synchronized, it is caled synchronized method. It is used to lock an object for any shared resource.
+
+When a thread invokes a synchronized method, it automatically acquires the lock for that object and releases it when the thread completes its task.
+
+```java
+class Table {  
+    synchronized void printTable(int n){                 // synchronized method
+        for(int i=1;i<=5;i++) {  
+           System.out.println(n*i);  
+           try {  
+              Thread.sleep(400);  
+           } catch(Exception e) { System.out.println(e); }  
+        }  
+    }  
+}  
+
+public class UnsynchronizedExample {  
+    public static void main(String args[]){  
+        final Table obj = new Table();                  //only one object  
+
+        Thread t1 = new Thread() {  
+            public void run(){  
+                obj.printTable(5);
+            }  
+        };
+
+        Thread t2 = new Thread() {  
+            public void run(){  
+                obj.printTable(100);
+            }  
+        };  
+
+        t1.start();  
+        t2.start();  
+    }  
+}
+```
+
+`OUTPUT`
+```bash
+5
+10
+15
+20
+25
+100
+200
+300
+400
+500
+```
+
+<ins>**Synchronized block**</ins>
+
+It is used to perform synchronization on any specific resource of the method.
+Is we have `x` lines of code in the method, but we want to synchronize only `y`(<=x) lines, you can use synchronized block.
+
+```java
+synchronized (this) {   
+          //code block   
+}
+```
+
+<ins>**Static synchronization**</ins>
+
+If you make any static method as synchronized, the lock will be on the class not on object.
+
+![static-synchronization](../assets/images/JA-20.jpg)
+
+The image depicts issue with normal synchronization. Suppose object1 and object2 are 2 instances of a class accessing a shared resource. Now t1 and t2 won't intefere with each other nor will t3 and t4 with each other. But since (t1/t2) cluster carries separate lock from (t3/t4) cluster, thus there are chances that t1 and t3 can interfere etc.
+
+Static synchronization solves this issue.
+
+```java
+synchronized static void printTable(int n) {  
+    for(int i=1;i<=10;i++) {  
+        System.out.println(n*i);  
+        try {  
+            Thread.sleep(400);  
+        } catch(Exception e) {}  
+    }  
+}  
+```
+
+<ins>**Deadlocks in Java**</ins>
+
+Deadlock in java is a part of multithreading.
+
+![deadlock](../assets/images/JA-21.png)
+
+Deadlock can occur in a situation when a thread is waiting for an object lock, that is acquired by another thread and second thread is waiting for an object lock that is acquired by first thread. Since, both threads are waiting for each other to release the lock, the condition is called `deadlock`.
+
+```java
+public class DeadlockExample {  
+    public static void main(String[] args) {  
+        final String resource1 = "deshpal singh";  
+        final String resource2 = "anita chaudhary";
+
+        Thread t1 = new Thread() {  
+            public void run() {  
+                synchronized (resource1) {  
+                    System.out.println("T-1: Locks R-1");  
+                    Thread.sleep(100);  
+
+                    synchronized (resource2) {  
+                        System.out.println("T-1: locks R-2");  
+                    }  
+               }  
+            }  
+        };  
+
+        Thread t2 = new Thread() {  
+            public void run() {  
+                synchronized (resource2) {  
+                    System.out.println("T-2: Locks R-2");  
+                    Thread.sleep(100);  
+
+                    synchronized (resource2) {  
+                        System.out.println("T-2: locks R-1");  
+                    }  
+               }  
+            }  
+        };
+
+        t1.start();  
+        t2.start();  
+    }  
+}
+```
+
+`OUTPUT`
+```bash
+T-1: Locks R-1
+T-2: Locks R-2
+```
+
+<ins>**Inter-thread communication**</ins>
+
+- Also called `cooperation` is all about allowing synchronized threads to communicate with each other.
+
+- This is a mechanism in which a thread is paused running in its critical section and another thread is allowed to enter (or lock) in the same critical section for exceution.
+
+- It is implemented by following methods of Object class:
+
+    - `wait()`
+      - Causes current thread to release the lock and wait until either another thread invokes the notify() method or the notifyAll() method for this object, or a specified amount of time has elapsed.
+
+      - Syntax:
+        - _public final void wait() throws InterruptedException_
+
+        - _public final void wait(long timeout) throws InterruptedException_
+
+    - `notify()`
+      - Wakes up a single thread that is waiting on this object's monitor.
+
+      - If multiple threads are waiting on this object, one of them is chosen to be awakened. The choice is arbitrary and occurs at the discretion of the implementation.
+
+      - _public final void notify()_
+
+    - `notifyAll()`
+      - Wakes up all threads that are waiting on this object's monitor.
+
+      - _public final void notifyAll()_
+
+![](../assets/images/JA-22.gif)
+
+- wait(), notify() and notifyAll() methods are defined in `Object class` not `Thread class` because they are related to lock and object has a lock.
+
+|wait()|sleep()|
+|---|---|
+|releases the lock|doesn't release the lock|
+|method of Object class|method of Thread class|
+|non-static method|static method|
+|should be notified by notify() or notifyAll() methods|is completed after the specified amount of time|
+
+```java
+class Customer {  
+    int amount = 10000;  
+
+    synchronized void withdraw(int amount) {  
+        System.out.println("Withdrawl: Initiated");  
+
+        if(this.amount < amount) {  
+            System.out.println("Insufficient balance: Waiting for deposit");  
+            wait();
+        }  
+        this.amount -= amount;  
+        System.out.println("Withdrawl: Completed");  
+    }  
+
+    synchronized void deposit(int amount) {  
+        System.out.println("Deposit: Initiated");  
+        this.amount += amount;  
+        System.out.println("Deposit: Completed");  
+        notify();
+    }
+}
+
+class Test {  
+    public static void main(String args[]) {  
+        final Customer c = new Customer();
+
+        new Thread() {  
+            public void run(){c.withdraw(15000);}  
+        }.start();
+
+        new Thread(){  
+            public void run(){c.deposit(10000);}  
+        }.start();
+    }
+}
+```
+
+`OUTPUT`
+```bash
+Withdrawl: Initiated
+Insufficient balance: Waiting for deposit
+Deposit: Initiated
+Deposit: Completed
+Withdrawl: Completed
+```
+
 ### Callable & FutureTask
 
 ---
