@@ -4,12 +4,37 @@ title: Advanced Java - IX - Java Logging
 categories: [Java, Core]
 ---
 
-Logging is the process of writing log messages during the execution of a program to a central place.
-This logging allows you to report and persist `error` and `warning` messages as well as `info` messages (e.g., runtime statistics) so that the messages can later be retrieved and analyzed.
+Logging means some way by which we can get indication about the state of the system at runtime.
+
+These log messages are written during program execution to a central place.
+
+Logging allows us to record and persist system states as messages (e.g., runtime statistics) so that they can later be retrieved and analyzed.
+
+<ins>**Requirements for good logging:**</ins>
+ - logs must provide sufficient information for understanding the appliation internal processing
+ - log writing process should be efficient & must not affect the performance.
+ - logging needs to be modified and adapted as per different deployment environments.
+
+ <ins>**Advantages of logging:**</ins>
+  - Quick debugging
+  - Diagnosis of problems precisely and quickly
+  - Easy maintenance comes along with quick debugging feature.
+  - Cost anf time savings
+
+<ins>**Disadvantages of logging:**</ins>
+  - logging adds runtime overhead for generation and writing of log information using device IO.
+  - logging increase size of code and adds programming overhead.
+  - bad logging causes confusion.
+  - logging requires proper planning beforehand.
+
+<ins>**Frameworks for logging:**</ins>
+  - SLF4J
+  - Log4J
+  - java.util.logging
 
 ## JUL logging
 
-  Java contains the Java Logging API. This logging API allows you to configure which message types are written.
+  Java JRE implicitly contains the Java Logging API. This logging API allows you to configure which message types are written.
   The `java.util.logging package` provides the logging capabilities via the `Logger class`.
 
   The basic logging levels are:
@@ -28,9 +53,9 @@ This logging allows you to report and persist `error` and `warning` messages as 
   |ALL|Integer.MIN_VALUE|Capturing Everything|
 
   <ins>**LogManager class**</ins>
-   - Provides a single global instance to interact with log files.
+   - Provides single global instance to interact with log files.
 
-   - Has a static method which is named _getLogManager()_
+   - Has static method: _getLogManager()_
 
    - The log system is centrally managed. There is only one application wide log manager which manages both the configuration of the log system and the objects that do the actual logging.
 
@@ -80,8 +105,121 @@ This logging allows you to report and persist `error` and `warning` messages as 
 ## Log4J logging
 
   <ins>**Introduction**</ins>
+    - A fast, reliable & flexible logging framework
+    - Written in Java
+    - Open-source logging API
+    - Allows storage of logs in a file or DB
+    - Works well with large or small projects
+
+  <ins>**Features**</ins>
+    - Thread-safe
+    - Optimised for speed
+    - Uses named logger hierachy as base
+    - Supports multiple outputs of appenders per logger
+    - log formatting can be easily altered
+    - Specially designed to manage java exceptions
+    - logging behavior can be set at runtime using configuration file.
 
   <ins>**Setup & Usage**</ins>
+
+    Add the following entry to the `pom.xml` file:
+    ```bash
+    <dependency>  
+        <groupId>log4j</groupId>  
+        <artifactId>log4j</artifactId>  
+        <version>1.2.17</version>  
+    </dependency>
+    ```
+
+    Running with most basic configuration:
+    ```java
+    import org.apache.log4j.BasicConfigurator;  
+    import org.apache.log4j.LogManager;  
+    import org.apache.log4j.Logger;  
+
+    public class Log4JBasic {  
+        private static final Logger logger  = LogManager.getLogger(HelloWorld.class);  
+        public static void main(String[] args) {
+            BasicConfigurator.configure();  
+            logger.info("Basic logging of information");
+        }    
+    }
+    ```
+
+  <ins>**Log4J Architecture**</ins>
+
+    Follows layered architecture where each layer provides different objects for doing different tasks.
+    2 types of objects:
+      - Core Objects
+        - Mandatory objects of the framwork
+        - Are: Logger, Appender, Layout
+
+      - Support Objects
+        - Optional objects of the framework
+        - Supports core objects in performing additional but important tasks
+        - Are: Level, Filter, ObjectRenderer, LogManager
+
+    `Logger object`:
+      - Core object
+      - This forms the top-level layer of the framework
+      - Responsible for taking logging info and storing in namespace hierarchy
+      - For each class, one Logger object is created which enables log4j there.
+
+      ```java
+      static Logger log = Logger.getLogger(ClassName.class.getName())
+      ```
+
+      - Methods of Logger are used to generate log statements.
+         - debug()
+         - info()
+         - warn()
+         - error()
+         - fatal()
+
+         Priority order: `debug < info < warn < error < fatal`
+
+    `Appender object`:
+      - Core object
+      - Responsible for publishing logging info to preferred destination which may be a file, database, console etc.
+      - Appender is an interface not a class. Different implementation classes are:
+        - FileAppender
+        - ConsoleAppender
+        - JDBCAppender
+        - SMTPAppender
+        - SocketAppender
+        - SyslogAppender
+
+    `Layout object`:
+      - Core object
+      - Used to format logging info in different styles.
+      - Supports appender objects before publishing of logs.
+      - Helps in publishing logs in human-readable manner.
+      - Various layout classes:
+        - SimpleLayout
+        - PatternLayout
+        - HTMLLayout
+        - XMLLayout
+
+    ![logging-architecture](../assets/images/JA-23.jpg)
+
+    `Level object`:
+      - Support object
+      - Defines the priority and granularity of logging info.
+      - 7 levels of logging: OFF, DEBUG, INFO, ERROR, WARN, FATAL, ALL
+
+    `Filter object`:
+      - Support object
+      - Analyses logging info and decides whether info should be logged or not
+
+    `ObjectRenderer object`:
+      - Support object
+      - Specialised in providing string representation of objects.
+      - Used by the `Layout object` for preparing the final logging info.
+
+    `LogManager object`:
+      - Support object
+      - Manages the logging framework
+      - Used for reading configuration from system-wide file or configuarion class.
 
   <ins>**Configuration file**</ins>
 
