@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Java - VII
+title: Advanced Java - VIII - Java Networking
 categories: [Java, Core]
 ---
 
