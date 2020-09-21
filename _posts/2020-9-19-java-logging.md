@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Advanced Java - IX - Java Logging
-categories: [Java, Core]
+categories: [Java]
 ---
 
 Logging means some way by which we can get indication about the state of the system at runtime.

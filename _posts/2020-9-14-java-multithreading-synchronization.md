@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Advanced Java - V - Multithreading
-categories: [Java, Core]
+categories: [Java]
 ---
 
-- Multiprocessing and multithreading, both are used to achieve multitasking.
+- `Multiprocessing` and `Multithreading` -> Used to achieve `Multitasking`.
 
 - Multithreading in Java is a process of executing multiple threads simultaneously.
 
@@ -60,19 +60,19 @@ categories: [Java, Core]
   ![LifeCycle](../assets/images/JA-19.png)
 
   - <ins>**Thread Scheduler**</ins>
-    - Part of the JVM that decides which thread should run.
+    - Part of the JVM which decides the thread that should run.
 
     - No guarantee that which runnable thread will be chosen to run by the thread scheduler.
 
     - Only one thread at a time can run in a single process.
 
     - Mainly uses preemptive or time slicing scheduling to schedule the threads.
-       - Preemptive scheduling: The highest priority task executes until it enters the waiting or dead states or a higher priority task comes into existence.
+       - <ins>Preemptive scheduling</ins>: The highest priority task executes until it enters the waiting or dead states or a higher priority task comes into existence.
 
-       - Time slicing scheduling: A task executes for a predefined slice of time and then reenters the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factors.
+       - <ins>Time slicing scheduling</ins>: A task executes for a predefined slice of time and then re-enters the pool of ready tasks. The scheduler then determines which task should execute next, based on priority and other factors.
 
   - <ins>**Creating Threads in Java**</ins>
-    - `Thread class`
+    1. `Thread class`
        - Implements Runnable interface
        - Useful methods:
           - _public void start()_
@@ -84,7 +84,7 @@ categories: [Java, Core]
           - _public void setDaemon(boolean b)_
           - _public void interrupt()_
 
-    - `Runnable interface`
+    2. `Runnable interface`
         - Should be implemented by any class whose instances are intended to be executed by a thread.
         - Only 1 method: _public void run()_
 
@@ -175,11 +175,11 @@ categories: [Java, Core]
     ```
 
   - <ins>**Daemon Threads**</ins>
-    - Is a service provider thread that provides services to the user thread.
+    - Service provider thread that provides services to the user thread.
 
-    - Its life depend on the mercy of user threads i.e. when all the user threads dies, JVM terminates this thread automatically.
+    - It's life depend on the mercy of user threads i.e. when all the user threads dies, JVM terminates this thread automatically.
 
-    - There are many java daemon threads running automatically e.g. gc, finalizer etc.
+    - gc, finalizer etc are java daemon threads running automatically.
 
     - It provides services to user threads for background supporting tasks. It has no role in life than to serve user threads.
 
@@ -188,11 +188,11 @@ categories: [Java, Core]
     - _public void setDaemon(boolean status)_ & _public boolean isDaemon()_ are 2 methods.
 
   - <ins>**Thread Pool**</ins>
-    - Java Thread pool represents a group of worker threads that are waiting for the job and reuse many times.
+    - Represents a group of worker threads that are waiting for the job and can be reused many times.
 
-    - Improves performance as it saves time because there is no need to create new thread.
+    - Improves performance as there is no need to create new thread and thus, saves time.
 
-    - It is used in Servlet and JSP where container creates a thread pool to process the request.
+    - Used in Servlet and JSP where container creates a thread pool to process the incoming requests.
 
     `WorkerThread.java`
     ```java
@@ -260,7 +260,7 @@ categories: [Java, Core]
     ```
 
   - <ins>**Thread Group**</ins>
-    - Java provides a convenient way to group multiple threads in a single object.
+    - Its required to group multiple threads in a single object.
 
     - Using this, we can suspend, resume or interrupt group of threads by a single method call.
 
@@ -305,16 +305,17 @@ categories: [Java, Core]
 
      - Garbage Collection is process of reclaiming the runtime unused memory automatically.
 
-     - We use free() function in C and delete() in C++. But, in java it is performed automatically. So, java provides better memory management.
+     - We use `free()` function in C and `delete()` in C++. But, in java it is performed automatically. So, java provides better memory management.
 
      - There are 3 ways of unreferencing objects:
         - By nulling the reference
         - By assigning a reference to another
         - By anonymous object etc.
 
-     - we can use finalise() or gc() for garbage collection.
+     - we can use `finalise()` or `gc()` for garbage collection.
 
      - Neither finalization nor garbage collection is guaranteed.    
+
 
   - <ins>**Java Runtime class**</ins>
      - Is used to interact with java runtime environment.
@@ -342,15 +343,19 @@ categories: [Java, Core]
 
 ## Synchronization
 
-Synchronization is the capability to control the access to any shared resource. It is used when we want to allow only one thread to access the shared resource.
+Capability to control the access to any shared resource.
 
-Synchronization is used to prevent thread interference & prevent consistency issues.
+
+Used when we want to allow only one thread to access the shared resource.
+
+
+Prevents thread interference & prevent consistency issues.
 
 2 Types of Synchronization:
  - Process Synchronization
  - Thread Synchronization
 
-In Java, only Thread Synchronization is achieved for 2 main domains:
+In Java, Thread Synchronization is achieved for 2 main domains:
  - Mutual Exclusion using synchronized block, synchronized method & static Synchronization.
  - Cooperation using Inter-thread communication.
 
@@ -411,9 +416,10 @@ public class UnsynchronizedExample {
 
 <ins>**Synchronized method**</ins>
 
-If we declare any method as synchronized, it is caled synchronized method. It is used to lock an object for any shared resource.
+  - Any method declared as synchronized
+  - Used to lock an object for any shared resource.
 
-When a thread invokes a synchronized method, it automatically acquires the lock for that object and releases it when the thread completes its task.
+  - When a thread invokes a synchronized method, it automatically acquires the lock for that object and releases it when the thread completes its task.
 
 ```java
 class Table {  
@@ -465,8 +471,8 @@ public class UnsynchronizedExample {
 
 <ins>**Synchronized block**</ins>
 
-It is used to perform synchronization on any specific resource of the method.
-Is we have `x` lines of code in the method, but we want to synchronize only `y`(<=x) lines, you can use synchronized block.
+  - Used to perform synchronization on any specific resource of the method.
+  - If we have `x` lines of code in the method, but we want to synchronize only `y`(<=x) lines, Use synchronized block.
 
 ```java
 synchronized (this) {   
@@ -476,7 +482,7 @@ synchronized (this) {
 
 <ins>**Static synchronization**</ins>
 
-If you make any static method as synchronized, the lock will be on the class not on object.
+If any static method is declared synchronized, the lock will be on the class not on object.
 
 ![static-synchronization](../assets/images/JA-20.jpg)
 
@@ -549,11 +555,13 @@ T-2: Locks R-2
 
 <ins>**Inter-thread communication**</ins>
 
-- Also called `cooperation` is all about allowing synchronized threads to communicate with each other.
+  - `Cooperation`
 
-- This is a mechanism in which a thread is paused running in its critical section and another thread is allowed to enter (or lock) in the same critical section for exceution.
+  - Allowing synchronized threads to communicate with each other.
 
-- It is implemented by following methods of Object class:
+  - Here, a thread is paused running in its critical section and another thread is allowed to enter (or lock) in the same critical section for exceution.
+
+  - Implemented by following methods of `Object class`:
 
     - `wait()`
       - Causes current thread to release the lock and wait until either another thread invokes the notify() method or the notifyAll() method for this object, or a specified amount of time has elapsed.

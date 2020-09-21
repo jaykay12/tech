@@ -1,17 +1,15 @@
 ---
 layout: post
 title: Advanced Java - I - Major Concepts
-categories: [Java, Core]
+categories: [Java]
 ---
 
 ## Java Array
 
-  - <ins>**Concepts**</ins>
-    - An object which contains elements of similar data type.
+  - <ins>**Introduction**</ins>
+    - Contains elements of similar data type which are stored in a contiguous memory location.
 
-    - The elements are stored in a contiguous memory location.
-
-    - It is index-based, the first element of the array is stored at the 0th index and so on.
+    - Index-based, the first element of the array is stored at the 0th index and so on.
 
     - In Java, we can get the array length using the **length** member. In C/C++, we need to use the **sizeof** operator.
 
@@ -24,7 +22,9 @@ categories: [Java, Core]
     - Java provides the feature of anonymous arrays which is not available in C/C++.
 
     - <ins>**Advantages**</ins>:
-        - Optimised code. Retrieval and sorting is quite efficient.
+        - Optimised code.
+
+        - Retrieval and sorting is quite efficient.
 
         - Random access: Data can be accessed from any location using index.
 
@@ -109,9 +109,10 @@ categories: [Java, Core]
 
 ### Object Class
 
+
   - The parent class of all the classes in java by default.
 
-  - Is beneficial if we want to refer any object whose type is unknown. Using upcasting this is achieved.
+  - Beneficial if we want to refer any object whose type is unknown. Using upcasting this is achieved.
 
   - Important methods of Object class:
 
@@ -141,7 +142,7 @@ categories: [Java, Core]
 
    - <ins>**Advantages**</ins>:
 
-      - Saves the extra processing task for creating the exact copy of an object. If we perform it by using the new keyword, it will take a lot of processing time to be performed.
+      - Saves the extra processing task for creating the exact copy of an object. `new` keyword will take a lot of processing time for the same.
 
       - Clone() is the fastest way to copy array.
 

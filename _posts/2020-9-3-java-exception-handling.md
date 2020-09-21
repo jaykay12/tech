@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Advanced Java - III - Exception Handling
-categories: [Java, Core]
+categories: [Java]
 ---
 
-In Java, an exception is an event that disrupts the normal flow of the program.
+Exception is an event which disrupts the normal program flow
 
 `Exception Handling` is a mechanism to handle runtime errors such as ClassNotFoundException, IOException, SQLException etc.
 
@@ -15,37 +15,32 @@ In Java, an exception is an event that disrupts the normal flow of the program.
   ![Hierarchy Structure](../assets/images/JA-1.png)
 
   There are 3 types of Exceptions in general way:
-  1. Checked Exception
-  2. Unchecked Excepetion
-  3. Errors
-
-  Errors and Unchecked exceptions are treated as same by Oracle definitons.
 
 
-  <ins>**Checked Exception**:</ins>
-  - All classes which directly inherit the Throwable class except RuntimeException and Error.
+  1. <ins>**Checked Exception**:</ins>
+    - All classes which directly inherit the Throwable class except RuntimeException and Error.
 
-  - Examples: `IOException`, `ClassNotFoundException` etc.
+    - Examples: `IOException`, `ClassNotFoundException` etc.
 
-  - Can be checked at compile-time.
+    - Can be checked at compile-time.
 
-  - Compiler checks whether these are handled or not. If these exceptions are not handled/declared in the program, compilation error is thrown.
-
-
-  <ins>**Unchecked Exception**:</ins>
-  - All classes which directly inherit the RuntimeException class.
-
-  - Examples: `NullPointerException`, `ArithmeticException` etc.
-
-  - These can only be checked at run-time.
+    - Compiler checks whether these are handled or not. If these exceptions are not handled/declared in the program, compilation error is thrown.
 
 
-  <ins>**Error**:</ins>
-  - These are irrecoverable.
+  2. <ins>**Unchecked Exception**:</ins>
+    - All classes which directly inherit the RuntimeException class.
 
-  - They indicate that something severe enough has gone wrong, the application should crash rather than try to handle the error.
+    - Examples: `NullPointerException`, `ArithmeticException` etc.
 
-  - Examples: `OutOfMemoryError`, `StackOverflowError` etc.
+    - These can only be checked at run-time.
+
+
+  3. <ins>**Error**:</ins>
+    - These are irrecoverable.
+
+    - They indicate that something severe enough has gone wrong, the application should crash rather than try to handle the error.
+
+    - Examples: `OutOfMemoryError`, `StackOverflowError` etc.
 
 ## Important Keywords
 
@@ -69,6 +64,7 @@ In Java, an exception is an event that disrupts the normal flow of the program.
 
   - `throw`: Used to throw an exception.
 
+
   - `throws`
      - Used to declare exceptions.
      - Doesn't throw an exception, rather specifies that there may occur an exception in the method.
@@ -76,28 +72,28 @@ In Java, an exception is an event that disrupts the normal flow of the program.
 
 
   ```java
-  public class JavaException {  
-      public static void main(String args[]) {  
-         try {   
-                int a1 = 50/0;                      //ArithmeticException
-                String s1 = null;  
-                int len = s1.length();              //NullPointerException
-                String s2 = "abc";
-                int i = Integer.parseInt(s);        //NumberFormatException
-                int a2[] = new int[5];
-                a2[10] = 50;                        //ArrayIndexOutOfBoundsException
+public class JavaException {  
+    public static void main(String args[]) {  
+       try {   
+              int a1 = 50/0;                      //ArithmeticException
+              String s1 = null;  
+              int len = s1.length();              //NullPointerException
+              String s2 = "abc";
+              int i = Integer.parseInt(s);        //NumberFormatException
+              int a2[] = new int[5];
+              a2[10] = 50;                        //ArrayIndexOutOfBoundsException
 
-         } catch(ArithmeticException e) {System.out.println(e);
-         } catch(NullPointerException e) {System.out.println(e);
-         } catch(NumberFormatException e) {System.out.println(e);
-         } catch(ArrayIndexOutOfBoundsException e) {System.out.println(e);
-         }
-         finally {
-              System.out.println("finally block is always executed");
-         }  
-         System.out.println("Rest code ...");  
-      }  
-  }  
+       } catch(ArithmeticException e) {System.out.println(e);
+       } catch(NullPointerException e) {System.out.println(e);
+       } catch(NumberFormatException e) {System.out.println(e);
+       } catch(ArrayIndexOutOfBoundsException e) {System.out.println(e);
+       }
+       finally {
+            System.out.println("finally block is always executed");
+       }  
+       System.out.println("Rest code ...");  
+    }  
+}  
   ```
 
   ![](../assets/images/JA-2.JPG)
@@ -134,7 +130,7 @@ An exception is first thrown from the top of the stack and if it is not caught, 
   |Used for explicitly throwing an exception|Used for declaring an exception|
   |Used within the method|Used with the method signature|
   |Used mainly with unchecked exceptions|Used mainly with checked exceptions|
-  |Can't throw multiple exceptions|Can declare multiple exceptions like `public void method()throws IOException, SQLException`|
+  |Can't throw multiple exceptions|Can declare multiple exceptions`throws IOException, SQLException`|
   |![throw](../assets/images/JA-5.png)|![throws](../assets/images/JA-6.png)|
 
 ### final, finally & finalise
@@ -142,7 +138,7 @@ An exception is first thrown from the top of the stack and if it is not caught, 
   |final|finally|finalize|
   |---|---|---|
   |Applying restrictions on class, method and variable|Placing important code, for execution whether exception is handled or not|Performing clean up processing just before object is garbage collected|
-  |is keyword|is Block|is Method|
+  |is a keyword|is a Block|is a Method|
   |![final](../assets/images/JA-7.png)|![finally](../assets/images/JA-8.png)|![finalise](../assets/images/JA-9.png)|
 
 ### Custom Exceptions

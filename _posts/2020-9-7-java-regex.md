@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Advanced Java - IV - Java RegEx
-categories: [Java, Core]
+title: Advanced Java - IV - Java Regex
+categories: [Java]
 ---
 
-This is an API to define a pattern for `searching` or `manipulating` strings.
+API to define a pattern for `searching` or `manipulating` strings.
 
-It is widely used to define the constraint on strings such as password and email validation.
+Widely used for defining constraints on strings such as password and email validation.
 
 Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
    - MatchResult interface
@@ -17,7 +17,7 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
 ### Matcher class
    - Implements the `MatchResult interface`
 
-   - It is a regex engine which is used to perform match operations on a character sequence.
+   - Regex engine : Used to perform match operations on a character sequence.
 
    - Following are the important methods:
       - _boolean matches()_
@@ -30,9 +30,9 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
 
 
 ### Pattern class
-  - It is the compiled version of a regular expression.
+  - Compiled version of a regular expression.
 
-  - It is used to define a pattern for the regex engine.
+  - Used to define a pattern for the regex engine.
 
   - Following are the important methods:
       - _static Pattern compile(String regex)_

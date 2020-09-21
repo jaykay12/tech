@@ -1,13 +1,17 @@
 ---
 layout: post
 title: Advanced Java - VI - Java JDBC
-categories: [Java, Core]
+categories: [Java]
 ---
 
-JDBC stands for Java Database Connectivity. Java API to connect and execute the query with the database.
+`Java Database Connectivity`.
 
 
-Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can save, update, delete and fetch data from the database.
+Java API to connect and execute the query with the database.
+Part of JavaSE.
+
+
+API uses JDBC drivers to connect with database. We can save, update, delete and fetch data from the database.
 
 4 types of drivers:
   - JDBC-ODBC Bridge Driver (Discontinued)
@@ -49,7 +53,7 @@ Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can 
          - _public void close()_
 
 
-   - <ins>**Statment interface**</ins>
+   - <ins>**Statement interface**</ins>
       - Provides methods to execute queries with the database
 
       - Useful methods:
@@ -211,11 +215,14 @@ Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can 
    ```
 
 ### Storing & Retrieving Images
-   - By the help of PreparedStatement we can retrieve and store the image in the database.
 
-   - _setBinaryStream()_ method of PreparedStatement is used to set Binary information.
+   - Using `PreparedStatement` image can be stores & retrieved from the database.
 
-   - _getBlob()_ method of PreparedStatement is used to get Binary information, it returns the instance of Blob. Calling _getBytes()_ method on the blob object, we get array of binary information which can be written into the image file.
+   - _setBinaryStream()_ : Used to set Binary information.
+
+   - _getBlob()_ : Used to get Binary information, it returns the instance of Blob.
+
+   - Calling _getBytes()_ method on the blob object, provides array of binary information which can be written into the image file.
 
    `SQL`
    ```sql
@@ -269,11 +276,12 @@ Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can 
    ```
 
 ### Storing & Retrieving Files
-  - By the help of PreparedStatement we can retrieve and store the files in the database.
 
-  - _setCharacterStream()_ method of PreparedStatement is used to set character information
+  - Using `PreparedStatement` files can be stored and retrieved from the database.
 
-  - _getClob()_ method of PreparedStatement is used to get file information from the database.
+  - _setCharacterStream()_ : Used to set character information
+
+  - _getClob()_ : Used to get file information from the database.
 
   `SQL`
   ```sql
@@ -327,15 +335,17 @@ Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can 
   ```
 
 ## Transaction Management
-   - Transaction represents a single unit of work.
 
-   - ACID properties describes the transaction management well. ACID stands for Atomicity, Consistency, isolation and durability.
-      - Atomicity means either all successful or none.
-      - Consistency ensures bringing the database from one consistent state to another consistent state.
-      - Isolation ensures that transaction is isolated from other transaction.
-      - Durability means once a transaction has been committed, it will remain so, even in the event of errors, power loss etc.
+   - Transaction mean a single unit of work.
 
-   - TXN Management provides fast performance, as database is hit only at the time of commit.
+   - Described well by ACID properties.
+      1. `Atomicity` means either all successful or none.
+      2. `Consistency` ensures bringing the database from one consistent state to another consistent state.
+      3. `Isolation` ensures that transaction is isolated from other transaction.
+      4. `Durability` means once a transaction has been committed, it will remain so, even in the event of errors, power loss etc.
+
+
+   - Provides fast performance, as database is hit only at the time of commit.
 
    ![TXN](../assets/images/JA-17.jpg)
 
@@ -377,7 +387,7 @@ Is a part of JavaSE. API uses JDBC drivers to connect with the database. We can 
    ```
 
 ## Batch Processing
-   - Instead of executing a single query, we can execute a batch (group) of queries. It makes the performance fast.
+   - Instead of executing a single query, a batch (group) of queries is executed. Makes the performance fast.
 
    - Useful methods of `Statement interface`:
       - _void addBatch(String query)_

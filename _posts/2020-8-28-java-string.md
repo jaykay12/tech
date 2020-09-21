@@ -1,10 +1,12 @@
 ---
 layout: post
 title: Advanced Java - II - Java String
-categories: [Java, Core]
+categories: [Java]
 ---
 
-In Java, string is basically an object that represents sequence of char values. An array of characters works same as Java string.
+`String` is an object that represents sequence of char values.
+
+An array of characters works same as Java string.
 
 ```java
 char[] ch = {'j','a','l','a','z'};  
@@ -13,11 +15,11 @@ String s2 = "jalaz";
 ```
 
 `java.lang.String` class provides a lot of methods to perform operations on strings.
-   - It implements Serializable, Comparable and CharSequence interfaces.
-   - It is used to create a string object.
+   - Implements `Serializable`, `Comparable` and `CharSequence` interfaces.
+   - Used to create a string object.
    - s1 is created using "new" keyword and s2 is created using "string literal".
 
-String objects are stored in a special memory area known as the "string constant pool".
+String objects are stored in a special memory area - `string constant pool`.
 
 Each time a string literal is created, JVM checks the `string constant pool` first. If the string already exists in the pool, a reference to the pooled instance is returned. If the string doesn't exist in the pool, a new string instance is created and placed in the pool.
 
@@ -25,7 +27,11 @@ Each time a string literal is created, JVM checks the `string constant pool` fir
 
 ## Immutable String
 
-The `CharSequence` interface is used to represent the sequence of characters. `String`, `StringBuffer` and `StringBuilder` classes implement it. We can create strings in java by using these three classes.
+The `CharSequence` interface is used to represent the sequence of characters.
+
+`String`, `StringBuffer` and `StringBuilder` classes implement it.
+In Java, strings can be created using these three classes.
+
  - Java String is immutable.
  - For mutable strings, we use StringBuffer and StringBuilder classes.
 

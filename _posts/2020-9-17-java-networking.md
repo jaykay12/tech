@@ -1,69 +1,49 @@
 ---
 layout: post
 title: Advanced Java - VIII - Java Networking
-categories: [Java, Core]
+categories: [Java]
 ---
 
-Networking is a concept of connecting two or more computing devices together for resource sharing.
+Networking is a concept of connecting 2 or more computing devices together for resource sharing.
 
 ### Network Terminologies:
 
-- <ins>**IP Address**</ins>
+1. <ins>**IP Address**</ins>
   - A unique number assigned to a node of a network
-
   - A logical address that can be changed
 
-- <ins>**Protocol**</ins>
-  - A set of rules basically that is followed for communication
 
+2. <ins>**Protocol**</ins>
+  - A set of rules for communication between devices.
   - Example: TCP, UDP, Telnet etc.
 
-- <ins>**Port Number**</ins>
-  - Uniquely identify different applications
 
-  - Acts as a communication endpoint between applications
+3. <ins>**Port Number**</ins>
+  - For Uniquely identifying different applications
+  - Acts as a communication endpoint between 2 applications.
 
-- <ins>**MAC Address**</ins>
+
+4. <ins>**MAC Address**</ins>
   - A unique identifier of NIC (Network Interface Controller)
-
   - A network node can have multiple NIC with each having unique MAC.
 
-- <ins>**Connection-oriented and connection-less protocol**</ins>
+
+5. <ins>**Connection-oriented and connection-less protocol**</ins>
   - In connection-oriented protocol, acknowledgement is sent by the receiver. So it is reliable but slow. The example of connection-oriented protocol is TCP.
 
   - In connection-less protocol, acknowledgement is not sent by the receiver. So it is not reliable but fast. The example of connection-less protocol is UDP.
 
-- <ins>**Socket**</ins>
+
+6. <ins>**Socket**</ins>
   - An endpoint between two way communication.
 
 
-`java.net` package provides many classes to deal with networking applications in Java. Few important ones are:
-
-  - Authenticator
-  - CacheRequest
-  - CacheResponse
-  - CookieHandler
-  - DatagramPacket
-  - DatagramSocket
-  - InetAddress
-  - Inet6Address
-  - HttpURLConnection
-  - PasswordAuthentication
-  - ServerSocket
-  - Socket
-  - SocketAddress
-  - URI
-  - URL
-  - URLConnection
-  - URLDecoder
-  - URLEncoder
-  - URLStreamHandler
+`java.net` package provides many classes to deal with networking applications in Java.
 
 ## Connection-Oriented Socket Programming
 
  - <ins>**Socket class**</ins>
     - Used to create a socket.
-
     - Important methods:
         - _public InputStream getInputStream()_
         - _public OutputStream getOutputStream()_
@@ -72,9 +52,7 @@ Networking is a concept of connecting two or more computing devices together for
 
  - <ins>**ServerSocket class**</ins>
     - Used to create a server socket.
-
     - Used to establish communication with the clients.
-
     - Important methods:
        - _public Socket accept()_
        - _public synchronized void close()_
@@ -149,9 +127,9 @@ public class Server {
 - `URLConnection`
    - Represents a communication link between the URL and the application.
 
-   - This class can be used to read and write data to the specified resource referred by the URL.
+   - Used to read and write data to the specified resource referred by the URL.
 
-   - openConnection() method of URL class returns the object of URLConnection class, which can then be used to download the source-code of url.
+   - _openConnection()_ method of URL class returns the object of URLConnection class, which can then be used to download the source-code of url.
 
    ```java
      import java.io.*;  
@@ -173,7 +151,7 @@ public class Server {
    ```
 
 - `HttpUrlConnection`
-   - Represents http specific URLConnection. The java.net.HttpURLConnection is subclass of URLConnection class.
+   - Represents http specific URLConnection. The `java.net.HttpURLConnection` is subclass of URLConnection class.
 
    - It works for HTTP protocol only.
 
@@ -221,22 +199,27 @@ public class Server {
    ```
 
 ## Connection-less Socket Programming
-- <ins>**DatagramSocket class**</ins>
-   - Represents a connection-less socket for sending and receiving datagram packets.
 
-   - Most commonly used constructor, _DatagramSocket(int port, InetAddress address) throws SocketException_ which creates a datagram socket and binds it with the specified port number and host address.
+
+- <ins>**DatagramSocket class**</ins>
+   - Represents connection-less socket for sending and receiving datagram packets.
+
+   - Most commonly used constructor:
+    _DatagramSocket(int port, InetAddress address) throws SocketException_
+
+    Creates a datagram socket and binds it with the specified port number and host address.
 
 
 - <ins>**DatagramPacket class**</ins>
-   - A datagram generally is an information but there is no guarantee of its content, arrival or arrival time.
+   - Datagram is an information but there is no guarantee of its content, arrival or arrival time.
 
    - Java DatagramPacket is a message that can be sent or received.
 
    - If multiple packet are sent, it may arrive in any order. Additionally, packet delivery is not guaranteed.
 
-   - _DatagramPacket(byte[] barr, int length)_ which is used to receive the packets after creation.
+   - _DatagramPacket(byte[] barr, int length)_ : Used to receive the packets after creation.
 
-   - _DatagramPacket(byte[] barr, int length, InetAddress address, int port)_, whichis used to send the packets after creation.
+   - _DatagramPacket(byte[] barr, int length, InetAddress address, int port)_ : Used to send the packets after creation.
 
 `DGSender.java`
 ```java
