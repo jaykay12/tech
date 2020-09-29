@@ -28,7 +28,7 @@ categories: [Search, Miscellaneous]
 
 ![solr](../assets/images/SOLR-4.png)
 
-`Apache Lucene` is Java-based search library. Used to index and search voluminous amount of text. Basically, we store the index using Lucene & exposes searching on this index through SolR Rest APIs.
+`Apache Lucene` is Java-based search library. Used to index and search voluminous amount of text. Basically, we store the index using Lucene & exposes searching on this index through Solr Rest APIs.
 
   - Written by Dough Cutting in 1999
 
@@ -49,6 +49,7 @@ All 3 should be in real-time for humungous amount of data.
 
 
 `Indexing`
+
 3 approaches for indexing documents:
 - Files in json, xml, xlxs, csv format are indexed directly using index handlers
 - Rich-text documents like pdf files are indexed using support from Apache Tika & ExtractingRequestHandler plugin.
@@ -62,9 +63,11 @@ Faster response is achieved as keyword search is done in index instead of the di
 
 
 `Querying`
+
 Search can be done for various terms such as keywords, images or geolocation data etc. Solr processes this using query request handlers.
 
 `Ranking`
+
 Solr matches the indexed documents to any query, & ranks the results by their relevance scores.
 
 
@@ -114,7 +117,7 @@ Solr matches the indexed documents to any query, & ranks the results by their re
 
 ## Base Concepts
 
-<ins>**Apache SolR Architecture**</ins>
+<ins>**Apache Solr Architecture**</ins>
 
 ![solr-architecture](../assets/images/SOLR-2.png)
 
@@ -136,16 +139,97 @@ Building blocks of Apache Solr:
 
 ## Setting up Solr
 
+1. Java Runtime Environment (JRE) version 1.8 or higher is required for solr to work.
+  ```bash
+  jalaz@jalaz-personal:~/Downloads$ java -version
+  java version "1.8.0_60"
+  Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
+  Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
+  ```
+
+2. Download the .tgz file of solr from the [official website](https://lucene.apache.org/solr/) & unzip it using
+  ```bash
+  jalaz@jalaz-personal:~/Downloads$ tar zxf solr-6.5.0.tgz
+  ```
+
+3. Run Apache Solr on default 8983 port
+  ```bash
+  jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr start
+  Waiting up to 180 seconds to see Solr running on port 8983
+  Started Solr server on port 8983 (pid=28500). Happy searching!
+  ```
+
+4. Run Apache Solr on custom port
+
+  ```bash
+  jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr start -p 8020
+  Waiting up to 180 seconds to see Solr running on port 8020
+  Started Solr server on port 8020 (pid=28973). Happy searching!
+
+  ```
+
+5. Stop Apache Solr
+  ```bash
+  jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr stop
+  Sending stop command to Solr running on port 8983 ... waiting up to 180 seconds to allow Jetty process 28066 to stop gracefully.
+  ```
+
+6. Checking Apache Solr status
+  ```bash
+  jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr status
+  Found 1 Solr nodes:
+  Solr process 29381 running on port 8983
+  {
+    "solr_home":"/home/jalaz/Downloads/solr-6.5.0/server/solr",
+    "version":"6.5.0 4b16c9a10c3c00cafaf1fc92ec3276a7bc7b8c95 - jimczi - 2017-03-21 20:47:12",
+    "startTime":"2020-09-28T18:38:02.490Z",
+    "uptime":"0 days, 0 hours, 0 minutes, 9 seconds",
+    "memory":"154.9 MB (%31.6) of 490.7 MB"
+  }
+  ```
+
+7. Creating a Core in Apache Solr
+  ```bash
+  jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr create -c students
+  Copying configuration to new core instance directory:
+  /home/jalaz/Downloads/solr-6.5.0/server/solr/students
+  Creating new core 'students' using command:
+  http://localhost:8983/solr/admin/cores?action=CREATE&name=students&instanceDir=students
+
+  {
+    "responseHeader":{
+      "status":0,
+      "QTime":678
+    },
+    "core":"students"
+  }
+  ```
+
+8. Running Apache Solr using configurations from some external directory  
+  ```bash
+  jalaz@jalaz-personal:~ bash /Downloads/solr-6.5.0/bin/solr restart -p 8985 -s /Documents/core-conf/
+  ```
+
+#### Directory structure in Solr
+
 ```bash
-jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr start
-Waiting up to 180 seconds to see Solr running on port 8983
-Started Solr server on port 8983 (pid=28500). Happy searching!
+<solr-home-directory>/
+   solr.xml
+   core_name1/
+      core.properties
+      conf/
+         solrconfig.xml
+         managed-schema
+      data/
+   core_name2/
+      core.properties
+      conf/
+         solrconfig.xml
+         managed-schema
+      data/
 ```
 
-## Directory structure in Solr
-_<Coming soon . . .>_
-
-## Important files in Solr
+<ins>**Important files in Solr**</ins>
 
 `Solr.xml`
 Contains Solr information. For loading cores, this file is referred.
@@ -157,8 +241,123 @@ Contains core-specific configurations related to request handlers, indexing, man
 Contains the entire schema including field & field types
 
 `core.properties`
-Contains core configuration properties. Is used for core discovery during SolR start.
+Contains core configuration properties. Is used for core discovery during Solr start.
 
+`data/`
+The directory containing the low level index files.
+
+## Solr Internal details
+
+<ins>**Documents, Fields & Schemas**</ins>
+
+  - Solr is told about the kind of data a field contains by specifying its `field type`.
+
+  - Solr stores details about the field types and fields it is expected to understand in a `schema` file, This is defined in solrconfig.xml file.
+      - `managed-schema` used by default to support schema changes at runtime via the Schema API, or Schemaless Mode features.
+      `<schemaFactory class="ManagedIndexSchemaFactory">`
+
+      - `schema.xml` is the traditional schema file which can be edited manually by users.
+      `<schemaFactory class="ClassicIndexSchemaFactory"/>`
+
+  - General structure of `schema.xml` file:
+    ```bash
+    <schema>
+      <fieldTypes>
+      <fields>
+      <uniqueKey>
+      <copyField>
+    </schema>
+    ```
+
+  - `Field type`
+    ```bash
+    <fieldType name="name_text" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+    ```
+    Optionally specify a `<similarity/>` that will be used when scoring documents that refer to fields with this type. By default, any field type which does not define a similarity, uses `BM25Similarity`.
+
+  - Implicit Field types in Solr are as follows:
+      1. BinaryField
+      2. BoolField
+      3. CollationField or ICUCollationField
+      4. CurrencyField
+      5. DateRangeField
+      6. ExternalFileField
+      7. EnumField
+      8. LatLonPointSpatialField
+      9. RandomSortField
+      10. StrField
+      11. TextField
+      12. TrieField
+
+
+  - `Defining fields`
+  Once the field types are set up, defining the fields themselves is simple.
+  ```bash
+  <field name="price" type="float" default="0.0" indexed="true" stored="true"/>
+  ```
+
+  Important field type properties:
+    - <ins>indexed</ins>: field value can be used in queries for retrieving the matching documents, if set to true.
+
+    - <ins>stored</ins>: field value can be retrieved by queries, if set to true.
+
+    - <ins>docValues</ins>: field value will be put in a column-oriented DocValues structure, if set to true.
+
+    - <ins>multiValued</ins>: indicates that a single document might contain multiple values for this field type, if set to true.
+
+    - <ins>omitNorms</ins>: If true, omits the norms associated with this field (this disables length normalization for the field, and saves some memory)
+
+    - <ins>required</ins>: Instructs Solr to reject any attempts to add a document which does not have a value for this field. default(false).
+
+    - <ins>large</ins>: fields are always lazy loaded and will only take up space in the document cache if the actual value is < 512KB.
+
+  - `Copying fields`
+  Some document fields can be interpreted in more than one way.
+  ```bash
+  <copyField source="title" dest="title_text" maxChars="30000" />
+  ```
+  Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
+
+  - `Dynamic fields`
+  Allows Solr to index fields that are not explicitly defined in schema.
+  ```bash
+  <dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
+  ```
+  If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
+  Makes application less brittle by providing some flexibility in the documents that can be added to Solr.
+
+
+  - `uniqueKey`
+  Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
+  ```bash
+    <uniqueKey>displayid</uniqueKey>
+  ```
+
+  - Schema API allows to use an HTTP API to manage elements of the solr schema.
+  This API provides read and write access to the Solr schema. Fields, dynamic fields, field types and copyField rules may be added, removed or replaced.
+
+
+  - `DocValues`
+    - A way of recording field values internally that is more efficient for some purposes, such as sorting and faceting, than traditional indexing.
+
+    - DocValue fields are column-oriented fields with a document-to-value mapping built at index time.
+
+    - If docValues="true" for a field, then DocValues will automatically be used any time the field is used for sorting, faceting or function queries.
+
+
+<ins>**Analyzers & Tokenizers**</ins>
 
 ## Indexing in Solr
 
