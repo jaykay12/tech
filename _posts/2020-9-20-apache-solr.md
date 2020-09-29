@@ -244,129 +244,173 @@ The directory containing the low level index files.
 
 ## Solr Internal details
 
-<ins>**Documents, Fields & Schemas**</ins>
+### Documents, Fields & Schemas
 
-  - Solr is told about the kind of data a field contains by specifying its field type.
+- Solr is told about the kind of data a field contains by specifying its field type.
 
-  - Solr stores details about the field types and fields it is expected to understand in a schema file, This is defined in solrconfig.xml file.
-      - `managed-schema` used by default to support schema changes at runtime via the Schema API, or Schemaless Mode features.
-
-      ```bash
-      <schemaFactory class="ManagedIndexSchemaFactory">
-      ```
-
-      - `schema.xml` is the traditional schema file which can be edited manually by users.
-
-      ```bash
-      <schemaFactory class="ClassicIndexSchemaFactory"/>
-      ```
-
-  - General structure of `schema.xml` file:
-    ```bash
-    <schema>
-      <fieldTypes>
-      <fields>
-      <uniqueKey>
-      <copyField>
-    </schema>
-    ```
-
-  - `Field type`
+- Solr stores details about the field types and fields it is expected to understand in a schema file, This is defined in solrconfig.xml file.
+    - `managed-schema` used by default to support schema changes at runtime via the Schema API, or Schemaless Mode features.
 
     ```bash
-    <fieldType name="name_text" class="solr.TextField" positionIncrementGap="100">
-      <analyzer type="index">
-        <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
-        <filter class="solr.LowerCaseFilterFactory"/>
-      </analyzer>
-      <analyzer type="query">
-        <tokenizer class="solr.StandardTokenizerFactory"/>
-        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
-        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
-        <filter class="solr.LowerCaseFilterFactory"/>
-      </analyzer>
-    </fieldType>
+    <schemaFactory class="ManagedIndexSchemaFactory">
     ```
 
-    Optionally specify a `<similarity/>` that will be used when scoring documents that refer to fields with this type. By default, any field type which does not define a similarity, uses **BM25Similarity**.
+    - `schema.xml` is the traditional schema file which can be edited manually by users.
 
-  - Implicit Field types in Solr are as follows:
-      1. BinaryField
-      2. BoolField
-      3. CollationField or ICUCollationField
-      4. CurrencyField
-      5. DateRangeField
-      6. ExternalFileField
-      7. EnumField
-      8. LatLonPointSpatialField
-      9. RandomSortField
-      10. StrField
-      11. TextField
-      12. TrieField
+    ```bash
+    <schemaFactory class="ClassicIndexSchemaFactory"/>
+    ```
 
-
-  - `Defining fields`
-  Once the field types are set up, defining the fields themselves is simple.
-
+- General structure of `schema.xml` file:
   ```bash
-  <field name="price" type="float" default="0.0" indexed="true" stored="true"/>
-  ```
-  
-    - <ins>indexed</ins>: field value can be used in queries for retrieving the matching documents, if set to true.
-
-    - <ins>stored</ins>: field value can be retrieved by queries, if set to true.
-
-    - <ins>docValues</ins>: field value will be put in a column-oriented DocValues structure, if set to true.
-
-    - <ins>multiValued</ins>: indicates that a single document might contain multiple values for this field type, if set to true.
-
-    - <ins>omitNorms</ins>: If true, omits the norms associated with this field (this disables length normalization for the field, and saves some memory)
-
-    - <ins>required</ins>: Instructs Solr to reject any attempts to add a document which does not have a value for this field. default(false).
-
-    - <ins>large</ins>: fields are always lazy loaded and will only take up space in the document cache if the actual value is < 512KB.
-
-  - `Copying fields`
-  Some document fields can be interpreted in more than one way.
-
-  ```bash
-  <copyField source="title" dest="title_text" maxChars="30000" />
+  <schema>
+    <fieldTypes>
+    <fields>
+    <uniqueKey>
+    <copyField>
+  </schema>
   ```
 
-  Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
-
-  - `Dynamic fields`
-  Allows Solr to index fields that are not explicitly defined in schema.
+- `Field type`
 
   ```bash
-  <dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
+  <fieldType name="name_text" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+      <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
   ```
 
-  If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
-  Makes application less brittle by providing some flexibility in the documents that can be added to Solr.
+  Optionally specify a `<similarity/>` that will be used when scoring documents that refer to fields with this type. By default, any field type which does not define a similarity, uses **BM25Similarity**.
+
+- Implicit Field types in Solr are as follows:
+    1. BinaryField
+    2. BoolField
+    3. CollationField or ICUCollationField
+    4. CurrencyField
+    5. DateRangeField
+    6. ExternalFileField
+    7. EnumField
+    8. LatLonPointSpatialField
+    9. RandomSortField
+    10. StrField
+    11. TextField
+    12. TrieField
 
 
-  - `uniqueKey`
-  Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
+- `Defining fields`
+Once the field types are set up, defining the fields themselves is simple.
 
-  ```bash
-    <uniqueKey>displayid</uniqueKey>
-  ```
+```bash
+<field name="price" type="float" default="0.0" indexed="true" stored="true"/>
+```
 
-  - Schema API allows to use an HTTP API to manage elements of the solr schema.
-  This API provides read and write access to the Solr schema. Fields, dynamic fields, field types and copyField rules may be added, removed or replaced.
+  - <ins>indexed</ins>: field value can be used in queries for retrieving the matching documents, if set to true.
+
+  - <ins>stored</ins>: field value can be retrieved by queries, if set to true.
+
+  - <ins>docValues</ins>: field value will be put in a column-oriented DocValues structure, if set to true.
+
+  - <ins>multiValued</ins>: indicates that a single document might contain multiple values for this field type, if set to true.
+
+  - <ins>omitNorms</ins>: If true, omits the norms associated with this field (this disables length normalization for the field, and saves some memory)
+
+  - <ins>required</ins>: Instructs Solr to reject any attempts to add a document which does not have a value for this field. default(false).
+
+  - <ins>large</ins>: fields are always lazy loaded and will only take up space in the document cache if the actual value is < 512KB.
+
+- `Copying fields`
+Some document fields can be interpreted in more than one way.
+
+```bash
+<copyField source="title" dest="title_text" maxChars="30000" />
+```
+
+Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
+
+- `Dynamic fields`
+Allows Solr to index fields that are not explicitly defined in schema.
+
+```bash
+<dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
+```
+
+If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
+Makes application less brittle by providing some flexibility in the documents that can be added to Solr.
 
 
-  - `DocValues`
-    - A way of recording field values internally that is more efficient for some purposes, such as sorting and faceting, than traditional indexing.
+- `uniqueKey`
+Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
 
-    - DocValue fields are column-oriented fields with a document-to-value mapping built at index time.
+```bash
+  <uniqueKey>displayid</uniqueKey>
+```
 
-    - If docValues="true" for a field, then DocValues will automatically be used any time the field is used for sorting, faceting or function queries.
+- Schema API allows to use an HTTP API to manage elements of the solr schema.
+This API provides read and write access to the Solr schema. Fields, dynamic fields, field types and copyField rules may be added, removed or replaced.
 
 
-<ins>**Analyzers & Tokenizers**</ins>
+- `DocValues`
+  - A way of recording field values internally that is more efficient for some purposes, such as sorting and faceting, than traditional indexing.
+
+  - DocValue fields are column-oriented fields with a document-to-value mapping built at index time.
+
+  - If docValues="true" for a field, then DocValues will automatically be used any time the field is used for sorting, faceting or function queries.
+
+
+### Analyzers, Filters & Tokenizers
+
+<ins>**Analyzer**</ins>
+  - Examines the text of fields and generates a token stream
+
+  - Comprises of tokenizers & filters
+
+  - Are generally in 2 phases, denoted by type: index & query
+
+<ins>**Tokenizer**</ins>
+  - Breaks up a stream of text into tokens, where each token is a sub-sequence of the characters in the text.
+
+  - Analyzer is aware of the field it is configured for, but a tokenizer is not.
+
+  - Tokenizers read from a character stream (a Reader) and produce a sequence of Token objects (a TokenStream).
+
+  - More details about Tokenizers from [Official documentation](https://lucene.apache.org/solr/guide/6_6/tokenizers.html)
+
+<ins>**Filters**</ins>
+  - Consume input and produce a stream of tokens.
+
+  - Unlike tokenizers, a filter’s input is another TokenStream.
+
+  - In most cases a filter looks at each token in the stream sequentially and decides whether to pass it along, replace it or discard it.
+
+  - Filters consume one TokenStream and produce a new TokenStream, they can be chained one after another indefinitely.
+
+  - Each filter in the chain in turn processes the tokens produced by its predecessor. The order is therefore significant.
+
+  - More details about Filters from [Official documentation](https://lucene.apache.org/solr/guide/6_6/filter-descriptions.html)
+
+```bash
+<fieldType name="nametext" class="solr.TextField">
+  <analyzer type="index">
+    <tokenizer class="solr.StandardTokenizerFactory"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+    <filter class="solr.KeepWordFilterFactory" words="stopwords_im.txt"/>
+    <filter class="solr.SynonymFilterFactory" synonyms="synoyms_multiwords.txt"/>
+  </analyzer>
+  <analyzer type="query">
+    <tokenizer class="solr.StandardTokenizerFactory"/>
+    <filter class="solr.LowerCaseFilterFactory"/>
+  </analyzer>
+</fieldType>
+```  
 
 ## Indexing in Solr
 
@@ -417,24 +461,64 @@ Primarily 3 Ways:
       }
       ```
 
-<ins>**Deletion/Modification/Addition formats**</ins>
+<ins>**Updating Documents**</ins>
+- Atomic Updates
+- In-place Updates
+- Optimistic Concurrency
+
+`Old Solr document`
+```json
+{
+  "id":"mydoc",
+  "price":10,
+  "popularity":42,
+  "categories":["kids"],
+  "promo_ids":["a123x"],
+  "tags":["free_to_try","buy_now","clearance","on_sale"]
+}
+```
+
+`Updatation JSON document`
+```json
+{
+  "id":"mydoc",
+  "price":{"set":99},
+  "popularity":{"inc":20},
+  "categories":{"add":["toys","games"]},
+  "promo_ids":{"remove":"a123x"},
+  "tags":{"remove":["free_to_try","on_sale"]}
+}
+```
+
+`Updated Solr document`
+```json
+{
+  "id":"mydoc",
+  "price":99,
+  "popularity":62,
+  "categories":["kids","toys","games"],
+  "tags":["buy_now","clearance"]
+}
+```
+
+## Configuring Solr
 
 
-## Querying in Solr
-_<Coming soon . . .>_
+## Searching in Solr
 
-## Request Handlers & Search Components in Solr
-_<Coming soon . . .>_
+#### Query Parsers
 
-## Faceting in Solr
-_<Coming soon . . .>_
+#### Request Handlers & Search Components in Solr
 
-## Clustering in Solr
-_<Coming soon . . .>_
+#### Faceting in Solr
 
-#### SolrJ: Client API for Java
+#### Clustering in Solr
 
-#### Apache Solr VS ElasticSearch
+#### Lucene Score Calculation
+
+
+
+### Apache Solr VS ElasticSearch
 
 ![solr-elastic](../assets/images/SOLR-6.jpg)
 
