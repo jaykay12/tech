@@ -160,12 +160,10 @@ Building blocks of Apache Solr:
   ```
 
 4. Run Apache Solr on custom port
-
   ```bash
   jalaz@jalaz-personal:~/Downloads/solr-6.5.0$ ./bin/solr start -p 8020
   Waiting up to 180 seconds to see Solr running on port 8020
   Started Solr server on port 8020 (pid=28973). Happy searching!
-
   ```
 
 5. Stop Apache Solr
@@ -194,8 +192,6 @@ Building blocks of Apache Solr:
   Copying configuration to new core instance directory:
   /home/jalaz/Downloads/solr-6.5.0/server/solr/students
   Creating new core 'students' using command:
-  http://localhost:8983/solr/admin/cores?action=CREATE&name=students&instanceDir=students
-
   {
     "responseHeader":{
       "status":0,
@@ -250,14 +246,20 @@ The directory containing the low level index files.
 
 <ins>**Documents, Fields & Schemas**</ins>
 
-  - Solr is told about the kind of data a field contains by specifying its `field type`.
+  - Solr is told about the kind of data a field contains by specifying its field type.
 
-  - Solr stores details about the field types and fields it is expected to understand in a `schema` file, This is defined in solrconfig.xml file.
+  - Solr stores details about the field types and fields it is expected to understand in a schema file, This is defined in solrconfig.xml file.
       - `managed-schema` used by default to support schema changes at runtime via the Schema API, or Schemaless Mode features.
-      `<schemaFactory class="ManagedIndexSchemaFactory">`
+
+      ```bash
+      <schemaFactory class="ManagedIndexSchemaFactory">
+      ```
 
       - `schema.xml` is the traditional schema file which can be edited manually by users.
-      `<schemaFactory class="ClassicIndexSchemaFactory"/>`
+
+      ```bash
+      <schemaFactory class="ClassicIndexSchemaFactory"/>
+      ```
 
   - General structure of `schema.xml` file:
     ```bash
@@ -270,6 +272,7 @@ The directory containing the low level index files.
     ```
 
   - `Field type`
+
     ```bash
     <fieldType name="name_text" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
@@ -285,7 +288,8 @@ The directory containing the low level index files.
       </analyzer>
     </fieldType>
     ```
-    Optionally specify a `<similarity/>` that will be used when scoring documents that refer to fields with this type. By default, any field type which does not define a similarity, uses `BM25Similarity`.
+
+    Optionally specify a `<similarity/>` that will be used when scoring documents that refer to fields with this type. By default, any field type which does not define a similarity, uses **BM25Similarity**.
 
   - Implicit Field types in Solr are as follows:
       1. BinaryField
@@ -304,11 +308,11 @@ The directory containing the low level index files.
 
   - `Defining fields`
   Once the field types are set up, defining the fields themselves is simple.
+
   ```bash
   <field name="price" type="float" default="0.0" indexed="true" stored="true"/>
   ```
-
-  Important field type properties:
+  
     - <ins>indexed</ins>: field value can be used in queries for retrieving the matching documents, if set to true.
 
     - <ins>stored</ins>: field value can be retrieved by queries, if set to true.
@@ -325,22 +329,27 @@ The directory containing the low level index files.
 
   - `Copying fields`
   Some document fields can be interpreted in more than one way.
+
   ```bash
   <copyField source="title" dest="title_text" maxChars="30000" />
   ```
+
   Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
 
   - `Dynamic fields`
   Allows Solr to index fields that are not explicitly defined in schema.
+
   ```bash
   <dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
   ```
+
   If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
   Makes application less brittle by providing some flexibility in the documents that can be added to Solr.
 
 
   - `uniqueKey`
   Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
+
   ```bash
     <uniqueKey>displayid</uniqueKey>
   ```
