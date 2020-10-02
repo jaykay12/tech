@@ -112,6 +112,8 @@ Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert tex
 
 We can either generate word vectors for any raw data or use the pre-trained word vectors which ship with Fastext.
 
+<ins>**Example**</ins>
+
 `Downloading & cleaning raw dataset`
 ```bash
 jalaz@jalaz-personal:~ wget -c http://mattmahoney.net/dc/enwik9.zip -P data/
@@ -126,20 +128,143 @@ import fasttext
 # Generation by default settings
 model = fasttext.train_unsupervised('data/fil9')
 
-# Check basic usage
-print(model.words)
-print(model.get_word_vector("female"))
-
 # Saving the model for later use
 model.save_model("result/fil9.bin")
 model = fasttext.load_model("result/fil9.bin")
 ```
 
-`Usages of word vectors`
+2 models for computing word representations:
+  1. **skipgram model** learns to predict a target word thanks to a nearby word.
+  2. **cbow model** predicts the target word according to its context. The context is represented as a bag of the words contained in a fixed size window around the target word.
+
+  ![cbow-skipgram](../assets/images/FT-3.png)
+
+Practcally, skipgram models works better with subword information than cbow models.
+
+`Tweaking parameters`
 ```python
-print model.get_word_vector("the")
+model1 = fasttext.train_unsupervised('data/fil9_small', model="cbow")
+model2 = fasttext.train_unsupervised('data/fil9_small', model="skipgram")
+model3 = fasttext.train_unsupervised('data/fil9', minn=2, maxn=5, dim=300)
+model4 = fasttext.train_unsupervised('data/fil9', epoch=1, lr=0.5)
+model5 = fasttext.train_unsupervised('data/fil9', thread=4)
 ```
 
+- **dim** (dimension)
+  - Controls the size of the vectors
+  - larger dim -> more information capture but requires more data to be learned.
+  - If too large -> harder and slower to train.
+  - By default, dim = 100, but any value in the 100-300 range is as popular.
+
+
+- **subwords**
+  - All the substrings contained in a word between **minn** and **maxn**.
+  - By default, subword = (3,6), for different languages ranges may vary.
+
+
+- **epoch**
+  - Controls how many times the model will loop over the dataset.
+  - By default, epoch = 5. For massive dataset, epoch should be less.
+
+
+- **lr**
+  - Higher lr -> faster the model converge to a solution but at the risk of overfitting to the dataset.
+  - By default, lr = 0.05
+
+- **thread**
+  - fastText is multi-threaded and uses 12 threads by default.
+  - This can easily be tweaked using this parameter for lesser-core CPUs.
+
+`Usage of word embeddings`
+
+- Word embedding generated for a word can be checked
+```python
+print(model.words)
+print("\n-------------------------------------\n")
+print(model.get_word_vector("female"))
+```
+```bash
+['the',
+ 'of',
+ ...
+ 'germany',
+ ...
+ 'actress',
+ ...
+ 'governor',
+ 'players',
+ ...
+ 'models',
+ ...]
+ -------------------------------------
+[ 0.01122757  0.18961109 -0.16199729  0.11208588
+ ---      ---     ---     ---     ---     ---     ---
+  0.19992262 -0.06550902 -0.40920728 -0.16724268]
+```
+
+
+- Semantic information of the vectors are captured with the **nn functionality**.
+```python
+model.get_nearest_neighbors('london')
+```
+```bash
+[(0.7785311341285706, 'princeton'),
+ (0.7696226239204407, 'cambridge'),
+ (0.7583264112472534, 'glasgow'),
+ (0.7519310116767883, 'oxfordshire'),
+ ...,
+ (0.7124481797218323, 'routledge')]
+```
+
+
+- **nn functionality** can also be used for spellcorrections.
+```python
+model.get_nearest_neighbors('actres')
+```
+```bash
+[(0.9361368417739868, 'actress'),
+ (0.9093650579452515, 'actresses'),
+ (0.852777361869812, 'actor'),
+ (0.8409433364868164, 'songwriter'),
+ ...,
+ (0.771904468536377, 'snooker')]
+```
+
+
+- **analogies functionality** can be used for managing analogies between data points
+```python
+model.get_analogies("berlin", "germany", "france")
+```
+```bash
+[(0.896462, u'paris'),
+ (0.768954, u'bourges'),
+ ...,
+ (0.740635, u'bordeaux'),
+ (0.736122, u'pigneaux')]
+```
+
+
+- **character n-grams** are really important. Using subword-level information helps building vectors for unknown words.
+```python
+model_without_subwords = fasttext.train_unsupervised('data/fil9_small', maxn=0)
+model_normal = fasttext.train_unsupervised('data/fil9_small')
+model_without_subwords.get_nearest_neighbors('accomodation')
+print("\n------------------------------------\n")
+model_normal.get_nearest_neighbors('accomodation')
+```
+```bash
+[(0.775057, u'sunnhordland'),
+ (0.769206, u'accomodations'),
+ (0.753011, u'administrational'),
+ ...,
+ (0.732465, u'asserbo')]
+ ------------------------------------
+[(0.96342, u'accomodations'),
+ (0.942124, u'accommodation'),
+ (0.915427, u'accommodations'),
+ ...,
+ (0.701426, u'hospitality')]
+```
 
 ## Text Classification
 This deals with classifying text into 1 or more labels, spam detection, language identification, sentiment analysis comes under this domain.
