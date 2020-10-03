@@ -1,6 +1,6 @@
 ---
 layout: post
-title: fasttext, Facebook ML Library
+title: fastText, Facebook ML Library
 categories: [ML, Miscellaneous]
 ---
 
@@ -66,16 +66,13 @@ Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert tex
 
   - This approach of learning an embedding layer requires a lot of training data and is slow.
 
-
   - 2 methods:
     - FeedForward Neural Net Language Model (NNLM)
     - Recurrent Neural Net Language Model (RNNLM)
 
-
   - NNLM, RNNLM outperforms for the huge dataset of words but computation complexity is a big overhead
 
 2. <ins>**Word2Vec**</ins>
-
   - Developed at Google
 
   - Word representations in Vector Space, or word2vec algorithm.
@@ -87,10 +84,10 @@ Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert tex
   - Word vectors are positioned in the vector space such that words that share common contexts in the corpus are located in close proximity to one another.
 
   - 2 learning models were introduced for learning the word embedding:
-    - Continuous Bag-of-Words, or CBOW model.
+    - <ins>Continuous Bag-of-Words, or CBOW model:</ins>
     learns the embedding by predicting the current word based on its context.
 
-    - Continuous Skip-gram Model.
+    - <ins>Continuous Skip-gram Model:</ins>
     learns the embedding by predicting the surrounding words given a current word.
 
     ![](../assets/images/FT-2.png)
@@ -99,7 +96,6 @@ Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert tex
 
 
 3. <ins>**GloVe**</ins>
-
   - Developed at Stanford.
 
   - Global Vectors for Word Representation, or GloVe, algorithm is an extension to the Word2Vec method for efficiently learning word vectors.
@@ -108,9 +104,9 @@ Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert tex
 
   - Rather than using a window to define local context, GloVe constructs an explicit word-context or word co-occurrence matrix using statistics across the whole text corpus. The result is a learning model that may result in generally better word embeddings.
 
-### Fasttext
+### FastText
 
-We can either generate word vectors for any raw data or use the pre-trained word vectors which ship with Fastext.
+We can either generate word vectors for any raw data or use the pre-trained word vectors which ship with FastText.
 
 <ins>**Example**</ins>
 
@@ -178,11 +174,13 @@ model5 = fasttext.train_unsupervised('data/fil9', thread=4)
 `Usage of word embeddings`
 
 - Word embedding generated for a word can be checked
+`Script`
 ```python
 print(model.words)
 print("\n-------------------------------------\n")
 print(model.get_word_vector("female"))
 ```
+`Output`
 ```bash
 ['the',
  'of',
@@ -204,9 +202,11 @@ print(model.get_word_vector("female"))
 
 
 - Semantic information of the vectors are captured with the **nn functionality**.
+`Script`
 ```python
 model.get_nearest_neighbors('london')
 ```
+`Output`
 ```bash
 [(0.7785311341285706, 'princeton'),
  (0.7696226239204407, 'cambridge'),
@@ -218,9 +218,11 @@ model.get_nearest_neighbors('london')
 
 
 - **nn functionality** can also be used for spellcorrections.
+`Script`
 ```python
 model.get_nearest_neighbors('actres')
 ```
+`Output`
 ```bash
 [(0.9361368417739868, 'actress'),
  (0.9093650579452515, 'actresses'),
@@ -232,9 +234,11 @@ model.get_nearest_neighbors('actres')
 
 
 - **analogies functionality** can be used for managing analogies between data points
+`Script`
 ```python
 model.get_analogies("berlin", "germany", "france")
 ```
+`Output`
 ```bash
 [(0.896462, u'paris'),
  (0.768954, u'bourges'),
@@ -245,6 +249,7 @@ model.get_analogies("berlin", "germany", "france")
 
 
 - **character n-grams** are really important. Using subword-level information helps building vectors for unknown words.
+`Script`
 ```python
 model_without_subwords = fasttext.train_unsupervised('data/fil9_small', maxn=0)
 model_normal = fasttext.train_unsupervised('data/fil9_small')
@@ -252,6 +257,7 @@ model_without_subwords.get_nearest_neighbors('accomodation')
 print("\n------------------------------------\n")
 model_normal.get_nearest_neighbors('accomodation')
 ```
+`Output`
 ```bash
 [(0.775057, u'sunnhordland'),
  (0.769206, u'accomodations'),
@@ -308,7 +314,7 @@ __label__knife-skills __label__dicing Without knife skills, how can I quickly an
 ```
 
 
-4. Final dataset ready for fasttext classifier:
+4. Final dataset ready for fastText classifier:
 ```bash
 jalaz@jalaz-personal:~$ head -5 data/news-articles.txt
 __label__crime there were 2 mass shootings - texas last week, but only 1 on tv
