@@ -4,7 +4,7 @@ title: fasttext, Facebook ML Library
 categories: [ML, Miscellaneous]
 ---
 
-An open-source, free, lightweight library created by Facebook R%D that learns text representations and build text classifiers.
+An open-source, free, lightweight library created by Facebook R&D that learns text representations and build text classifiers.
 
 ![fasttext](../assets/images/FT-1.png)
 
@@ -267,13 +267,164 @@ model_normal.get_nearest_neighbors('accomodation')
 ```
 
 ## Text Classification
-This deals with classifying text into 1 or more labels, spam detection, language identification, sentiment analysis comes under this domain.
-  - Can be supervised or unsupervised.
 
-  - Can be single-label classifiers (like spam-not spam) or multi-label classifiers (like hindi-english-telugu-tamil etc)
+This deals with classifying text into 1 or more labels.
+  - Spam detection, language identification, sentiment analysis comes under this domain.
 
-<ins>**Fasttext**</ins>
+  - Can be single-label classifiers (like spam identifier: spam-not spam) or multi-label classifiers (like language detector: hindi-english-telugu-tamil etc.)
 
-<ins>**Usage**</ins>
+  - For building such classifiers, labeled data is required, which consists of documents and their corresponding labels.
 
-<ins>**Example**</ins>
+<ins>**Preparing dataset**</ins>
+
+1. Download this awesome dataset on news item classification from [Kaggle](https://www.kaggle.com/rmisra/news-category-dataset).
+
+2. Analyse the dataset present in JSON-Lines type file using
+```bash
+jalaz@jalaz-personal:~$ head -2 data/news-articles.jsonl
+{"category": "CRIME", "headline": "There Were 2 Mass Shootings In Texas Last Week, But Only 1 On TV", "authors": "Melissa Jeltsen", "link": "https://www.huffingtonpost.com/entry/texas-amanda-painter-mass-shooting_us_5b081ab4e4b0802d69caad89", "short_description": "She left her husband. He killed their children. Just another day in America.", "date": "2018-05-26"}
+{"category": "ENTERTAINMENT", "headline": "Will Smith Joins Diplo And Nicky Jam For The 2018 World Cup's Official Song", "authors": "Andy McDonald", "link": "https://www.huffingtonpost.com/entry/will-smith-joins-diplo-and-nicky-jam-for-the-official-2018-world-cup-song_us_5b09726fe4b0fdb2aa541201", "short_description": "Of course it has a song.", "date": "2018-05-26"}
+```
+
+2. Comparing this raw dataset with the standard dataset provided by [Facebook Research](https://dl.fbaipublicfiles.com/fasttext/data/cooking.stackexchange.tar.gz),
+```bash
+jalaz@jalaz-personal:~$ head -5 data/cooking.stackexchange.txt
+__label__sauce __label__cheese How much does potato starch affect a cheese sauce recipe?
+__label__food-safety __label__acidity Dangerous pathogens capable of growing at acidic environments
+__label__cast-iron __label__stove How can I cover up the white spots on my cast iron stove?
+__label__restaurant Michelin Three Star Restaurant, but the chef is not there
+__label__knife-skills __label__dicing Without knife skills, how can I quickly and accurately dice vegetables?
+```
+
+
+3. Data cleaning & standarization achieved using:
+```python
+  import json
+  fileReader = open("data/news-articles.jsonl", "r")
+  fileWriter = open("data/news-articles.txt", "w")
+  for line in fileReader:
+      news = dict(json.loads(line))
+      fileWriter.write("__label__"+news["category"].lower()+" "+news["headline"].lower()+"\n")
+```
+
+
+4. Final dataset ready for fasttext classifier:
+```bash
+jalaz@jalaz-personal:~$ head -5 data/news-articles.txt
+__label__crime there were 2 mass shootings - texas last week, but only 1 on tv
+__label__entertainment will smith joins diplo and nicky jam the 2018 world cups official song
+__label__entertainment hugh grant marries the first at age 57
+__label__entertainment jim carrey blasts castrato adam schiff and democrats new artwork
+__label__entertainment julianna margulies uses donald trump poop bags to pick up after her dog
+```
+
+5. Training-Validation splitting (80-20):
+```bash
+jalaz@jalaz-personal:~$ wc data/news-articles.txt
+200832  2189821 15670354 data/news-articles.txt
+jalaz@jalaz-personal:~$ head -n 160000 data/news-articles.txt > data/news-articles.train
+jalaz@jalaz-personal:~$ tail -n 40832 data/news-articles.txt > data/news-articles.valid
+```
+
+`Creating, saving & using model`
+```python
+import fasttext
+model = fasttext.train_supervised(input="data/news-articles.train")
+
+model.save_model("model/news-classifier-v1.bin")
+modelLoaded = fasttext.load_model("model/news-classifier-v1.bin")
+
+model.predict("Roger Federer wins US Grand Slam Men's final")
+model.predict("North Korea threatens Japan with back to back 4 nuclear tests")
+print("\n-----------------------\n")
+model.predict("Britain exit from the European Union confirmed", k=5)
+print("\n-----------------------\n")
+model.predict("narendra modi aquitted for gujarat riots by the court", k=-1, threshold=0.1)
+```
+```bash
+(('__label__sports',), array([0.91453463]))
+(('__label__politics',), array([0.88016534]))
+-----------------------
+(('__label__politics', '__label__worldpost', '__label__impact', '__label__business', '__label__religion'), array([0.41946396, 0.15596035, 0.13890333, 0.09830396, 0.02962857]))
+-----------------------
+(('__label__worldpost', '__label__crime', '__label__politics'), array([0.30460522, 0.25598988, 0.14045343]))
+```
+
+`Testing model accuarcy`
+
+<ins>**Precision**</ins>: Number of correct labels among the predicted labels.
+<ins>**Recall**</ins>: Number of real labels that could be predicted.
+
+```python
+model.test("data/news-articles.valid")
+model.test("data/news-articles.valid", k=5)
+```
+```bash
+(40832, 0.5363685344827587, 0.5363685344827587)
+(40832, 0.1458170062695925, 0.7290850313479624)
+```
+
+`Tweaking parameters & improvisations`
+
+- **epochs & lr**
+
+  <ins>epoch</ins> denotes the number of iterations of training over each datapoint while <ins>lr</ins> denotes the learning rate.
+
+  ```python
+  modelv2 = fasttext.train_supervised(input="data/news-articles.train", epoch=25)
+  modelv2.test("data/news-articles.valid")
+  modelv3 = fasttext.train_supervised(input="data/news-articles.train", lr=1.0)
+  modelv3.test("data/news-articles.valid")
+  modelv4 = fasttext.train_supervised(input="data/news-articles.train", epoch=25, lr=1.0)
+  modelv4.test("data/news-articles.valid")
+  ```
+  ```bash
+  (40832, 0.617701802507837, 0.617701802507837)
+  (40832, 0.698226880877743, 0.698226880877743)
+  (40832, 0.5116085423197492, 0.5116085423197492)
+  ```
+
+- **word n-grams**
+
+  - <ins>word n-grams:</ins>
+  Performance of model can be improved by using word bigrams, instead of just unigrams. Important for classification problems where word order is important like sentiment analysis.
+
+  - <ins>unigram</ins> refers to a single undividing unit, or token. Can be a word or a letter depending on the model. In fastText, we work at the word level and thus unigrams are words.
+
+  - <ins>bigram</ins> is the concatenation of 2 consecutive tokens or words.
+
+  - "Last donut of the night"
+    - unigrams: 'last', 'donut', 'of', 'the', 'night'.
+    - bigrams: 'Last donut', 'donut of', 'of the', 'the night'.
+
+  ```python
+  modelv5 = fasttext.train_supervised(input="data/news-articles.train", epoch=25, lr=1.0, wordNgrams=2)
+  modelv5.test("data/news-articles.valid")
+  modelv5.predict("narendra modi aquitted for gujarat riots by the court", k=-1, threshold=0.1)
+  ```
+  ```bash
+  (40832, 0.6719974529780565, 0.6719974529780565)
+  (('__label__politics', '__label__crime', '__label__worldpost'), array([0.55176157, 0.24307342, 0.18037586]))
+  ```
+
+- **loss**
+  - hs (scaling up for production)
+    - training can be made faster for large dataset by using the hierarchical softmax, instead of the regular softmax
+    - hierarchical softmax is a loss function that approximates the softmax with a much faster computation
+
+  - ova (multi label classification)
+    - for handling multiple labels, convenient way is to use independent binary classifiers for each label
+    - one vs all loss helps achieve this.
+
+`Autotuning the hyperparameters`
+  - Finding best hyperparametsr value is crucial for building efficient ml models.
+
+  - Tuning the values manually is cumbersome since these parameters are dependent & their effects on final model vary from dataset to dataset.
+
+  - fastText provides autotune feature for this task.
+
+  ```python
+  modelv10 = fasttext.train_supervised(input='data/news-articles.train', autotuneValidationFile='data/news-articles.valid')
+  modelv11 = fasttext.train_supervised(input='data/news-articles.train', autotuneValidationFile='data/news-articles.valid', autotuneDuration=600)
+  modelv12 = fasttext.train_supervised(input='data/news-articles.train', autotuneValidationFile='data/news-articles.valid', autotuneModelSize="2M")
+  ```
