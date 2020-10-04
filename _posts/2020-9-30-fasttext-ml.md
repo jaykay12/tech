@@ -42,7 +42,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 - Word embeddings can be calculated using pre-trained methods from libraries such as,
   - Word2Vec — From Google
-  - Fasttext — From Facebook
+  - fastText — From Facebook
   - GloVe — From Stanford
 
 
@@ -55,54 +55,54 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 These methods learn a real-valued vector representation for a predefined fixed sized vocabulary from a corpus of text.
 
-Most famous architectures such as Word2Vec, Fasttext, Glove helps to convert text to word vectors and leverage cosine similarity for word similarity features.
+Most famous architectures such as Word2Vec, Fasttext, Glove converts text to word vectors and uses the cosine similarity between these WE in this n-dimensional vector space for calculating word similarity features.
 
-1. <ins>**Embedding layer**</ins>
-  - Most native approach
+- <ins>**Embedding layer**</ins>
+    - Most native approach
 
-  - Here word embeddings are learned jointly with a neural network model on a specific natural language processing task.
+    - Here word embeddings are learned jointly with a neural network model on a specific natural language processing task.
 
-  - The embedding layer is used on the front end of a neural network and is fit in a supervised way using the Backpropagation algorithm.
+    - The embedding layer is used on the front end of a neural network and is fit in a supervised way using the Backpropagation algorithm.
 
-  - This approach of learning an embedding layer requires a lot of training data and is slow.
+    - This approach of learning an embedding layer requires a lot of training data and is slow.
 
-  - 2 methods:
-    - FeedForward Neural Net Language Model (NNLM)
-    - Recurrent Neural Net Language Model (RNNLM)
+    - 2 methods:
+      - FeedForward Neural Net Language Model (NNLM)
+      - Recurrent Neural Net Language Model (RNNLM)
 
-  - NNLM, RNNLM outperforms for the huge dataset of words but computation complexity is a big overhead
+    - NNLM, RNNLM outperforms for the huge dataset of words but computation complexity is a big overhead
 
-2. <ins>**Word2Vec**</ins>
-  - Developed at Google
+- <ins>**Word2Vec**</ins>
+    - Developed at Google
 
-  - Word representations in Vector Space, or word2vec algorithm.
+    - Word representations in Vector Space, or word2vec algorithm.
 
-  - Makes the neural-network-based training of the embedding more efficient and is now the de facto standard for developing pre-trained word embedding.
+    - Makes the neural-network-based training of the embedding more efficient and is now the de-facto standard for developing pre-trained word embedding.
 
-  - Takes a large text corpus as I/P and produces a vector space, of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in this space.
+    - Takes a large text corpus as I/P and produces a vector space, of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in this space.
 
-  - Word vectors are positioned in the vector space such that words that share common contexts in the corpus are located in close proximity to one another.
+    - Word vectors are positioned in the vector space such that words that share common contexts in the corpus are located in close proximity to one another.
 
-  - 2 learning models were introduced for learning the word embedding:
-    - <ins>Continuous Bag-of-Words, or CBOW model:</ins>
-    learns the embedding by predicting the current word based on its context.
+    - 2 learning models were introduced for learning the word embedding:
+      - <ins>Continuous Bag-of-Words, or CBOW model:</ins>
+      learns the embedding by predicting the current word based on its context.
 
-    - <ins>Continuous Skip-gram Model:</ins>
-    learns the embedding by predicting the surrounding words given a current word.
+      - <ins>Continuous Skip-gram Model:</ins>
+      learns the embedding by predicting the surrounding words given a current word.
 
-    ![](../assets/images/FT-2.png)
+      ![](../assets/images/FT-2.png)
 
-  - Key benefit is that high-quality word embeddings can be learned efficiently (low space and time complexity), allowing larger embeddings to be learned (more dimensions) from much larger corpora of text (billions of words).
+    - Key benefit is that high-quality word embeddings can be learned efficiently (low space and time complexity), allowing larger embeddings to be learned (more dimensions) from much larger corpora of text (billions of words).
 
 
-3. <ins>**GloVe**</ins>
-  - Developed at Stanford.
+- <ins>**GloVe**</ins>
+    - Developed at Stanford.
 
-  - Global Vectors for Word Representation, or GloVe, algorithm is an extension to the Word2Vec method for efficiently learning word vectors.
+    - Global Vectors for Word Representation, or GloVe, algorithm is an extension to the Word2Vec method for efficiently learning word vectors.
 
-  - an approach to combine both the global statistics of matrix factorization techniques like LSA (Latent Semantic Analysis) with the local context-based learning in Word2Vec.
+    - an approach to combine both the global statistics of matrix factorization techniques like LSA (Latent Semantic Analysis) with the local context-based learning in Word2Vec.
 
-  - Rather than using a window to define local context, GloVe constructs an explicit word-context or word co-occurrence matrix using statistics across the whole text corpus. The result is a learning model that may result in generally better word embeddings.
+    - Rather than using a window to define local context, GloVe constructs an explicit word-context or word co-occurrence matrix using statistics across the whole text corpus. The result is a learning model that may result in generally better word embeddings.
 
 ### FastText
 
@@ -150,16 +150,16 @@ model5 = fasttext.train_unsupervised('data/fil9', thread=4)
   - Controls the size of the vectors
   - larger dim -> more information capture but requires more data to be learned.
   - If too large -> harder and slower to train.
-  - By default, dim = 100, but any value in the 100-300 range is as popular.
+  - By default, dim = 100, but any value in the 100-300 range is good.
 
 
 - **subwords**
   - All the substrings contained in a word between **minn** and **maxn**.
-  - By default, subword = (3,6), for different languages ranges may vary.
+  - By default, subword = (3, 6). For different languages ranges may vary.
 
 
 - **epoch**
-  - Controls how many times the model will loop over the dataset.
+  - Controls how many times the model will loop over the dataset for training.
   - By default, epoch = 5. For massive dataset, epoch should be less.
 
 
@@ -169,112 +169,118 @@ model5 = fasttext.train_unsupervised('data/fil9', thread=4)
 
 - **thread**
   - fastText is multi-threaded and uses 12 threads by default.
-  - This can easily be tweaked using this parameter for lesser-core CPUs.
+  - This can easily be tweaked using this parameter for CPUs having less cores.
 
 `Usage of word embeddings`
 
 - Word embedding generated for a word can be checked
-`Script`
-```python
-print(model.words)
-print("\n-------------------------------------\n")
-print(model.get_word_vector("female"))
-```
-`Output`
-```bash
-['the',
- 'of',
- ...
- 'germany',
- ...
- 'actress',
- ...
- 'governor',
- 'players',
- ...
- 'models',
- ...]
- -------------------------------------
-[ 0.01122757  0.18961109 -0.16199729  0.11208588
- ---      ---     ---     ---     ---     ---     ---
-  0.19992262 -0.06550902 -0.40920728 -0.16724268]
-```
+
+  `Script`
+  ```python
+  print(model.words)
+  print("\n-------------------------------------\n")
+  print(model.get_word_vector("female"))
+  ```
+  `Output`
+  ```bash
+  ['the',
+   'of',
+   ...
+   'germany',
+   ...
+   'actress',
+   ...
+   'governor',
+   'players',
+   ...
+   'models',
+   ...]
+   -------------------------------------
+  [ 0.01122757  0.18961109 -0.16199729  0.11208588
+   ---      ---     ---     ---     ---     ---     ---
+    0.19992262 -0.06550902 -0.40920728 -0.16724268]
+  ```
 
 
 - Semantic information of the vectors are captured with the **nn functionality**.
-`Script`
-```python
-model.get_nearest_neighbors('london')
-```
-`Output`
-```bash
-[(0.7785311341285706, 'princeton'),
- (0.7696226239204407, 'cambridge'),
- (0.7583264112472534, 'glasgow'),
- (0.7519310116767883, 'oxfordshire'),
- ...,
- (0.7124481797218323, 'routledge')]
-```
+
+  `Script`
+  ```python
+  model.get_nearest_neighbors('london')
+  ```
+  `Output`
+  ```bash
+  [(0.7785311341285706, 'princeton'),
+   (0.7696226239204407, 'cambridge'),
+   (0.7583264112472534, 'glasgow'),
+   (0.7519310116767883, 'oxfordshire'),
+   ...,
+   (0.7124481797218323, 'routledge')]
+  ```
 
 
-- **nn functionality** can also be used for spellcorrections.
-`Script`
-```python
-model.get_nearest_neighbors('actres')
-```
-`Output`
-```bash
-[(0.9361368417739868, 'actress'),
- (0.9093650579452515, 'actresses'),
- (0.852777361869812, 'actor'),
- (0.8409433364868164, 'songwriter'),
- ...,
- (0.771904468536377, 'snooker')]
-```
+- **nn functionality** can also be used for spellcorrections purposes.
+
+  `Script`
+  ```python
+  model.get_nearest_neighbors('actres')
+  ```
+  `Output`
+  ```bash
+  [(0.9361368417739868, 'actress'),
+   (0.9093650579452515, 'actresses'),
+   (0.852777361869812, 'actor'),
+   (0.8409433364868164, 'songwriter'),
+   ...,
+   (0.771904468536377, 'snooker')]
+  ```
 
 
-- **analogies functionality** can be used for managing analogies between data points
-`Script`
-```python
-model.get_analogies("berlin", "germany", "france")
-```
-`Output`
-```bash
-[(0.896462, u'paris'),
- (0.768954, u'bourges'),
- ...,
- (0.740635, u'bordeaux'),
- (0.736122, u'pigneaux')]
-```
+- **analogies functionality** can be used for managing & finding hidden analogies between the data points.
+
+  `Script`
+  ```python
+  model.get_analogies("berlin", "germany", "france")
+  ```
+  `Output`
+  ```bash
+  [(0.896462, u'paris'),
+   (0.768954, u'bourges'),
+   ...,
+   (0.740635, u'bordeaux'),
+   (0.736122, u'pigneaux')]
+  ```
 
 
-- **character n-grams** are really important. Using subword-level information helps building vectors for unknown words.
-`Script`
-```python
-model_without_subwords = fasttext.train_unsupervised('data/fil9_small', maxn=0)
-model_normal = fasttext.train_unsupervised('data/fil9_small')
-model_without_subwords.get_nearest_neighbors('accomodation')
-print("\n------------------------------------\n")
-model_normal.get_nearest_neighbors('accomodation')
-```
-`Output`
-```bash
-[(0.775057, u'sunnhordland'),
- (0.769206, u'accomodations'),
- (0.753011, u'administrational'),
- ...,
- (0.732465, u'asserbo')]
- ------------------------------------
-[(0.96342, u'accomodations'),
- (0.942124, u'accommodation'),
- (0.915427, u'accommodations'),
- ...,
- (0.701426, u'hospitality')]
-```
+- **character n-grams** are really important. Using subword-level information helps building the vectors in the vector-space for totally unknown words.
+
+  `Script`
+  ```python
+  model_without_subwords = fasttext.train_unsupervised('data/fil9_small', maxn=0)
+  model_normal = fasttext.train_unsupervised('data/fil9_small')
+  model_without_subwords.get_nearest_neighbors('accomodation')
+  print("\n------------------------------------\n")
+  model_normal.get_nearest_neighbors('accomodation')
+  ```
+  `Output`
+  ```bash
+  [(0.775057, u'sunnhordland'),
+   (0.769206, u'accomodations'),
+   (0.753011, u'administrational'),
+   ...,
+   (0.732465, u'asserbo')]
+   ------------------------------------
+  [(0.96342, u'accomodations'),
+   (0.942124, u'accommodation'),
+   (0.915427, u'accommodations'),
+   ...,
+   (0.701426, u'hospitality')]
+  ```
 
 ## Text Classification
 
-This deals with classifying text into 1 or more labels.
+Text classification is ML problem for classifying any text into 1 or more labels after training the model using supervised learning methods.
+
   - Spam detection, language identification, sentiment analysis comes under this domain.
 
   - Can be single-label classifiers (like spam identifier: spam-not spam) or multi-label classifiers (like language detector: hindi-english-telugu-tamil etc.)
@@ -333,6 +339,8 @@ jalaz@jalaz-personal:~$ tail -n 40832 data/news-articles.txt > data/news-article
 ```
 
 `Creating, saving & using model`
+
+`Script`
 ```python
 import fasttext
 model = fasttext.train_supervised(input="data/news-articles.train")
@@ -347,6 +355,7 @@ model.predict("Britain exit from the European Union confirmed", k=5)
 print("\n-----------------------\n")
 model.predict("narendra modi aquitted for gujarat riots by the court", k=-1, threshold=0.1)
 ```
+`Output`
 ```bash
 (('__label__sports',), array([0.91453463]))
 (('__label__politics',), array([0.88016534]))
@@ -358,13 +367,15 @@ model.predict("narendra modi aquitted for gujarat riots by the court", k=-1, thr
 
 `Testing model accuarcy`
 
-<ins>**Precision**</ins>: Number of correct labels among the predicted labels.
-<ins>**Recall**</ins>: Number of real labels that could be predicted.
+- <ins>**Precision**</ins>: Number of correct labels among the predicted labels.
+- <ins>**Recall**</ins>: Number of real labels that could be predicted.
 
+`Script`
 ```python
 model.test("data/news-articles.valid")
 model.test("data/news-articles.valid", k=5)
 ```
+`Output`
 ```bash
 (40832, 0.5363685344827587, 0.5363685344827587)
 (40832, 0.1458170062695925, 0.7290850313479624)
@@ -374,21 +385,24 @@ model.test("data/news-articles.valid", k=5)
 
 - **epochs & lr**
 
-  <ins>epoch</ins> denotes the number of iterations of training over each datapoint while <ins>lr</ins> denotes the learning rate.
+  - <ins>epoch</ins> denotes the number of iterations of training over each datapoint
+  - <ins>lr</ins> denotes the learning rate.
 
-  ```python
-  modelv2 = fasttext.train_supervised(input="data/news-articles.train", epoch=25)
-  modelv2.test("data/news-articles.valid")
-  modelv3 = fasttext.train_supervised(input="data/news-articles.train", lr=1.0)
-  modelv3.test("data/news-articles.valid")
-  modelv4 = fasttext.train_supervised(input="data/news-articles.train", epoch=25, lr=1.0)
-  modelv4.test("data/news-articles.valid")
-  ```
-  ```bash
-  (40832, 0.617701802507837, 0.617701802507837)
-  (40832, 0.698226880877743, 0.698226880877743)
-  (40832, 0.5116085423197492, 0.5116085423197492)
-  ```
+    `Script`
+    ```python
+    modelv2 = fasttext.train_supervised(input="data/news-articles.train", epoch=25)
+    modelv2.test("data/news-articles.valid")
+    modelv3 = fasttext.train_supervised(input="data/news-articles.train", lr=1.0)
+    modelv3.test("data/news-articles.valid")
+    modelv4 = fasttext.train_supervised(input="data/news-articles.train", epoch=25, lr=1.0)
+    modelv4.test("data/news-articles.valid")
+    ```
+    `Output`
+    ```bash
+    (40832, 0.617701802507837, 0.617701802507837)
+    (40832, 0.698226880877743, 0.698226880877743)
+    (40832, 0.5116085423197492, 0.5116085423197492)
+    ```
 
 - **word n-grams**
 
@@ -403,29 +417,52 @@ model.test("data/news-articles.valid", k=5)
     - unigrams: 'last', 'donut', 'of', 'the', 'night'.
     - bigrams: 'Last donut', 'donut of', 'of the', 'the night'.
 
+  `Script`
   ```python
   modelv5 = fasttext.train_supervised(input="data/news-articles.train", epoch=25, lr=1.0, wordNgrams=2)
   modelv5.test("data/news-articles.valid")
   modelv5.predict("narendra modi aquitted for gujarat riots by the court", k=-1, threshold=0.1)
   ```
+  `Output`
   ```bash
   (40832, 0.6719974529780565, 0.6719974529780565)
   (('__label__politics', '__label__crime', '__label__worldpost'), array([0.55176157, 0.24307342, 0.18037586]))
   ```
 
 - **loss**
-  - hs (scaling up for production)
+  - <ins>hs</ins> (scaling up for production)
     - training can be made faster for large dataset by using the hierarchical softmax, instead of the regular softmax
     - hierarchical softmax is a loss function that approximates the softmax with a much faster computation
 
-  - ova (multi label classification)
+  - <ins>ova</ins> (multi label classification)
     - for handling multiple labels, convenient way is to use independent binary classifiers for each label
     - one vs all loss helps achieve this.
 
-`Autotuning the hyperparameters`
-  - Finding best hyperparametsr value is crucial for building efficient ml models.
+  `Script`
+  ```python
+  modelv8 = fasttext.train_supervised(input="data/news-articles.train", lr=1.0, epoch=25, wordNgrams=2, bucket=200000, dim=50, loss='hs')
+  modelv8.test("data/news-articles.valid")
 
-  - Tuning the values manually is cumbersome since these parameters are dependent & their effects on final model vary from dataset to dataset.
+  modelv9 = fasttext.train_supervised(input="data/news-articles.train", lr=1.0, epoch=25, wordNgrams=2, bucket=200000, dim=50, loss='ova')
+  modelv9.test("data/news-articles.valid")
+
+  news = "justin beiber and selena gomez splits after 4 years of relationship"
+  print(modelv8.predict(news, k=-1, threshold=0.1))
+  print(modelv9.predict(news, k=-1, threshold=0.1))
+  ```
+  `Output`
+  ```bash
+  (40832, 0.6174568965517241, 0.6174568965517241)
+  (40832, 0.655907131661442, 0.655907131661442)
+
+  (('__label__entertainment',), array([0.99964833]))
+  (('__label__entertainment',), array([0.95397609]))
+  ```
+
+`Autotuning the hyperparameters`
+  - Finding best hyperparameters value is crucial for building efficient ml models.
+
+  - Tuning these values manually is cumbersome since these parameters are dependent & their effects on final model vary from dataset to dataset.
 
   - fastText provides autotune feature for this task.
 
