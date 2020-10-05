@@ -215,13 +215,13 @@ Building blocks of Apache Solr:
       core.properties
       conf/
          solrconfig.xml
-         managed-schema
+         schema.xml
       data/
    core_name2/
       core.properties
       conf/
          solrconfig.xml
-         managed-schema
+         schema.xml
       data/
 ```
 
@@ -309,9 +309,9 @@ The directory containing the low level index files.
 - `Defining fields`
 Once the field types are set up, defining the fields themselves is simple.
 
-```bash
-<field name="price" type="float" default="0.0" indexed="true" stored="true"/>
-```
+  ```bash
+  <field name="price" type="float" default="0.0" indexed="true" stored="true"/>
+  ```
 
   - <ins>indexed</ins>: field value can be used in queries for retrieving the matching documents, if set to true.
 
@@ -328,31 +328,31 @@ Once the field types are set up, defining the fields themselves is simple.
   - <ins>large</ins>: fields are always lazy loaded and will only take up space in the document cache if the actual value is < 512KB.
 
 - `Copying fields`
-Some document fields can be interpreted in more than one way.
+  - Some document fields can be interpreted in more than one way.
 
-```bash
-<copyField source="title" dest="title_text" maxChars="30000" />
-```
+    ```bash
+    <copyField source="title" dest="title_text" maxChars="30000" />
+    ```
 
-Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
+  - Fields are copied before analysis is done, meaning we have two fields with identical original content, but which use different analysis chains and are stored in the index differently.
 
 - `Dynamic fields`
-Allows Solr to index fields that are not explicitly defined in schema.
+  - Allows Solr to index fields that are not explicitly defined in schema.
 
-```bash
-<dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
-```
+    ```bash
+    <dynamicField name="*_i" type="int" indexed="true"  stored="true"/>
+    ```
 
-If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
+  - If indexing a document with a cost_i field is attempted, but no explicit cost_i field is defined in the schema, then the cost_i field will have the field type and analysis defined for `*_i`.
 Makes application less brittle by providing some flexibility in the documents that can be added to Solr.
 
 
 - `uniqueKey`
-Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
+  - Specifies which field is a unique identifier for documents. Used if document in the index are ever needed to be updated.
 
-```bash
-  <uniqueKey>displayid</uniqueKey>
-```
+    ```bash
+      <uniqueKey>displayid</uniqueKey>
+    ```
 
 - Schema API allows to use an HTTP API to manage elements of the solr schema.
 This API provides read and write access to the Solr schema. Fields, dynamic fields, field types and copyField rules may be added, removed or replaced.
@@ -369,14 +369,15 @@ This API provides read and write access to the Solr schema. Fields, dynamic fiel
 ### Analyzers, Filters & Tokenizers
 
 <ins>**Analyzer**</ins>
-  - Examines the text of fields and generates a token stream
+  - Examines the text and generates a token stream
 
   - Comprises of tokenizers & filters
 
-  - Are generally in 2 phases, denoted by type: index & query
+  - 2 phases, denoted by type: index & query
+
 
 <ins>**Tokenizer**</ins>
-  - Breaks up a stream of text into tokens, where each token is a sub-sequence of the characters in the text.
+  - Breaks up a stream of text into tokens, where each token is a sub-sequence of characters in the text.
 
   - Analyzer is aware of the field it is configured for, but a tokenizer is not.
 
@@ -466,47 +467,252 @@ Primarily 3 Ways:
 - In-place Updates
 - Optimistic Concurrency
 
-`Old Solr document`
-```json
-{
-  "id":"mydoc",
-  "price":10,
-  "popularity":42,
-  "categories":["kids"],
-  "promo_ids":["a123x"],
-  "tags":["free_to_try","buy_now","clearance","on_sale"]
-}
-```
+- `Old Solr document`
+  ```json
+  {
+    "id":"mydoc",
+    "price":10,
+    "popularity":42,
+    "categories":["kids"],
+    "promo_ids":["a123x"],
+    "tags":["free_to_try","buy_now","clearance","on_sale"]
+  }
+  ```
 
-`Updatation JSON document`
-```json
-{
-  "id":"mydoc",
-  "price":{"set":99},
-  "popularity":{"inc":20},
-  "categories":{"add":["toys","games"]},
-  "promo_ids":{"remove":"a123x"},
-  "tags":{"remove":["free_to_try","on_sale"]}
-}
-```
+- `Updatation JSON document`
+  ```json
+  {
+    "id":"mydoc",
+    "price":{"set":99},
+    "popularity":{"inc":20},
+    "categories":{"add":["toys","games"]},
+    "promo_ids":{"remove":"a123x"},
+    "tags":{"remove":["free_to_try","on_sale"]}
+  }
+  ```
 
-`Updated Solr document`
-```json
-{
-  "id":"mydoc",
-  "price":99,
-  "popularity":62,
-  "categories":["kids","toys","games"],
-  "tags":["buy_now","clearance"]
-}
-```
+- `Updated Solr document`
+  ```json
+  {
+    "id":"mydoc",
+    "price":99,
+    "popularity":62,
+    "categories":["kids","toys","games"],
+    "tags":["buy_now","clearance"]
+  }
+  ```
 
 ## Configuring Solr
+
+For configuring solr core, `solrconfig.xml` is the file.
+
+`Standard layout`
+```bash
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <luceneMatchVersion>6.5.0</luceneMatchVersion>
+    <lib dir="${solr.install.dir:../../../..}/contrib/extraction/lib" regex=".*\.jar" />
+    <dataDir>${solr.data.dir:}</dataDir>
+
+    <directoryFactory
+      name="DirectoryFactory"
+      class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+
+    <schemaFactory class="ClassicIndexSchemaFactory"/>    
+    <codecFactory class="solr.SchemaCodecFactory"/>
+
+    <indexConfig>
+        <writeLockTimeout/>
+        <ramBufferSizeMB/>
+        <maxBufferedDocs/>
+        <mergePolicyFactory/>
+        <mergeScheduler/>
+        <lockType/>
+        <deletionPolicy/>
+    </indexConfig>
+
+    <updateHandler>
+        <autoCommit>
+        <autoSoftCommit>
+        <listener>
+    </updateHandler>
+
+    <query>
+        <maxBooleanClauses/>
+        <filterCache/>
+        <queryResultCache/>
+        <documentCache/>
+        <enableLazyFieldLoading/>
+        <listener/>
+    </query>
+
+    <requestDispatcher handleSelect="false">
+        <requestParsers/>
+        <httpCaching/>
+    </requestDispatcher>
+
+    <requestHandlers/>
+    <searchComponents/>
+</config>
+```
+
+Some important parameters which are defined inside Solrconfig.xml files are as follows:
+
+  - **Lucene Match Version**
+    - we build the index using Lucene and expose it through Solr, as the Solr & Lucene used to be part of the same project. its recommended to use the same solr and lucene version.
+
+
+  - **lib**
+    - custom plugins can be loaded by defining <lib/> directives.    
+    - custom code can be loaded in solr to perform a variety of tasks, from custom Request Handlers, to custom Analyzers, and Token Filters for your text field. These pieces of custom code are called plugins.
+
+
+  - **dataDir**
+    - By default, Solr stores its index data in a directory called /data.
+    - For customizing this, either configure the dataDir in `core-properties` or <dataDir> parameter in `solrconfig.xml`
+
+
+  - **DirectoryFactory**
+    - By default, solr.StandardDirectoryFactory is filesystem based.
+    - The solr.RAMDirectoryFactory is memory based, not persistent, and does not work with replication. Stores the index in RAM.
+    - Using Hadoop and storing indexes in HDFS, Use the solr.HdfsDirectoryFactory.
+
+
+  - **schemaFactory**
+    - If not declared, ManagedIndexSchemaFactory is used implicitly, which is by default "mutable" and keeps schema information in a `managed-schema` file.
+    - Schema API can be used to modify the schema, and then later change the value of mutable to false if you wish to "lock" the schema in place and prevent future changes.
+    - `<schemaFactory class="ClassicIndexSchemaFactory"/>` is explictedly configuring to use `schema.xml` file. It disallows any programmatic changes to the schema at run time.
+
+
+  - **codecFactory**
+    - Determines which lucene codec to be used when writing the index to disk. codecs basically encodes/decodes an inverted index segment.
+    - By default, lucene’s default codec is implicitly used.
+    - solr.SchemaCodecFactory and solr.SimpleTextCodecFactory are 2 other codecs.
+
+
+  - **indexConfig**
+    - defines low-level behavior of the lucene's index writers. In most cases, the defaults are fine.
+    - Includes: Configurations for writing new index segments, segments merger scheduling and merge policies and configuring index locks.
+      - <ins>writeLockTimeout</ins>
+        - The maximum time to wait for a write lock on an IndexWriter.
+        - Default: 1000ms
+
+      - <ins>ramBufferSizeMB</ins>
+        - All the pending updates are flushed once accumulated document-updates exceed this.
+        - This can also create new segments or trigger a merge.
+        - More preferable than maxBufferedDocs.
+        - Default: 100Mb.
+
+      - <ins>maxBufferedDocs</ins>
+        - Used to set the maximum no of document-updates that can be buffered in the memory before flushing them as a new segment.
+        - Default: 1000.
+
+      - <ins>mergePolicyFactory</ins>
+        - Defines how merging segments is done.
+        - Default: TieredMergePolicy, which merges segments of approximately equal size.
+
+      - <ins>mergeScheduler</ins>
+        - Controls how merges are performed.
+        - Default: ConcurrentMergeScheduler performs merges in the background using separate threads.
+        - The alternative, SerialMergeScheduler, does not perform merges with separate threads.
+
+      - <ins>lockType</ins>
+        - specify the locking implementation to use.
+        - The set of valid lock type options depends on the configured DirectoryFactory
+          - **native** (default) uses NativeFSLockFactory to specify native OS file locking. If a second Solr process attempts to access the directory, it will fail
+          - **simple** uses SimpleFSLockFactory to specify a plain file for locking.
+          - **single** (expert) uses SingleInstanceLockFactory
+          - hdfs uses HdfsLockFactory to support reading and writing index and transaction log files to a HDFS filesystem.
+
+
+  - **updateHandler**
+    - Affects the performance of index updates. Affect how updates are done internally.
+    - Do not affect the higher level configuration of RequestHandlers that process client update requests.
+    - Includes settings like “autoCommit” and “commitWithin” for commit operations and defining event listeners like “postCommit” or “postOptimize”.
+
+    - <ins>Commit terminology:</ins>
+      - commit is the action which asks Solr to "commit" those changes to the Lucene index files.
+      - By default commit actions result in a "hard commit" of all the Lucene index files to stable storage.
+      - If softCommit=true is specified, then Solr performs a "soft commit", solr will commit changes to the lucene index quickly but not guarantee that the Lucene index files are written to stable storage.
+      - A full commit means that, if a server crashes, Solr will know exactly where your data was stored; a soft commit means that the data is stored, but the location information isn’t yet stored.
+
+    - <ins>autoCommit</ins>
+      - Controls how often pending updates will be automatically pushed to the index.
+      - MaxDocs and maxTime are 2 tags inside.
+
+    - <ins>commitWithin</ins>
+
+
+  - **requestHandlers**
+    - Request handler processes requests coming to Solr.
+    - Might be query requests or index update requests.
+    - 4 types:
+      - search handler
+      - update Request Handler
+      - shard handler
+      - implicit request handler
+
+
+  - **searchComponents**
+    -  Defined separately from the request handlers, and then registered with a request handler as needed.
+    - Defines the logic used by the SearchHandler to perform queries.
+    - Important ones are query, facet, highlight, debug etc.
+
+
+  - **query**
+    - These settings affect the way in which solr will process and respond to queries.
+    - Defines the various cache like filterCache, documentCache, queryResultCache and user-defined cache etc along with the different query settings like maxBooleanClauses and cache settings like queryResultMaxDocsCached.
+    - Here we can also define event listeners like firstSearcher or newSearcher.
+      - firstSearcher: When a new searcher is being prepared but there is no current registered searcher to handle requests or to gain auto-warming data from.
+      - newSearcher: Whenever a new searcher is being prepared and there is a current searcher handling requests.
+
+    - <ins>Caching:</ins>
+      - In Solr, caching is different than other applications as here time is not a parameter, cache depends on the lifetime of the searcher.
+      - Any new searcher uses the current searcher’s cache to pre-populate its own.
+      - In Solr, there are three cache implementations:
+        - solr.search.LRUCache
+        - solr.search.FastLRUCache
+        - solr.search.LFUCache .
+
+    - filterCache
+      - Used to cache results of each fq search parameteres.
+      - Subsequent queries using the same parameter filter query result in cache hits and rapid returns of results.
+
+    - queryResultCache
+      - Holds the results of previous searches: ordered lists of document IDs (DocList) based on a query, a sort, and the range of documents requested.
+
+    - documentCache
+      - Holds lucene's document objects.
+      - The size for the documentCache should always be greater than max_results times the max_concurrent_queries, to ensure that Solr does not need to refetch a document during a request.
+
+
+  - **requestDispatcher**
+    - Controls the way the Solr HTTP RequestDispatcher implementation responds to requests.
+    - 3 important elements:
+      - <ins>handleSelect</ins>
+        - Governs how Solr responds to requests such as /select?qt=XXX.
+        - Default: "false", ignores requests to /select if a requestHandler is not explicitly registered with the name /select
+
+      - <ins>requestParsers</ins>
+        ```bash
+        <requestParsers enableRemoteStreaming="true"
+                        multipartUploadLimitInKB="2048000"
+                        formdataUploadLimitInKB="2048"
+                        addHttpRequestToContext="false" />
+        ```
+
+      - <ins>httpCaching</ins>
+        - Controls HTTP cache control headers.
+        - These settings shouldn't be confused with Solr’s internal cache configuration. This element controls caching of HTTP responses.
 
 
 ## Searching in Solr
 
+![search-overview](../assets/images/SOLR-7.png)
+
 #### Query Parsers
+
+#### Querying in Solr
 
 #### Request Handlers & Search Components in Solr
 
@@ -515,6 +721,8 @@ Primarily 3 Ways:
 #### Clustering in Solr
 
 #### Lucene Score Calculation
+
+#### Replication in Solr
 
 
 
