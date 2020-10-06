@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Basics of Apache Solr
+title: Basics of Apache Solr I
 categories: [Search, Miscellaneous]
 ---
 
@@ -705,24 +705,7 @@ Some important parameters which are defined inside Solrconfig.xml files are as f
         - Controls HTTP cache control headers.
         - These settings shouldn't be confused with Solr’s internal cache configuration. This element controls caching of HTTP responses.
 
-
-## Searching in Solr
-
-![search-overview](../assets/images/SOLR-7.png)
-
-#### Query Parsers
-
-#### Querying in Solr
-
-#### Request Handlers & Search Components in Solr
-
-#### Faceting in Solr
-
-#### Clustering in Solr
-
-#### Lucene Score Calculation
-
-#### Replication in Solr
+### Replication in Solr
 
 
 
