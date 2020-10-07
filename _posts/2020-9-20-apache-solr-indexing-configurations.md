@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Basics of Apache Solr I
+title: Basics of Apache Solr - I
 categories: [Search, Miscellaneous]
 ---
 
@@ -705,9 +705,104 @@ Some important parameters which are defined inside Solrconfig.xml files are as f
         - Controls HTTP cache control headers.
         - These settings shouldn't be confused with Solr’s internal cache configuration. This element controls caching of HTTP responses.
 
-### Replication in Solr
+### Solr Replication
+
+In Solr, master-slave model is used to distribute complete copies of a master index to one or more slave servers.
+
+![solr-replication](../assets/images/SOLR-8.png)
+
+Slave servers service all query requests from the clients. This division of labor enables Solr to scale easily against large search volumes.
+
+Only the master server indexes or re-indexes, (fts-master & fts-master2). The slave servers only pull the completed indexes. (fts1-dl, fts2-dl, gcp-mcat1)
+
+Solr replication feature is implemented as a `RequestHandler`.
+  - /replication - ReplicationHandler - A Handler which provides a REST API for replication and serves replication requests from Slaves.
+
+1. Configurations for master server
+
+  `solrconfig.xml`
+  ```bash
+  <requestHandler name="/replication" class="solr.ReplicationHandler" >
+      <lst name="master">
+          <str name="enable">${enable.master:false}</str>
+          <str name="replicateAfter">optimize</str>
+          <str name="replicateAfter">startup</str>
+          <str name="confFiles">schema.xml,stopwords.txt,solrconfig.xml,protwords.txt</str>
+      </lst>
+  </requestHandler>
+  ```
+
+  `core.properties`
+  ```bash
+  config=solrconfig.xml
+  schema=schema.xml
+  dataDir=data
+  enable.slave=false
+  enable.master=true
+  ```
+
+2. Configurations for slave server
+
+  `solrconfig.xml`
+  ```bash
+  <requestHandler name="/replication" class="solr.ReplicationHandler">
+      <lst name="slave">
+          <str name="enable">${enable.slave:false}</str>
+          <str name="masterUrl">http://${my.custom.remote_host}:${my.custom.port}/solr/${solr.core.name}</str>
+          <str name="pollInterval">00:00:20</str>
+          <str name="httpConnTimeout">5000</str>
+          <str name="httpReadTimeout">10000</str>
+      </lst>
+  </requestHandler>
+  ```
+
+  `core.properties`
+  ```bash
+  my.custom.port=8985
+  name=product
+  config=solrconfig.xml
+  my.custom.remote_host=dev-mcatsearch.com
+  schema=schema.xml
+  dataDir=data
+  enable.slave=true
+  enable.master=false
+  ```
 
 
+<ins>**Repeater Server**</ins>
+  - Master-server is capable to serve limited number of slaves without affecting performance.
+  - Organizations have deployed slave servers across multiple data centers like dallas, gcp, aws etc.
+  - If each such slave downloads the index from a remote data center, the resulting download may consume too much network bandwidth. To avoid performance degradation in cases like this, we configure one or more slaves as repeaters.
+  - Repeater is simply a node that acts as both a master and a slave.
+
+  `solrconfig.xml`
+  ```bash
+  <requestHandler name="/replication" class="solr.ReplicationHandler">
+      <lst name="master">
+          <str name="enable">${enable.master:false}</str>
+          <str name="replicateAfter">commit</str>
+          <str name="confFiles">schema.xml,stopwords.txt,synonyms.txt</str>
+      </lst>
+      <lst name="slave">
+          <str name="enable">${enable.slave:false}</str>
+          <str name="masterUrl">http://${my.custom.remote_host}:${my.custom.port}/solr/${solr.core.name}</str>
+          <str name="pollInterval">00:00:60</str>
+      </lst>
+  </requestHandler>
+
+  ```
+
+  `core.properties`
+  ```bash
+  my.custom.port=8985
+  name=product
+  config=solrconfig.xml
+  my.custom.remote_host=dev-mcatsearch.com
+  schema=schema.xml
+  dataDir=data
+  enable.slave=true
+  enable.master=true
+  ```
 
 ### Apache Solr VS ElasticSearch
 
