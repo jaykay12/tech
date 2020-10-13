@@ -364,15 +364,77 @@ Search Handlers can be configured with three sets of Query Params:
 ```
 
 
+### Faceting in Solr
 
-#### Faceting in Solr
+Faceting is the arrangement of search results into categories based on the indexed terms.
+This is somewhat analogous to the GROUP BY of SQL.
 
-Faceting is the arrangement of search results into categories (which are based on indexed terms). Within each category, Solr reports on the number of hits for relevant term, which is called a facet constraint. Faceting makes it easy for users to explore search results on sites such as movie sites and product review sites, where there are many categories and many items within a category.
+- <ins>**facet**</ins>
+  - If set to true, this parameter enables facet counts in the query response.
+  - By default: facet=false
 
-Faceting makes use of fields defined when the search applications were indexed
+- <ins>**facet.query**</ins>
+  - Allows to specify an arbitrary query in the Lucene default syntax to generate a clear facet count.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.query=type:S, provides facet counts for Service-type MCATs.
+
+`Field Value Faceting`
+
+- <ins>**facet.field**</ins>
+  - Identifies a field that should be treated as a facet.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid, provides facet counts(mcats) for all 800 cats in IM.
+
+- <ins>**facet.prefix**</ins>
+  - Limits the terms on which to facet to those starting with the given string prefix.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.prefix=8, provides facet counts(mcats) for those cats in IM which start with 8, like "81", "801", "852" etc.
+
+- <ins>**facet.contains**</ins>
+  - Limits the terms on which to facet to those containing the given substring.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.contains=45, provides facet counts(mcats) for those cats in IM which contains 45 as substring, like "145", "452", "845" etc.
+
+- <ins>**facet.sort**</ins>
+  - Determines the ordering of the facet field constraints.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count, provides facet counts(mcats) for the 53 groups in IM ordered by frequency.
+
+- <ins>**facet.limit**</ins>
+  - Specifies the maximum number of values that should be returned for the facet fields.
+  - Used for getting top N facets.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count&facet.limit=10
+  - By default: facet.limit=100
+
+- <ins>**facet.mincount**</ins>
+  - Specifies the minimum counts required for a facet field to be included in the response.
+  - By default: facet.mincount=0
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000, provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
+
+`Range Faceting`
+Can be applied on any date field or any numeric field that supports range queries.
+
+- <ins>**facet.range**</ins>
+  - Defines the field for which Solr should create range facets
+
+- <ins>**facet.range.start**</ins>
+  - Specifies the lower bound of the range.
+
+- <ins>**facet.range.end**</ins>
+  - Specifies the upper bound of the range.
+
+- <ins>**facet.range.gap**</ins>
+  - Signifies the span of each range expressed as a value.
+
+http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY, will provide mappings(product/buylead/virtual) indexed on the facet of indexing date.
+
+`Pivot Faceting`
+Pivoting is a summarization tool that lets you automatically sort, count, total or average data stored in a table. The results are typically displayed in a second table showing the summarized data
+
+http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.pivot=groupid,type, will provide faceting as pivoted first on the mcats count in group & then for each group further pivoted into service-type MCATs count or product-type MCATs count.
+
+
+### Grouping in Solr
 
 ### Clustering in Solr
 
 Clustering groups search results by similarities discovered when a search is executed, rather than when content is indexed. The results of clustering often lack the neat hierarchical organization found in faceted search results, but clustering can be useful nonetheless. It can reveal unexpected commonalities among search results, and it can help users rule out content that isn’t pertinent to what they’re really searching for.
+
+### L2R(Learn to Rank) in Solr
 
 #### Lucene Score Calculation
