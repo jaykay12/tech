@@ -13,16 +13,17 @@ categories: [Search, Miscellaneous]
   QueryParsers are extended from the class: QParserPlugin. For creating custom query parser, this class needs to be extended.
 
   3 main query parsers in solr:
-  - Standard
+  - **Standard Query Parser**
     - Default one
     - Also called Lucene Query Parser
     - Allows greater precision in search
 
-  - DisMax
+  - **DisMax Query Parser**
     - More tolerant to syntax errors
     - Provides similar experience as normal seach engines like google.
 
-  - EDisMax (Extended DisMax)
+  - **EDisMax Query Parser**
+    - Extended DisMax.
     - Improved version of DisMax.
     - Handles full lucene query syntax while still tolerating syntax errors.
 
@@ -33,8 +34,8 @@ categories: [Search, Miscellaneous]
 
 
 - While creating response using `ResponseWriter`, the results can be grouped using 2 techniques:
-    1. faceting
-    2. clustering
+    1. Faceting
+    2. Clustering
 
 
 ![search-overview](../assets/images/SOLR-7.png)
@@ -46,42 +47,42 @@ categories: [Search, Miscellaneous]
 
 - <ins>**defType**</ins>
   - Selects the query parser that Solr should use to process q in the request
-  - http://localhost:8985/solr/mcat/select?q=jute%20bag&fl=name,id&defType=dismax
+  - `http://localhost:8985/solr/mcat/select?q=jute%20bag&fl=name,id&defType=dismax`
   - By default, defType="lucene" is used.
-  - http://localhost:8985/solr/mcat/select?q=jute%20bag&fl=name,id
+  - `http://localhost:8985/solr/mcat/select?q=jute%20bag&fl=name,id`
 
 - <ins>**sort**</ins>
   - Arranges search results in either ascending (asc) or descending (desc) order.
   - Can be used with either numerical or alphabetical content.
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&sort=total_prod_count%20asc
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&sort=total_prod_count asc`
   - By default, sort=desc is used.
 
 - <ins>**start**</ins>
   - Specifies an offset into the result set of query and instructs solr to begin displaying results from this offset.
   - By default: start=0
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&start=100
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&start=100`
   - Motive is to be used effectively for paging.
 
 - <ins>**rows**</ins>
   - Specifies the maximum number of documents that solr should return.
   - Use to paginate results from a query
   - By default: rows=10
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&rows=50
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=name&wt=json&rows=50`
 
 - <ins>**fq**</ins>
   - FilterQuery parameter
   - Defines a query that can be used to restrict the superset of documents that can be returned, without influencing score.
   - Analogous to "WHERE" clause of SQL.
-  - Service MCATs: http://localhost:8985/solr/mcat/select?q=car%20wash&fl=name&wt=json&fq=type:S
-  - Product MCATs of a fixed SubCat: http://localhost:8985/solr/mcat/select?q=car%20wash&fl=name&wt=json&fq=type:P&fq=catid:27
+  - Service MCATs: `http://localhost:8985/solr/mcat/select?q=car%20wash&fl=name&wt=json&fq=type:S`
+  - Product MCATs of a fixed SubCat: `http://localhost:8985/solr/mcat/select?q=car%20wash&fl=name&wt=json&fq=type:P&fq=catid:27`
   - Motive: Very useful for speeding up complex queries, since the queries specified with fq are cached independently apart from the main query.
 
 - <ins>**fl**</ins>
   - FieldList parameter
   - Limits the fields included in the query response.
   - By default: fl=*
-  - http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name,type
-  - Use aliasing of field names like http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name,products:total_prod_count
+  - `http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name,type`
+  - Use aliasing of field names like `http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name,products:total_prod_count`
 
 - <ins>**debug**</ins>
   - debug=query, debug=timing, debug=all etc are various variations as per the usecase of debugging.
@@ -90,7 +91,7 @@ categories: [Search, Miscellaneous]
 - <ins>**timeAllowed**</ins>
   - specifies the amount of time, in milliseconds, allowed for a search to complete.
   - If this time expires, any partial results will be returned, but values such as numFound, facet counts, and result stats may not be overall accurate.
-  - http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name&rows=10&timeAllowed=10
+  - `http://localhost:8985/solr/mcat/select?q=bags&wt=json&fl=id,name&rows=10&timeAllowed=10`
 
 
 - <ins>**omitHeader**</ins>
@@ -100,8 +101,8 @@ categories: [Search, Miscellaneous]
 - <ins>**wt**</ins>
   - Selects the Response Writer that solr should use for formatting the query’s response.
   - By default: wt=xml
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,catid,catname,groupid,groupname&wt=json
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,catid,catname,groupid,groupname&wt=csv
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,catid,catname,groupid,groupname&wt=json`
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,catid,catname,groupid,groupname&wt=csv`
 
 - <ins>**cache=false**</ins>
   - Used for disabling result caching at solr's end.
@@ -109,8 +110,8 @@ categories: [Search, Miscellaneous]
 - <ins>**echoParams**</ins>
   - Controls the info about request parameters that should be included in the response header.
   - By default: echoParams=explicit
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,score&wt=json&echoParams=all
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,score&wt=json&echoParams=none
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,score&wt=json&echoParams=all`
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=id,name,score&wt=json&echoParams=none`
 
 ### Standard Query Parser
 In addition to the Common Query Parameters, Faceting Parameters, Highlighting Parameters etc, it supports these parameters as well:
@@ -130,8 +131,8 @@ In addition to the Common Query Parameters, Faceting Parameters, Highlighting Pa
   - By default: true, analysis is invoked on each space separated word.
 
 Query sent to StandarQueryParser is composed of terms and operators. Terms are of 2 types:
-  - single term such as q=lg, q=washing machine, q=lg washing machine :-> Term Query
-  - search phrases such as q=\"lg washer\", q=\"washing machine\" :-> Phrase Query
+  - single term such as q=lg, q=washing machine, q=lg washing machine : `Term Query`
+  - search phrases such as q=\"lg washer\", q=\"washing machine\" : `Phrase Query`
 
 
 In setting up q, we can specify fields as well. In Schema, df is defined, if no field is provided in q like q=jute bags then, it will be searched in df. But a query like q=title:jute bags will search this in the field: title.
@@ -194,7 +195,7 @@ In addition to the common request parameter, highlighting parameters, and simple
   - QueryField parameter
   - Specifies the fields in the index on which to perform the query.
   - If not provided, then by default: df becomes the qf.
-  - http://localhost:8985/solr/mcat/select?q=bags&fl=name&qf="name^2.3%20altname%20genericshingle^0.4", which matches all documents having bags but gives boost of 2.3 to documents having bags in name, no boost to documents having bags in their alt names & reduces the relevancy of documents having bags identified as generic shingle for them.
+  - `http://localhost:8985/solr/mcat/select?q=bags&fl=name&qf="name^2.3 altname genericshingle^0.4"` -> Matches all documents having bags but gives boost of 2.3 to documents having bags in name, no boost to documents having bags in their alt names & reduces the relevancy of documents having bags identified as generic shingle for them.
   - qf is basically used for selecting documents in result set from the complete index.
   - qf, qs affects the result set of a query
 
@@ -238,7 +239,7 @@ In addition to the common request parameter, highlighting parameters, and simple
   - Boost Query parameter
   - Specifies an query clause that will be added to the user’s main query to influence the score.
   - q=cheese&bq=date:[NOW/DAY-1YEAR TO NOW/DAY], will boost documents on the basis of recentness.
-  - http://localhost:8983/solr/techproducts/select?q=video&defType=edismax&qf=features^20.0+text^0.3&bq=cat:electronics^5.0
+  - `http://localhost:8983/solr/techproducts/select?q=video&defType=edismax&qf=features^20.0+text^0.3&bq=cat:electronics^5.0`
 
 
 ### EDisMax Query Parser
@@ -301,7 +302,7 @@ Any document in the index that has both the terms "jute" and "bags" will match; 
 
   - Is defined with a name and a class.
 
-  - http://localhost:8983/solr/gettingstarted/select?q=solr
+  - `http://localhost:8983/solr/gettingstarted/select?q=solr`
   This query is processed by the request handler with the name `/select`, which is the by default handler for query request in solr.
 
   - Solr supports a variety of request handlers. Some are designed for processing search queries, while others manage tasks such as index replication.
@@ -375,17 +376,17 @@ Search Handlers can be configured with three sets of Query Params:
 ```
 
 `Calling`
-- http://localhost:8985/solr/mcat/solrlearning?q=bags
-- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags
+- `http://localhost:8985/solr/mcat/solrlearning?q=bags`
+- `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags`
 
 `Different Usages`
-- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags -> 100 documents in json response format will be retrieved using defaults. "bags" will be searched in namex & each document will be having id, name, score.
+- `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags` -> 100 documents in json response format will be retrieved using defaults. "bags" will be searched in namex & each document will be having id, name, score.
 
-- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&rows=1000 -> 1000 documents are retrieved overridding the defaults value.
+- `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&rows=1000` -> 1000 documents are retrieved overridding the defaults value.
 
-- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&fl=catname,groupname -> 100 documents are retrieved with each document having id, name, score, catname, groupname.
+- `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&fl=catname,groupname` -> 100 documents are retrieved with each document having id, name, score, catname, groupname.
 
-- http://localhost:8985/solr/mcat/solrlearning?q=bags&facet=true -> No faceting will be performed due to role of invariants. These settings are done for restricting the usage in client end by the admins. Since, facet is heavy operation thus, in example it was taken as reference.
+- `http://localhost:8985/solr/mcat/solrlearning?q=bags&facet=true` -> No faceting will be performed due to role of invariants. These settings are done for restricting the usage in client end by the admins. Since, facet is heavy operation thus, in example it was taken as reference.
 
 ### Faceting in Solr
 
@@ -398,38 +399,39 @@ This is somewhat analogous to the GROUP BY of SQL.
 
 - <ins>**facet.query**</ins>
   - Allows to specify an arbitrary query in the Lucene default syntax to generate a clear facet count.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.query=type:S, provides facet counts for Service-type MCATs.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.query=type:S` -> Provides facet counts for Service-type MCATs.
 
 `Field Value Faceting`
 
 - <ins>**facet.field**</ins>
   - Identifies a field that should be treated as a facet.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid -> provides facet counts(mcats) for all 800 cats in IM.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid` -> Provides facet counts(mcats) for all 800 cats in IM.
 
 - <ins>**facet.prefix**</ins>
   - Limits the terms on which to facet to those starting with the given string prefix.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.prefix=8 -> provides facet counts(mcats) for those cats in IM which start with 8, like "81", "801", "852" etc.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.prefix=8` -> Provides facet counts(mcats) for those cats in IM which start with 8, like "81", "801", "852" etc.
 
 - <ins>**facet.contains**</ins>
   - Limits the terms on which to facet to those containing the given substring.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.contains=45 -> provides facet counts(mcats) for those cats in IM which contains 45 as substring, like "145", "452", "845" etc.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.contains=45` -> Provides facet counts(mcats) for those cats in IM which contains 45 as substring, like "145", "452", "845" etc.
 
 - <ins>**facet.sort**</ins>
   - Determines the ordering of the facet field constraints.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count -> provides facet counts(mcats) for the 53 groups in IM ordered by frequency.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count` -> Provides facet counts(mcats) for the 53 groups in IM ordered by frequency.
 
 - <ins>**facet.limit**</ins>
   - Specifies the maximum number of values that should be returned for the facet fields.
   - Used for getting top N facets.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count&facet.limit=10
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count&facet.limit=10`
   - By default: facet.limit=100
 
 - <ins>**facet.mincount**</ins>
   - Specifies the minimum counts required for a facet field to be included in the response.
   - By default: facet.mincount=0
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000 -> provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
+  - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000` -> Provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
 
 `Range Faceting`
+
 Can be applied on any date field or any numeric field that supports range queries.
 
 - <ins>**facet.range**</ins>
@@ -444,12 +446,13 @@ Can be applied on any date field or any numeric field that supports range querie
 - <ins>**facet.range.gap**</ins>
   - Signifies the span of each range expressed as a value.
 
-http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY -> Provides mappings(product/buylead/virtual) indexed on the facet of indexing date.
+`http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY` -> Provides mappings(product/buylead/virtual) indexed on the facet of indexing date.
 
 `Pivot Faceting`
+
 Pivoting is a summarization tool that lets you automatically sort, count, total or average data stored in a table. The results are typically displayed in a second table showing the summarized data
 
-http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.pivot=groupid,type -> Provides faceting as pivoted first on the mcats count in group & then for each group further pivoted into service-type MCATs count or product-type MCATs count.
+`http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.pivot=groupid,type` -> Provides faceting as pivoted first on the mcats count in group & then for each group further pivoted into service-type MCATs count or product-type MCATs count.
 
 
 ### Solr Clustering
@@ -469,13 +472,16 @@ http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&f
 Depending on these algorithms, clusters will vary for any fixed set of documents.
 
 <ins>**QuickStart**</ins>
-1. Loading external jars for clustering enabling, make these entries in the `solrconfig.xml`
+
+- Loading external jars for clustering enabling, make these entries in the `solrconfig.xml`
+
   ```bash
   <lib dir="${solr.install.dir:../../..}/contrib/clustering/lib/" regex=".*\.jar" />
   <lib dir="${solr.install.dir:../../..}/dist/" regex="solr-clustering-\d.*\.jar" />
   ```
 
-2. Register as a Search Component in the `solrconfig.xml`
+- Register as a Search Component in the `solrconfig.xml`
+
   ```bash
   <searchComponent name="clustering_lingo" class="solr.clustering.ClusteringComponent">
       <lst name="engine">
@@ -485,8 +491,9 @@ Depending on these algorithms, clusters will vary for any fixed set of documents
   </searchComponent>
   ```
 
-3. Link this component to the Request Handler in the `solrconfig.xml`
-```bash
+- Link this component to the Request Handler in the `solrconfig.xml`
+
+  ```bash
   <requestHandler name="/solrlearning" class="solr.SearchHandler">
       <lst name="invariants">
           <str name="facet">false</str>
@@ -513,7 +520,7 @@ Depending on these algorithms, clusters will vary for any fixed set of documents
           <str>clustering_lingo</str>
       </arr>
   </requestHandler>
-```
+  ```
 
 - <ins>**clustering**</ins>
   - When true, clustering component is enabled
@@ -555,11 +562,13 @@ Depending on these algorithms, clusters will vary for any fixed set of documents
 
 
 `Drawbacks of clustering`
+
 - Increased cost of fetching a larger-than-usual number of search results (50, 100 or more documents),
 - Additional computational cost of the clustering itself.
 - For simple queries, the clustering time will usually dominate the fetch time. If the document content is very long the retrieval of stored content can become a bottleneck.
 
 `Remedies`
+
 - Feeding less content to the clustering algorithm by enabling carrot.produceSummary attribute,
 - Clustering should be performed on selected fields (titles only) to make the input smaller,
 - Using a faster algorithm (STC instead of Lingo, Lingo3G instead of STC),
