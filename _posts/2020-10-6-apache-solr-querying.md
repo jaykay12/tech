@@ -338,7 +338,7 @@ Any document in the index that has both the terms "jute" and "bags" will match; 
         5. /schema - SchemaHandler - Retrieve/modify Solr schema.
 
 
-<ins>**Defining a SearchHandler & Usage**</ins>
+<ins>**Defining a SearchHandler & its usage**</ins>
 
 Search Handlers can be configured with three sets of Query Params:
 
@@ -359,10 +359,33 @@ Search Handlers can be configured with three sets of Query Params:
   - Allows definition of parameters that cannot be overridden by a client.
 
 ```bash
-
-
+<requestHandler name="/solrlearning" class="solr.SearchHandler">
+    <lst name="invariants">
+        <str name="facet">false</str>
+    </lst>
+    <lst name="defaults">
+        <str name="rows">100</str>
+        <str name="wt">json</str>
+        <str name="df">namex</str>
+  	 </lst>
+  	<lst name="appends">
+    		<str name="fl">id,name,score</str>
+	 </lst>
+</requestHandler>
 ```
 
+`Calling`
+- http://localhost:8985/solr/mcat/solrlearning?q=bags
+- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags
+
+`Different Usages`
+- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags -> 100 documents in json response format will be retrieved using defaults. "bags" will be searched in namex & each document will be having id, name, score.
+
+- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&rows=1000 -> 1000 documents are retrieved overridding the defaults value.
+
+- http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&fl=catname,groupname -> 100 documents are retrieved with each document having id, name, score, catname, groupname.
+
+- http://localhost:8985/solr/mcat/solrlearning?q=bags&facet=true -> No faceting will be performed due to role of invariants. These settings are done for restricting the usage in client end by the admins. Since, facet is heavy operation thus, in example it was taken as reference.
 
 ### Faceting in Solr
 
@@ -381,19 +404,19 @@ This is somewhat analogous to the GROUP BY of SQL.
 
 - <ins>**facet.field**</ins>
   - Identifies a field that should be treated as a facet.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid, provides facet counts(mcats) for all 800 cats in IM.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid -> provides facet counts(mcats) for all 800 cats in IM.
 
 - <ins>**facet.prefix**</ins>
   - Limits the terms on which to facet to those starting with the given string prefix.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.prefix=8, provides facet counts(mcats) for those cats in IM which start with 8, like "81", "801", "852" etc.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.prefix=8 -> provides facet counts(mcats) for those cats in IM which start with 8, like "81", "801", "852" etc.
 
 - <ins>**facet.contains**</ins>
   - Limits the terms on which to facet to those containing the given substring.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.contains=45, provides facet counts(mcats) for those cats in IM which contains 45 as substring, like "145", "452", "845" etc.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=catid&facet.contains=45 -> provides facet counts(mcats) for those cats in IM which contains 45 as substring, like "145", "452", "845" etc.
 
 - <ins>**facet.sort**</ins>
   - Determines the ordering of the facet field constraints.
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count, provides facet counts(mcats) for the 53 groups in IM ordered by frequency.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.sort=count -> provides facet counts(mcats) for the 53 groups in IM ordered by frequency.
 
 - <ins>**facet.limit**</ins>
   - Specifies the maximum number of values that should be returned for the facet fields.
@@ -404,7 +427,7 @@ This is somewhat analogous to the GROUP BY of SQL.
 - <ins>**facet.mincount**</ins>
   - Specifies the minimum counts required for a facet field to be included in the response.
   - By default: facet.mincount=0
-  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000, provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
+  - http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000 -> provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
 
 `Range Faceting`
 Can be applied on any date field or any numeric field that supports range queries.
@@ -421,19 +444,128 @@ Can be applied on any date field or any numeric field that supports range querie
 - <ins>**facet.range.gap**</ins>
   - Signifies the span of each range expressed as a value.
 
-http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY, will provide mappings(product/buylead/virtual) indexed on the facet of indexing date.
+http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY -> Provides mappings(product/buylead/virtual) indexed on the facet of indexing date.
 
 `Pivot Faceting`
 Pivoting is a summarization tool that lets you automatically sort, count, total or average data stored in a table. The results are typically displayed in a second table showing the summarized data
 
-http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.pivot=groupid,type, will provide faceting as pivoted first on the mcats count in group & then for each group further pivoted into service-type MCATs count or product-type MCATs count.
+http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.pivot=groupid,type -> Provides faceting as pivoted first on the mcats count in group & then for each group further pivoted into service-type MCATs count or product-type MCATs count.
 
 
-### Grouping in Solr
+### Solr Clustering
 
-### Clustering in Solr
+- The clustering plugin automatically discovers groups from the documents in result set and assigns human-readable labels to these groups.
 
-Clustering groups search results by similarities discovered when a search is executed, rather than when content is indexed. The results of clustering often lack the neat hierarchical organization found in faceted search results, but clustering can be useful nonetheless. It can reveal unexpected commonalities among search results, and it can help users rule out content that isn’t pertinent to what they’re really searching for.
+- Clustering groups these documents by the similarities discovered during searching, rather than when content is indexed.
+
+- Clustering result lacks the neat hierarchical organization as faceting, but clustering can reveal unexpected commonalities between the documents.
+
+- `Clustering algorithm` is the actual logic that discovers relationships among the documents and forms human-readable cluster labels. Major algorithms are:
+  - LingoClusteringAlgorithm (open source)
+  - STCClusteringAlgorithm (open source)
+  - BisectingKMeansClusteringAlgorithm (open source)
+  - Lingo3GClusteringAlgorithm (commercial)
+
+Depending on these algorithms, clusters will vary for any fixed set of documents.
+
+<ins>**QuickStart**</ins>
+1. Loading external jars for clustering enabling, make these entries in the `solrconfig.xml`
+  ```bash
+  <lib dir="${solr.install.dir:../../..}/contrib/clustering/lib/" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../..}/dist/" regex="solr-clustering-\d.*\.jar" />
+  ```
+
+2. Register as a Search Component in the `solrconfig.xml`
+  ```bash
+  <searchComponent name="clustering_lingo" class="solr.clustering.ClusteringComponent">
+      <lst name="engine">
+          <str name="name">lingo</str>
+          <str name="carrot.algorithm">org.carrot2.clustering.lingo.LingoClusteringAlgorithm</str>
+        </lst>
+  </searchComponent>
+  ```
+
+3. Link this component to the Request Handler in the `solrconfig.xml`
+```bash
+  <requestHandler name="/solrlearning" class="solr.SearchHandler">
+      <lst name="invariants">
+          <str name="facet">false</str>
+      </lst>
+      <lst name="defaults">
+          <bool name="clustering">true</bool>
+          <bool name="clustering.results">true</bool>
+
+          <!-- logical field to physical field mapping which clustering algo requires -->
+          <str name="carrot.url"></str>
+          <str name="carrot.title">name</str>
+          <str name="carrot.snippet">description</str>
+
+          <!-- normal parameters of the request handler inwhich clustering is enabled -->
+          <str name="rows">100</str>
+          <str name="wt">json</str>
+          <str name="df">namex</str>
+      </lst>
+      <lst name="appends">
+          <str name="fl">id,name,score</str>
+      </lst>
+      <!-- registering the search component in the request handler -->
+      <arr name="last-components">
+          <str>clustering_lingo</str>
+      </arr>
+  </requestHandler>
+```
+
+- <ins>**clustering**</ins>
+  - When true, clustering component is enabled
+
+
+- <ins>**clustering.engine**</ins>
+  - Used for declaring the engine that should be used.
+  - If not present, the first declared engine in the search component will become the default one.
+
+
+- <ins>**clustering.results**</ins>
+  - When true, the component will perform clustering of search results.
+
+
+- <ins>**carrot.algorithm**</ins>
+  - Used inside declaration of the clustering component.
+  - Declares the algorithm class to be used for clustering.
+
+
+- <ins>**carrot.produceSummary**</ins>
+	- When true the clustering component will run a highlighter pass on the content of logical fields pointed to by carrot.title and carrot.snippet. Otherwise full content of those fields will be clustered.
+
+`Clustering Component` clusters the "documents" consisting of logical parts which are mapped onto physical schema of data stored in solr.
+
+- <ins>**carrot.title**</ins>
+  - The field that should be mapped to the logical document’s title for computing clusters.
+  - More weight is given to the title compared to the snippet.
+  - This should contain noise-free & precise data.
+  - Can be left blank if no clear title is available.
+
+
+- <ins>**carrot.snippet**</ins>
+  - The field that should be mapped to the logical document’s main content.
+  - If this mapping points to very large content fields the performance of clustering may drop significantly.
+
+
+- <ins>**carrot.url**</ins>
+  - The field that should be mapped to the logical document’s content URL.
+
+
+`Drawbacks of clustering`
+- Increased cost of fetching a larger-than-usual number of search results (50, 100 or more documents),
+- Additional computational cost of the clustering itself.
+- For simple queries, the clustering time will usually dominate the fetch time. If the document content is very long the retrieval of stored content can become a bottleneck.
+
+`Remedies`
+- Feeding less content to the clustering algorithm by enabling carrot.produceSummary attribute,
+- Clustering should be performed on selected fields (titles only) to make the input smaller,
+- Using a faster algorithm (STC instead of Lingo, Lingo3G instead of STC),
+- Tuning the performance attributes related directly to a specific algorithm.
+
+
 
 ### L2R(Learn to Rank) in Solr
 
