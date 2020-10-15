@@ -56,15 +56,186 @@ Testing is the process of checking an application functionalities. Unit testing 
 
 ## JUnit
 
-![junit-intro](../assets/images/JUNIT-1.png)
-
 JUnit is a unit testing framework for Java programming language.
   - JUnit is important in the test-driven development with Java.
   - JUnit 5 is the existing version.
+  - `JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage`
+    - JUnit Platform: Integrating JUnit with mvn plugins & build tools.
+    - JUnit Jupiter: Writing tests & test runners
+    - JUnit Vintage: Providing backward compaitibity for running tests written in JUnit4 using JUnit5.
 
-<ins>Usage</ins>
+<ins>**Initialisation**</ins>
 
-<ins>Example</ins>
+`pom.xml`
+
+```bash
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.5.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-runner</artifactId>
+        <version>1.5.2</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+`build.gradle`
+
+```bash
+testRuntime("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
+```
+
+#### Important Annotations
+
+- **@Test** : Marks the method as a junit test
+
+- **@DisplayName** : Provides custom name for a test
+
+- **@BeforeAll** :
+  - Makes the method to run at the very start, before all the test methods in that test class.
+  - This method must be static.
+  - Used for declaring objects, creating connections etc.
+
+- **@BeforeEach** :
+  - Makes the method to run before each test method in that test class.
+  - Used for initialising objects, setting states etc.
+
+- **@AfterEach**
+  - Makes the method to run after each test method in that test class.
+  - Used for reinitialising objects, clearing states etc.
+
+- **@AfterAll**
+  - Makes the method to run at the very end, after all the test methods in that test class.
+  - This method must be static.
+  - Used for destroying objects, closing connections etc.
+
+- **@Tag**
+  - Used for marking the test methods or test classes with tags for test discovering and filtering
+  - Eg: Tags can be "dev", "stg" or "prod", & different test suites can be configured for them.
+
+- **@Disable**
+  - Used to disable or ignore a test class or method from the test suite.
+
+#### Important Terminologies
+
+- **Test Suites**
+
+- **Assertions**
+
+- **Assumptions**
+
+### Usage in Simple Projects
+
+- Download the simple project which I used for this article using
+
+  ```bash
+  wget https://github.com/jaykay12/tech/assets/demos/junit-basic.zip
+  ```
+
+ Open it as a project in IntelliJ. Once loaded, right click on `pom.xml` file & run "Add as Maven project".
+
+- `Calculator.java`
+
+  ```java
+  package tech.jaykay12;
+
+  public class Calculator {
+      public Integer adder(Integer a1, Integer a2) {
+          return a1+a2;
+      }
+
+      public Integer adder(Integer a1, Integer a2, Integer a3) {
+          return a1+a2+a3;
+      }
+  }
+  ```
+
+- `CalculatorTest.java`
+
+  ```java
+  package tech.jaykay12;
+
+  import org.junit.jupiter.api.*;
+
+  public class CalculatorTest {
+
+      static Calculator calculator = null;
+
+      @BeforeAll
+      public static void initialiser(){
+          calculator = new Calculator();
+      }
+
+      @Test
+      public void Adder2Words(){
+          Assertions.assertEquals(4, calculator.adder(2, 2));
+      }
+
+      @Test
+      public void Adder3Words(){
+          Assertions.assertEquals(0, calculator.adder(-1,2,-1));
+      }
+
+      @AfterAll
+      public static void cleaner(){
+          calculator = null;
+      }
+  }
+  ```
+- <ins>**Running from IntelliJ**</ins>:
+
+  ![junit-basic](../assets/images/TDD-J-1.png)
+
+- <ins>**Running from mvn command line tool**</ins>:
+
+  ```bash
+  jalaz@jalaz-personal:~/tdd-java/junit-basic$ mvn test
+  [INFO] Scanning for projects...
+  [INFO]
+  [INFO] ---------------------< tech.jaykay12:junit-basic >----------------------
+  [INFO] Building junit-basic 1.0-SNAPSHOT
+  [INFO] --------------------------------[ jar ]---------------------------------
+  [INFO]
+  [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ junit-basic ---
+  [INFO] Nothing to compile - all classes are up to date
+  [INFO]
+  [INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ junit-basic ---
+  [INFO]
+  [INFO] -------------------------------------------------------
+  [INFO]  T E S T S
+  [INFO] -------------------------------------------------------
+  [INFO] Running tech.jaykay12.CalculatorTest
+  [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s - in tech.jaykay12.CalculatorTest
+  [INFO]
+  [INFO] Results:
+  [INFO]
+  [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+  [INFO]
+  [INFO] ------------------------------------------------------------------------
+  [INFO] BUILD SUCCESS
+  [INFO] ------------------------------------------------------------------------
+  [INFO] Total time:  3.537 s
+  [INFO] Finished at: 2020-10-15T19:08:39+05:30
+  [INFO] ------------------------------------------------------------------------
+  ```
+
+- `Important Points`
+  - Configure pom.xml file correctly.
+
+  - Keep the directory structure of _src/main/java/<PACKAGE_NAME>_ & _src/test/java/<PACKAGE_NAME>_ in sync.
+
+  - If using JUnit5 overall & want to run tests using both methods, then add this to pom.xml
+  ![issue-solve](../assets/images/TDD-J-2.png)
+
+
+### Usage in Spring-Boot APIs
 
 #### JUnit vs TestNG
 
@@ -76,8 +247,6 @@ JUnit is a unit testing framework for Java programming language.
 
 ## Mockito
 
-<ins>Introdction</ins>
+### Simple Usage
 
-<ins>Usage</ins>
-
-<ins>Example</ins>
+### Usage in Spring-Boot API & SolR

@@ -576,6 +576,9 @@ Depending on these algorithms, clusters will vary for any fixed set of documents
 
 
 
-### L2R(Learn to Rank) in Solr
+### ReRanking & Learn to Rank
 
-#### Lucene Score Calculation
+#### Lucene workflow
+![lucene-worflow](../assets/images/SOLR-9.png)
+
+### Lucene Score Calculation
