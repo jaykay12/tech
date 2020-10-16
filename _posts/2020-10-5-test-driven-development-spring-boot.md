@@ -97,24 +97,33 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
 - **@Test** : Marks the method as a junit test
 
 - **@DisplayName** : Provides custom name for a test
+  - Invoked as `@DisplayName("MU Cleaning: Fractions")`
 
 - **@BeforeAll** :
-  - Makes the method to run at the very start, before all the test methods in that test class.
+  - Signals that the annotated method should be executed before all tests in the current test class.
   - This method must be static.
+  - Replacement of `@BeforeClass` of JUnit4.
   - Used for declaring objects, creating connections etc.
 
 - **@BeforeEach** :
-  - Makes the method to run before each test method in that test class.
+  - Signals that the annotated method should be executed before each `@Test` method in the current class.
+  - Replacement of `@Before` of JUnit4.
   - Used for initialising objects, setting states etc.
 
 - **@AfterEach**
   - Makes the method to run after each test method in that test class.
+  - Replacement of `@After` of JUnit4.
   - Used for reinitialising objects, clearing states etc.
 
 - **@AfterAll**
   - Makes the method to run at the very end, after all the test methods in that test class.
   - This method must be static.
+  - Replacement of `@AfterClass` of JUnit4.
   - Used for destroying objects, closing connections etc.
+
+- **@RepeatedTest**
+  - Enables multiple runs of the annotated test method.
+  - Invoked as `@RepeatedTest(5)`
 
 - **@Tag**
   - Used for marking the test methods or test classes with tags for test discovering and filtering
@@ -122,21 +131,85 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
 
 - **@Disable**
   - Used to disable or ignore a test class or method from the test suite.
+  - Equivalent to the `@Ignored` of JUnit4.
+
+<ins>**JUnit5 Test Exceution Cycle**</ins>
+![](../assets/images/TDD-J-3.png)
 
 #### Important Terminologies
 
 - **Test Suites**
+  - Required for running tests which are spread out in multiple classes or packages.
+  - 2 annotations: `@SelectPackages` & `@SelectClasses` are used for creating test suites.
+  - `@RunWith(JUnitPlatform.class)` is required for executing the test suite.
+  - Other annotations like `@IncludePackages`, `@ExcludePackages`, `@IncludeClassNamePatterns`, `@ExcludeClassNamePatterns`, `@IncludeTags` & `@ExcludeTags` are used for filtering packages, test classes & test methods.
+
+  ```java
+  @RunWith(JUnitPlatform.class)
+  @SelectPackages("search.mcat.service.logics")
+  @SelectClasses(SearchStringCleaner.class, SearchStringTruncator.class)
+  @ExcludePackages("search.mcat.service.logics.mcat")
+  @IncludeClassNamePatterns("^VirtualMapping.*Test(s)?$")
+  @ExcludeTags("production")
+  public class TestSuiteExample {
+
+  }
+  ```
 
 - **Assertions**
+  - Required for validating the expected output with the actual output of a testcase.
+  - For simplicity, all JUnit Jupiter assertions are static methods.
+
+  ```java
+  void testCase() {
+      Assertions.assertEquals(4, Calculator.add(2, 2));                                     // Passed
+      Assertions.assertNotEquals(4, Calculator.add(2, 2), "Adder Test");                    // Failed
+
+      Assertions.assertArrayEquals(new int[]{1,2,3}, new int[]{1,2,3}, "Array Equal Test"); // Passed
+
+      Assertions.assertNotNull(null);               // Failed
+      Assertions.assertNotNull("Jalaz Kumar");      // Passed
+
+      Assertions.assertTimeout(Duration.ofMillis(100), () -> {
+          Thread.sleep(200);
+          return "result";
+      });                                                               // Failed. {timeout, executable task} are 2 the 2 parameters
+
+      Assertions.fail("This is destined to fail");                      // Failed.
+  }
+  ```
 
 - **Assumptions**
+  - Required for supporting conditional test execution.
+  - Failed assumption leads to the test being aborted.
+  - In test report, these test will be marked as passed.
+  - JUnit jupiter Assumptions class has two such static methods: `assumeFalse()` & `assumeTrue()`
+  - Both validates the given assumption to {true/false}and if assumption is {true/false} – test proceed, otherwise test execution is aborted.
+
+  ```java
+  public class AssumptionsTest {
+      @Test
+      void testOnDev() {
+          System.setProperty("ENV", "development");
+          Assumptions.assumeTrue("development".equals(System.getProperty("env")));
+          //remainder of test will proceed
+      }
+
+      @Test
+      void testOnProd() {
+          System.setProperty("ENV", "production");
+          Assumptions.assumeTrue("development".equals(System.getProperty("ENV")));
+          //remainder of test will be aborted
+      }
+  }
+  ```
 
 ### Usage in Simple Projects
 
 - Download the simple project which I used for this article using
 
   ```bash
-  wget https://github.com/jaykay12/tech/assets/demos/junit-basic.zip
+  wget https://github.com/jaykay12/tech/blob/master/assets/demos/junit-springboot.zip
   ```
 
  Open it as a project in IntelliJ. Once loaded, right click on `pom.xml` file & run "Add as Maven project".
@@ -232,10 +305,68 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
   - Keep the directory structure of _src/main/java/<PACKAGE_NAME>_ & _src/test/java/<PACKAGE_NAME>_ in sync.
 
   - If using JUnit5 overall & want to run tests using both methods, then add this to pom.xml
+
   ![issue-solve](../assets/images/TDD-J-2.png)
 
 
 ### Usage in Spring-Boot APIs
+
+- Download the Spring Boot API which I used for this article using
+
+  ```bash
+  wget https://github.com/jaykay12/tech/blob/master/assets/demos/junit-springboot.zip
+  ```
+
+ Open it as a project in IntelliJ. Once loaded, right click on `pom.xml` file & run "Add as Maven project".
+
+- The main content files of the API are as follows:
+  - **RunnerApplication.java**: Main file which instantiates the Spring boot application and loads controllers.
+
+  - **APIController.java**: file which maps the requests(get/post)
+
+  - **MUIdentifier.java**: main logic file which identifies MUs from the keyword
+
+  - **MUIdentifierTest.java**: main test file which contains unit tests for the logic written in MUIdentifier
+
+  ![main-content](../assets/images/TDD-J-4.png)
+
+- For initiating test-driven development in spring boot application, add this to the `pom.xml` file.
+
+  ```bash
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+  </dependency>
+  ```
+
+- Run the unit tests
+
+  ![run-unit-tests](../assets/images/TDD-J-5.png)
+
+- Now, Test Suites is basically a way for clubbing various tests filtered on the basis of packages, tags and classes. JUnit5 as of now, doesn't support Test Suites, so JUnitPlatform which is part of JUnit4 is used for running the Test Suites.
+
+  Add this to the `pom.xml` for performing TDD using Test Suites
+
+  ```bash
+  <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-runner</artifactId>
+      <version>1.0.3</version>
+      <scope>test</scope>
+  </dependency>
+  <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>1.0.3</version>
+      <scope>test</scope>
+  </dependency>
+
+  ```
+
+- Run the Test Suites
+
+  ![run-test-suites](../assets/images/TDD-J-6.png)
 
 #### JUnit vs TestNG
 
@@ -250,3 +381,11 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
 ### Simple Usage
 
 ### Usage in Spring-Boot API & SolR
+
+#### Mockito vs MockMvc
+
+||Mockito|MockMvc|
+|---|---|---|
+||||
+||||
+||||
