@@ -6,6 +6,9 @@ categories: [Java, DevOps]
 
 Testing is the process of checking an application functionalities. Unit testing is done on developer's end.
 
+JUnit is used for state unit testing while Mockito is used for behaviour unit testing.
+For sorting algorithm, state unit testing is best, as here results matters. For DB applications, beahviour unit testing is best.
+
 ### Terminologies
 
 1. <ins>**Test fixture**</ins>
@@ -63,6 +66,8 @@ JUnit is a unit testing framework for Java programming language.
     - JUnit Platform: Integrating JUnit with mvn plugins & build tools.
     - JUnit Jupiter: Writing tests & test runners
     - JUnit Vintage: Providing backward compaitibity for running tests written in JUnit4 using JUnit5.
+
+![junit](../assets/images/TDD-J-8.png)
 
 <ins>**Initialisation**</ins>
 
@@ -368,24 +373,151 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
 
   ![run-test-suites](../assets/images/TDD-J-6.png)
 
-#### JUnit vs TestNG
-
-||JUnit|TestNG|
-|---|---|---|
-||||
-||||
-||||
 
 ## Mockito
 
+![mockito](../assets/images/TDD-J-7.png)
+
+Mockito is a mocking framework for Java Programming language.
+  - Used to provide data for the JUnit tests.
+  - Mockito enables writing tests using the mocking approach instead of the traditional approach of creating the "test doubles" manually.
+  - Uses Java Reflection for creating mock objects for a given interface.
+
+**Mocking**
+  - Used for testing the functionality of class in isolation.
+  - No need of setting up database connection or file io is required.
+  - Using Mock objects, we mock the real service. The mock object returns dummy data for some dummy input in the same manner as real service would have provided.
+
 ### Simple Usage
 
-### Usage in Spring-Boot API & SolR
+- Download the simple project which I used for this article using
 
-#### Mockito vs MockMvc
+  ```bash
+  wget https://github.com/jaykay12/tech/blob/master/assets/demos/mockito-springboot.zip
+  ```
 
-||Mockito|MockMvc|
-|---|---|---|
-||||
-||||
-||||
+ Open it as a project in IntelliJ. Once loaded, right click on `pom.xml` file & run "Add as Maven project".
+
+<ins>**Initialisation**</ins>
+
+Add this to your `pom.xml` file.
+
+```bash
+<dependencies>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.5.13</version>
+    </dependency>
+</dependencies>
+```
+
+- `Stock.java`
+
+  ```java
+  package tech.jaykay12;
+
+  public class Stock {
+      private String name;
+      private int quantity;
+
+      public Stock(String name, int quantity) {
+          this.name = name;
+          this.quantity = quantity;
+      }
+
+      public String getName() { return name; }
+
+      public float getQuantity() { return quantity; }
+  }
+  ```
+
+- `Portfolio.java`
+
+  ```java
+  package tech.jaykay12;
+
+  import java.util.List;
+
+  public class Portfolio {
+      private List<Stock> stocks;
+      private StockService stockService;
+      private Float portfolioValue;
+
+      public Portfolio(List<Stock> stocks, Float portfolioValue) {
+          this.stocks = stocks;
+          this.portfolioValue = portfolioValue;
+      }
+
+      public void setStockService(StockService stockService) { this.stockService = stockService; }
+
+      public Float calculateMarketValue() {
+          Float marketValue = 0.0f;
+          for(Stock stock: this.stocks) {
+              marketValue += (stock.getQuantity()*stockService.getRealtimePrice(stock.getName()));
+          }
+          return marketValue;
+      }
+
+      public Boolean isInProfit() {
+          return (portfolioValue<calculateMarketValue()?true:false);
+      }
+
+  }
+  ```
+
+- `StockService.java`
+
+  ```java
+  package tech.jaykay12;
+
+  public interface StockService {
+      public float getRealtimePrice(String name);
+  }
+  ```
+
+- `PortfolioTest.java`
+
+  ```java
+  //@RunWith(MockitoJUnitRunner.class)
+  public class PortfolioTestMockAnnotations {
+
+      //@Rule public MockitoRule rule = MockitoJUnit.rule();
+
+      @Mock
+      StockService stockService;
+
+      @InjectMocks
+      Portfolio portfolio;
+
+      @BeforeEach
+      void init(){
+          MockitoAnnotations.initMocks(this);
+
+          when(stockService.getRealtimePrice("infosys")).thenReturn(2200.0f);
+          when(stockService.getRealtimePrice("reliance")).thenReturn(3100.0f);
+          when(stockService.getRealtimePrice("indiamart")).thenReturn(4000.0f);
+
+          List<Stock> stocks = new ArrayList<>();
+          stocks.add(new Stock("infosys",10));
+          stocks.add(new Stock("reliance", 5));
+          portfolio = new Portfolio(stocks, 35000.0f);
+          portfolio.setStockService(stockService);
+      }
+
+      @Test
+      public void calculateMarketValueTest() {
+          Assertions.assertEquals(portfolio.calculateMarketValue(),37500);
+      }
+
+      @Test
+      public void calculateIsInProfitTest() {
+          Assertions.assertTrue(portfolio.isInProfit());
+      }
+  }
+  ```
+
+  Here, for @RunWith & @Rules, NPE was thrown, but tests ran smoothly with initMocks().
+  Question has been logged in [StackOverflow](https://stackoverflow.com/questions/64469561/not-able-to-use-rule-runwith-annotation-but-the-deprecated-initmocks-work) for the same.
+
+- ![](../assets/images/TDD-J-9.png)
