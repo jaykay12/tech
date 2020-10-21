@@ -12,11 +12,7 @@ public class Portfolio {
         this.portfolioValue = portfolioValue;
     }
 
-    public List<Stock> getStocks() { return stocks; }
-
     public void setStockService(StockService stockService) { this.stockService = stockService; }
-
-    public Float getPortfolioValue() { return portfolioValue; }
 
     public Float calculateMarketValue() {
         Float marketValue = 0.0f;

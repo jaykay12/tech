@@ -19,16 +19,21 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PortfolioTestMockMethod {
-    Portfolio portfolio = null;
+//@RunWith(MockitoJUnitRunner.class)
+public class PortfolioTestMockAnnotations {
 
+    //@Rule public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
     StockService stockService;
+
+    @InjectMocks
+    Portfolio portfolio;
 
     @BeforeEach
     void init(){
-        stockService = mock(StockService.class);
-
-        System.out.println(stockService);
+        MockitoAnnotations.initMocks(this);
+        
         when(stockService.getRealtimePrice("infosys")).thenReturn(2200.0f);
         when(stockService.getRealtimePrice("reliance")).thenReturn(3100.0f);
         when(stockService.getRealtimePrice("indiamart")).thenReturn(4000.0f);
@@ -49,5 +54,4 @@ public class PortfolioTestMockMethod {
     public void calculateIsInProfitTest() {
         Assertions.assertTrue(portfolio.isInProfit());
     }
-
 }
