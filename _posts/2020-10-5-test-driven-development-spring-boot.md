@@ -34,6 +34,7 @@ For sorting algorithm, state unit testing is best, as here results matters. For 
   - Used to benchmark software components repeatedly.
   - Also called as load testing.
   - Purpose is to ensure that the code under test runs fast enough even if it’s under high load
+  - Apache JMeter is used for load testing.
 
 
 5. <ins>**Calibration testing**</ins>
@@ -307,7 +308,7 @@ testRuntime("org.junit.platform:junit-platform-runner:1.5.2")
 - `Important Points`
   - Configure pom.xml file correctly.
 
-  - Keep the directory structure of _src/main/java/<PACKAGE_NAME>_ & _src/test/java/<PACKAGE_NAME>_ in sync.
+  - Keep the directory structure of `src/main/java/<PACKAGE_NAME>` & `src/test/java/<PACKAGE_NAME>` in sync.
 
   - If using JUnit5 overall & want to run tests using both methods, then add this to pom.xml
 
@@ -521,3 +522,54 @@ Add this to your `pom.xml` file.
   Question has been logged in [StackOverflow](https://stackoverflow.com/questions/64469561/not-able-to-use-rule-runwith-annotation-but-the-deprecated-initmocks-work) for the same.
 
 - ![](../assets/images/TDD-J-9.png)
+
+
+#### Important Concepts of Mockito
+
+<ins>**Fakes, Stubs, Mocks & Spys**</ins>
+
+- For automated testing, we use objects that look and behave like their production equivalent, but are actually simplified. They are necessary for executing self validating & isolated tests. These objects are called `TestDoubles`.
+
+- Really good blog post for this concept: https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da
+
+![](../assets/images/TDD-J-10.png)
+
+- `Fakes`
+  - Have working implementations, but not same as production one.
+  - Usually take some shortcut for getting simplified functionality of the production.
+  - Example: Using HashMap for testing features of Login APIs instead of production DBs.
+  - Process of creating fakes is Faking.
+
+- `Stubs`
+  - Holds predefined data and uses it to answer calls during tests.
+  - Used when objects that would answer with real data couldn't be involved.
+  - Example: Testing business logic in Search APIs using stubbed Apache Solr response documents.
+  - Process of creating stubs is Stubbing.
+  - Mainly used for performing state verification.
+
+- `Mocks`
+  - They register calls they receive.
+  - In test assertion we can verify on Mocks that all expected actions were performed.
+  - Example: Testing the functionalities of Portfolio by mocking the actual service of providing Real-time stock prices in similar manner as any Real-time API.
+  - Process of creating & using mocks is called Mocking.
+  - Main function of using mocks is that it gives full control over the behavior of the mocked objects. The mock objects are generally used for behavior verification.
+  - Used for testing a large suite of tests where stubs are not sufficient. One of the essential functions of mock is, we can verify how many times a given method is called.
+
+- `Spies`
+  - Are partially mock objects.
+  - In spying, partial object or a half dummy of the real object is created by stubbing the real ones.
+  - Are useful when we have a huge class full of methods, and we want to mock certain methods.
+
+<ins>**Important methods of mockito**</ins>  
+
+- when()
+  - Used for state testing
+  - Enables stubbing methods
+  - Pattern is like `when(mock.someCode ()).thenReturn(5);`
+
+- verify()
+  - Used for behaviour Testing
+  - Used to check whether some specified methods are called or not.
+  - Also used to test the number of invocations of any particular method.
+
+[Excellent blog posts](https://www.javatpoint.com/methods-of-mockito)
