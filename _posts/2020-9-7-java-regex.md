@@ -32,7 +32,7 @@ Java Regex API provides 1 interface and 3 classes in `java.util.regex` package.
 ### Pattern class
   - Compiled version of a regular expression.
 
-  - Used to define a pattern for the regex engine.
+  - Used for defining pattern for the regex engine.
 
   - Following are the important methods:
       - _static Pattern compile(String regex)_
