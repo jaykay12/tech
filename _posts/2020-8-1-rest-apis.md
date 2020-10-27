@@ -17,7 +17,7 @@ An **API** is an application programming interface. It is a set of rules that al
 We post a request to the URL & the data sent back is the response.
 Each request comprises of 4 components:
 
-- <ins>**Endpoint:**</ins> Also called route, is the url you request for. Comprises of (root-endpoint + path)
+- <ins>**Endpoint:**</ins> Also called route - the url you request for. Comprises of (root-endpoint + path)
 
 - <ins>**Methods:**</ins> GET/POST/PUT/DELETE/PATCH
 
