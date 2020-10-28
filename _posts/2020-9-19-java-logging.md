@@ -109,7 +109,7 @@ Logging allows us to record and persist system states as messages (e.g., runtime
 ## Log4J logging
 
   <ins>**Introduction**</ins>
-  - A fast, reliable & flexible logging framework
+  - Fast, reliable & flexible logging framework
   - Written in Java
   - Open-source logging API
   - Allows storage of logs in a file or DB

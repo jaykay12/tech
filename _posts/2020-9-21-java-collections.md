@@ -185,7 +185,7 @@ namesSet.add("Gaurav");
 
 <ins>**Stack class**</ins>
   - linear data structure that is used to store the collection of objects.
-  - It is based on Last-In-First-Out (LIFO)
+  - Based on Last-In-First-Out (LIFO)
 
   ```java
     import java.util.Stack;

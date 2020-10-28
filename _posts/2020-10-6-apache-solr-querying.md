@@ -567,8 +567,10 @@ Depending on these algorithms, clusters will vary for any fixed set of documents
 
 
 ### ReRanking & Learn to Rank
+_Update pending_
 
 #### Lucene workflow
 ![lucene-worflow](../assets/images/SOLR-9.png)
 
 ### Lucene Score Calculation
+_Update pending_
