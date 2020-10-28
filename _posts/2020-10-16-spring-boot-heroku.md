@@ -5,9 +5,9 @@ categories: [Deployment, Java, Heroku]
 ---
 
 ## Terminology
- - **spring boot:**
+ - **spring boot:** An open-source micro framework used to build stand-alone, auto-configurable and production-ready Spring Applications.
  - **heroku:** A cloud platform as a service supporting several programming languages.
- - **maven:**
+ - **maven:** A build automation tool used primarily for Java projects. Just like gradle & ant.
 
 ## Creating a Spring Boot API locally
 
@@ -91,7 +91,7 @@ public class APIController {
 **Step 1:**
 Get local copy of the API using
 ```bash
-wget https://github.com/jaykay12/tech/assets/demos/springboot-heroku.zip
+wget https://github.com/jaykay12/tech/blob/master/assets/demos/springboot-heroku.zip
 ```
 
 **Step 2 to 5:** Remains the same as above.
@@ -100,36 +100,79 @@ wget https://github.com/jaykay12/tech/assets/demos/springboot-heroku.zip
 
 **Step 1:** Logging into Heroku using heroku cli
 ```bash
-
+jalaz@jalaz-personal:/work-samples/springboot-heroku$ heroku login
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/xxxxxx-xxxx-xxxx
+Logging in... done
+Logged in as jalazkumar1208@gmail.com
 ```
-
-![Login Success]()
 
 **Step 2:** Create a heroku app inside the directory
 ```bash
-
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ heroku create springboot-heroku-jalaz
+Creating ⬢ springboot-heroku-jalaz... done
+https://springboot-heroku-jalaz.herokuapp.com/ | https://git.heroku.com/springboot-heroku-jalaz.git
 ```
 
-**Step 3:** Set Buildpacks for the app
+**Step 3:** Initialise as git repo for smooth deployment of the app
 ```bash
-
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git init
+Initialized empty Git repository in /home/jalaz/work-samples/springboot-heroku/.git/
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ vi .gitignore
+.idea
+.mvn
+target
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git add .
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git commit -m "Setup repo"
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git remote add heroku https://git.heroku.com/springboot-heroku-jalaz.git
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git remote -v
+heroku	https://git.heroku.com/springboot-heroku-jalaz.git (fetch)
+heroku	https://git.heroku.com/springboot-heroku-jalaz.git (push)
 ```
 
-**Step 4:**
-
-**Step 5:** Create a `Procfile` with the following content.
-```text
-
-```
+**Step 4:** Here a `Procfile` is not needed, `pom.xml` is itself self-sufficient.
 
 _Procfile: A text file in the root directory of your application, to explicitly declare what command should be executed to start your app_
 
-**Step 6:** Commit these new deployment changes.
+
+**Step 5:** Push to deploy.
 ```bash
-
-```
-
-**Step 7:** Push to deploy.
-```bash
-
+jalaz@jalaz-personal:~/work-samples/springboot-heroku$ git push heroku master
+Enumerating objects: 24, done.
+Counting objects: 100% (24/24), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (24/24), 9.52 KiB | 749.00 KiB/s, done.
+Total 24 (delta 0), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Java app detected
+remote: -----> Installing JDK 1.8... done
+remote: -----> Installing Maven 3.6.2... done
+remote: -----> Executing Maven
+remote:        $ mvn -DskipTests clean dependency:list install
+remote:        [INFO] Scanning for projects...
+remote:        [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-parent/2.3.4.RELEASE/spring-boot-starter-parent-2.3.4.RELEASE.pom
+remote:        [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-parent/2.3.4.RELEASE/spring-boot-starter-parent-2.3.4.RELEASE.pom (8.6 kB at 13 kB/s)
+-------------------------------- CONTINUED -----------------------------------
+remote:        [INFO] Installing /tmp/build_f51a6ec8/pom.xml to /tmp/codon/tmp/cache/.m2/repository/tech/jaykay12/springboot-heroku/0.0.1-SNAPSHOT/springboot-heroku-0.0.1-SNAPSHOT.pom
+remote:        [INFO] ------------------------------------------------------------------------
+remote:        [INFO] BUILD SUCCESS
+remote:        [INFO] ------------------------------------------------------------------------
+remote:        [INFO] Total time:  18.243 s
+remote:        [INFO] Finished at: 2020-10-28T17:38:14Z
+remote:        [INFO] ------------------------------------------------------------------------
+remote: -----> Discovering process types
+remote:        Procfile declares types -> (none)
+remote:
+remote: -----> Compressing...
+remote:        Done: 94M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://springboot-heroku-jalaz.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/springboot-heroku-jalaz.git
+ * [new branch]      master -> master
 ```
