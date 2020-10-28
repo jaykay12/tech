@@ -33,7 +33,7 @@ For Eg: If Spring Boot starter “pom” for “JPA” is listed, it will autoco
 **Advantages of Spring Boot:**
 
 - Makes use of Java, which is one of the most popular programming languages in the world.
-- Acts as really good tool for creation & deployment of production-grade applications quickly without worrying about setting up tricky configurations.
+- Acts as really good tool for creation & deployment of production-grade applications quickly without worrying about setting up the tricky configurations.
 - Helps to autoconfigure all components for a production-grade Spring application.
 - Avoids writing lots of boilerplate code, annotations, and XML configuration.
 - Comes with embedded HTTP servers like Tomcat or Jetty to test web applications.
