@@ -4,58 +4,42 @@ title: Advanced Java - X - Java Collection
 categories: [Java]
 ---
 
-Java collections is a framework that provides an architecture to store and manipulate groups of objects.
+A framework which provides the suitable architecture for storing & manipulating group of objects. `java.util` package contains all classes and interfaces.
 
-Provides many interfaces(Set, List, Queue, Map etc.) and classes (ArrayList, Vector, HashSet, HashMap, TreeSet etc.)
+Provides interfaces like: Set, List, Queue, Map etc. and classes like: ArrayList, Vector, HashSet, HashMap, TreeSet etc.
 
-`java.util` package contains all classes and interfaces.
-
-![colections](../assets/images/JA-25.png)
+![collections](../assets/images/JA-25.png)
 
 <ins>**Collection interface**</ins>
 
-Declares the methods that every collection will have. Few notable ones are:
+Here, all the major methods which all collections will be having are defined, notable ones are as follows:
 
 - _public boolean add(Object element)_
-
 - _public boolean addAll(Collection<?> c)_
-
 - _public boolean remove(Object element)_
-
 - _public boolean removeAll(Collection<?> c)_
-
 - _public int size()_
-
 - _public void clear()_
-
 - _public boolean contains(Object element)_
-
 - _public boolean containsAll(Collection<?> c)_
-
 - _public Iterator iterator()_
-
 - _public Object[] toArray()_
-
 - _public boolean isEmpty()_
-
 - _public boolean equals(Object element)_
-
 - _public int hashCode()_
 
 <ins>**Iterator interface**</ins>
 
-Provides the facility of iterating the elements in a forward direction.
-2 important methods:
+Used for iterating the elements in forward direction. 2 important methods:
 
 - _public boolean hasNext()_
-
 - _public Object next()_
 
 
 ### Lists, ArrayLists & LinkedLists
 
 <ins>**List interface**</ins>
-  - Child interface of Collection interface
+  - Child interface of `Collection` interface.
   - For storing the ordered collection of objects.
   - It can have duplicate values.
   - Implemented by the classes ArrayList, LinkedList, Vector, and Stack.
@@ -71,8 +55,8 @@ for(String fruitname: fruits)                       // For-Each Loop
 for(int i=0;i<fruits.size();i++)
     System.out.println(fruits[i]);                  // For Loop
 
-fruits.get(0);                                        // get() is used for accessing
-fruits.set(1,"Orange");                               // set() is used for modifying
+fruits.get(0);                                      // get() is used for accessing
+fruits.set(1,"Orange");                             // set() is used for modifying
 
 Collections.sort(fruits);                           // sorting the list
 
@@ -102,9 +86,9 @@ String[] languageArray2 = languageList.toArray(new String[languageList.size()]);
 
 |ArrayList|LinkedList|
 |---|---|
-|Implements List interface and maintains insertion order.|implements List interface and maintains insertion order.|
+|Implements `List` interface and maintains insertion order.|implements `List` interface and maintains insertion order.|
 |Non synchronized|Non synchronized|
-|Internally uses a dynamic array to store the elements|Internally uses a doubly linked list to store the elements|
+|For storing elements, internally dynamic array is used|For storing elements, internally doubly linked-list is used|
 |Manipulation with ArrayList is slow because it internally uses an array. If any element is removed from the array, all the bits are shifted in memory.|Manipulation with LinkedList is faster than ArrayList because it uses a doubly linked list, so no bit shifting is required in memory.|
 |Can act as a list only because it implements List only|Can act as a list and queue both because it implements List and Deque interfaces|
 |Better for storing and accessing data|Better for manipulating data|
@@ -141,7 +125,7 @@ public class ObjectWithList {
 ### Sets, HashSets & TreeSets
 
 <ins>**Set interface**</ins>
-  - Child interface of Collection interface
+  - Child interface of `Collection` interface
   - Represents the unordered set of elements which doesn't allow us to store the duplicate items.
   - We can store at most one null value in Set.
   - Set is implemented by HashSet, LinkedHashSet, and TreeSet.
@@ -158,7 +142,9 @@ while(i.hasNext()) {
     System.out.println(i.next());  
 }
 
-numbers.remove("Two");  
+numbers.remove("Two");
+numbers.contains("Three");                                    // true
+numbers.contains("Two");                                      // false
 
 ArrayList<String> namesList = new ArrayList<String>();  
 namesList.add("Jalaz");  
@@ -238,7 +224,7 @@ namesSet.add("Gaurav");
   - Contains unique keys.
   - Useful if you have to search, update or delete elements on the basis of a key.
   - Map doesn't allow duplicate keys, but you can have duplicate values
-  - Map can't be traversed, conversion into Set using keySet() or entrySet() method is required.
+  - Map can't be traversed, conversion into Set using keySet() or entrySet() method, if required.
 
 `HashMap`: Implementation of Map, but it doesn't maintain any order
 
