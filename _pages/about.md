@@ -17,10 +17,10 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 
 ## Articles
 
-- [ ] WebRTC
+- [x] WebRTC
 - [ ] Test-driven development in JS using ChaiJS and mochaJS
 - [ ] Test-driven development in Python using unittest
-- [ ] Test-driven development in Java using JUnit
+- [x] Test-driven development in Java using JUnit and Mockito
 - [ ] WebPacks in JavaScript (NPM, Yarn, Babel)
 - [ ] Build tools in Java (Maven, Gradle)
 - [x] REST APIs
@@ -30,7 +30,7 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 - [ ] reactJS (class components)
 - [ ] reactJS (functional components)
 - [ ] reactJS (React Hooks)
-- [ ] Apache SolR
+- [x] Apache SolR
 - [x] OAuth
 - [x] Spring Boot
 - [ ] Java Spring
@@ -59,6 +59,7 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 - [ ] Generative Adaptive Networks
 - [ ] BERT & GPT
 - [ ] TensorFlow, PyTorch, Sklearn & Keras
+- [x] FastText
 
 ## Demos
 
@@ -67,7 +68,7 @@ Managed by [Jalaz Kumar](https://github.com/jaykay12)
 - [x] Deploying python-flask app to Heroku
 - [x] Deploying python-flask app to Microsoft Azure
 - [ ] Deploying reactJS app to Netlify
-- [ ] Deploying spring-boot app to Heroku
+- [x] Deploying spring-boot app to Heroku
 - [ ] Setting up CI/CD using Travis CI/Heroku
 - [ ] Setting up CI/CD using GitHub Actions/Heroku
 - [ ] Setting up CI/CD using GitHub Actions/Netlify

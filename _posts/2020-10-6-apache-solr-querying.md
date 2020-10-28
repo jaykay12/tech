@@ -296,7 +296,7 @@ Any document in the index that has both the terms "jute" and "bags" will match; 
     - Lucene query parser
     - Learning to Rank query parser etc.
 
-## Request Handlers & Search Components in Solr
+## Request Handlers & Search Components
 
   - `Request Handler` is a Solr plug-in which defines the logic that should be used for processing any request at Solr's end.
 
@@ -308,35 +308,26 @@ Any document in the index that has both the terms "jute" and "bags" will match; 
   - Solr supports a variety of request handlers. Some are designed for processing search queries, while others manage tasks such as index replication.
 
   - Mainly 4 types of RequestHandlers:
-    1. QueryHandler/SearchHandler
-    2. UpdateRequestHandler/IndexHandler
-    3. ShardHandler
-    4. Implicit Handler
+    - **QueryHandler**
+      - Primary request handler, handles the search queries.
+      - Have 4 sections: defaults, invariants, appends and components.
 
+    - **UpdateRequestHandler** or **IndexHandler**
+      - Process updates to the solr index.
+      - `/update` - UpdateRequestHandler - Add, delete and update indexed documents
 
-  - **QueryHandler**
-    - Primary request handler, handles the search queries.
-    - Have 4 sections: defaults, invariants, appends and components.
+    - **ShardHandler**
+      - Configured for searching across the shards of a cluster
+      - Used only with distributed search.
 
-
-  - **UpdateRequestHandler** or **IndexHandler**
-    - Process updates to the solr index.
-    - `/update` - UpdateRequestHandler - Add, delete and update indexed documents
-
-
-  - **ShardHandler**
-    - Configured for searching across the shards of a cluster
-    - Used only with distributed search.
-
-
-  - **Implicit Handler**
-    - Implicit -> As they need not be configured in solrconfig.xml explicitly.
-    - Few notable ones are:
-        1. /replication
-        2. /config - SolrConfigHandler - Retrieve/modify Solr configuration.
-        3. /admin/ping - PingRequestHandler - Health check.
-        4. /admin/properties - PropertiesRequestHandler - Return JRE system properties.
-        5. /schema - SchemaHandler - Retrieve/modify Solr schema.
+    - **Implicit Handler**
+      - Implicit -> As they need not be configured in solrconfig.xml explicitly.
+      - Few notable ones are:
+          1. /replication
+          2. /config - SolrConfigHandler - Retrieve/modify Solr configuration.
+          3. /admin/ping - PingRequestHandler - Health check.
+          4. /admin/properties - PropertiesRequestHandler - Return JRE system properties.
+          5. /schema - SchemaHandler - Retrieve/modify Solr schema.
 
 
 <ins>**Defining a SearchHandler & its usage**</ins>
@@ -375,11 +366,10 @@ Search Handlers can be configured with three sets of Query Params:
 </requestHandler>
 ```
 
-`Calling`
 - `http://localhost:8985/solr/mcat/solrlearning?q=bags`
 - `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags`
 
-`Different Usages`
+<ins>**Different Usages**</ins>
 - `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags` -> 100 documents in json response format will be retrieved using defaults. "bags" will be searched in namex & each document will be having id, name, score.
 
 - `http://localhost:8985/solr/mcat/select?qt=/solrlearning&q=bags&rows=1000` -> 1000 documents are retrieved overridding the defaults value.
@@ -401,7 +391,7 @@ This is somewhat analogous to the GROUP BY of SQL.
   - Allows to specify an arbitrary query in the Lucene default syntax to generate a clear facet count.
   - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.query=type:S` -> Provides facet counts for Service-type MCATs.
 
-`Field Value Faceting`
+<ins>**Field Value Faceting**</ins>
 
 - <ins>**facet.field**</ins>
   - Identifies a field that should be treated as a facet.
@@ -430,7 +420,7 @@ This is somewhat analogous to the GROUP BY of SQL.
   - By default: facet.mincount=0
   - `http://localhost:8985/solr/mcat/select?q.alt=*:*&fl=name,id&wt=json&facet=true&facet.field=groupid&facet.mincount=5000` -> Provides facet counts(mcats) for those group ids having atleast 5000 mcats under their umbrella.
 
-`Range Faceting`
+<ins>**Range Faceting**</ins>
 
 Can be applied on any date field or any numeric field that supports range queries.
 
@@ -448,7 +438,7 @@ Can be applied on any date field or any numeric field that supports range querie
 
 `http://localhost:8985/solr/keyword-mapping/select?q.alt=*:*&fl=name,mcatname&wt=json&facet=true&facet.range=indexeddate&facet.range.start=NOW/DAY-30DAYS&facet.range.end=NOW/DAY&facet.range.gap=%2B1DAY` -> Provides mappings(product/buylead/virtual) indexed on the facet of indexing date.
 
-`Pivot Faceting`
+<ins>**Pivot Faceting**</ins>
 
 Pivoting is a summarization tool that lets you automatically sort, count, total or average data stored in a table. The results are typically displayed in a second table showing the summarized data
 

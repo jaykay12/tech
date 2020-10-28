@@ -1,7 +1,7 @@
 ---
 layout: post
 title: fastText, Facebook ML Library
-categories: [ML, Miscellaneous]
+categories: [Machine Learning, Miscellaneous]
 ---
 
 An open-source, free, lightweight library created by Facebook R&D that learns text representations and build text classifiers.
