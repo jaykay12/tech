@@ -22,7 +22,7 @@ Installing setuptools, pip, wheel...
 done.
 ```
 
-**Step 3:** Activate the virtualenv & install flask Using
+**Step 3:** Activate the virtualenv & install flask using
 ```bash
 jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ source venv/bin/activate
 (venv) jalaz@jalaz-personal:~/tech/assets/demos/flask-heroku$ pip install flask
