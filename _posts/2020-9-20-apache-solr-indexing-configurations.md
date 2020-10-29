@@ -28,7 +28,7 @@ categories: [Search, Miscellaneous]
 
 ![solr](../assets/images/SOLR-4.png)
 
-`Apache Lucene` is Java-based search library. Used to index and search voluminous amount of text. Basically, we store the index using Lucene & exposes searching on this index through Solr Rest APIs.
+`Apache Lucene` is Java-based search library. Used to index and search voluminous amount of text. Basically, we store the index using lucene & exposes searching on this index through Solr Rest APIs.
 
   - Written by Dough Cutting in 1999
 
