@@ -88,7 +88,7 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-**Step 4:** Install all the packages using
+**Step 4:** Install all the python packages using
 ```bash
 pip install -r requirements.txt
 ```
