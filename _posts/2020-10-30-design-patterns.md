@@ -69,6 +69,110 @@ public class ThreadSafeSingleton {
 
 #### Factory
 
+This pattern is used in cases when we have a superclass with multiple sub-classes and based on input, we need to return one of the sub-class. This pattern takes out the responsibility of the instantiation of a class from the client program to the factory class.
+
+![](../assets/images/DP-2.png)
+
+- Used when the exact types and dependencies of the objects your code should work with is not known beforehand.
+- Factory pattern makes our code more robust, less coupled and easy to extend
+- Concepts:
+  - Factory class for creation of object of desired type.
+
+Real-life example is a Logistic App, initially, a single transport mechanism was of land so Trucks were used & all logistics function were dependent on Truck class but later on while addition of sea & air transport, this poses problems in scaling the app.
+
+![](../assets/images/DP-3.png)
+
+![](../assets/images/DP-4.png)
+
+![](../assets/images/DP-5.png)
+
+`Button.java`
+
+```java
+public interface Button {
+    void render();
+    void onClick();
+}
+```
+
+`WindowsButton.java`
+
+```java
+public class WindowsButton implements Button {
+    public void render() {}
+    public void onClick() {}
+}
+```
+
+`HTMLButton.java`
+
+```java
+public class HtmlButton implements Button {
+    public void render() {}
+    public void onClick() {}
+}
+```
+
+`Dialog.java` : Factory class
+
+```java
+public abstract class Dialog {
+    public void renderWindow() {
+        Button okButton = createButton();
+        okButton.render();
+    }
+
+    public abstract Button createButton();
+}
+
+```
+
+`WindowsDialog.java`
+
+```java
+public class WindowsDialog extends Dialog {
+    @Override
+    public Button createButton() {
+        return new WindowsButton();
+    }
+}
+```
+
+`HtmlDialog.java`
+
+```java
+public class HtmlDialog extends Dialog {
+    @Override
+    public Button createButton() {
+        return new HtmlButton();
+    }
+}
+```
+
+`Runner.java`
+
+```java
+public class Runner {
+    private static Dialog dialog;
+
+    public static void main(String[] args) {
+        configure();
+        runBusinessLogic();
+    }
+
+    static void configure() {
+        if (System.getProperty("usage.property").equals("browser"))
+            dialog = new HtmlDialog();
+        else
+            dialog = new WindowsDialog();
+    }
+
+    static void runBusinessLogic() {
+        dialog.renderWindow();
+    }
+}
+```
+
 #### Abstract factory
 
 #### Builder
