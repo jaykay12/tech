@@ -5,7 +5,7 @@ categories: [Analytics, Web Development]
 ---
 
 ### Google Analytics
-Google Analytics is a web analytics service offered by Google that tracks and reports website traffic, currently as a platform inside the Google Marketing Platform brand.
+Google Analytics is a web analytics service offered by Google Inc. that tracks and reports website traffic, currently as a platform inside the Google Marketing Platform brand.
 Google launched the service in November 2005 after acquiring Urchin
 
 ### Enabling GA for a property
