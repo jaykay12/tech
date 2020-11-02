@@ -175,7 +175,21 @@ public class Runner {
 
 #### Abstract factory
 
+This pattern lets us produce families of related objects without specifying their concrete classes.
+
+Real-life example is a Furniture making store, which sells Chair, Sofa & Table of 2 styles: Modern & Wooden.
+
+- Concepts
+  - Abstract product basically an abstract class for the product like Chair, Sofa, Table etc.
+  - Concrete product is inherited from abstract product like WoodenChair, WoodenSofa, ModernChair etc.
+  - Abstract factory basically an interface with a list of creation methods for all products like createSofa, createChair, createTable etc. Eg: FurnitureFactory. These methods must return abstract products.
+  - Concrete factory is inherited from Abstract factory & returns concrete products from the implementations of methods of abstract factory.  Eg: WoodenFurnitureFactory must implement createSofa & return WoodenSofa etc.
+
+![](../assets/images/DP-6.png)
+
 #### Builder
+
+- Use the Builder pattern to get rid of a “telescopic constructor”.
 
 #### Prototype
 
