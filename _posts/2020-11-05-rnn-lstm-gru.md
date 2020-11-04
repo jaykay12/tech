@@ -96,6 +96,7 @@ GRUs & LSTMs are 2 primary variations of vanilla RNNs, which solve the prominent
 ![rnn-defintions](../assets/images/RNN-9.png)
 
 [Great Video for learning about GRU & LSTM functioning](https://www.youtube.com/watch?v=8HyCNIVRbSU)
+
 [Geat blog post for LSTM Understanding](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
 
@@ -134,12 +135,22 @@ If sequence is large or accuracy is very critical -> LSTM whereas for less memor
 
 ### BRNNs (Bi-directional RNNs)
 
+This variaton of RNN allows to take information from earlier as well as later portion of the input sequence for generating the output sequence.
+
+<ins>**Simple RNN in forward sequence:**</ins>
+![simple-rnn](../assets/images/RNN-13.png)
+
+<ins>**Bi-RNNs**</ins>
+![bi-rnn](../assets/images/RNN-14.png)
+
+In the example shown above, these cells are vanilla RNN cells, which can be replaced with LSTM units or GRU cells.
+
+Bi-RNNs face with the disadvantage that it's not fully functional for real-time application as the entire input sequence is required before-hand. For applications like speech recognition, we must wait for the sentence to complete, before making predictions & this leads to latency.
+
 ### DRNNs (Deep RNNs)
 
+Multiple layers of RNNs can be stacked on top of each other forming a Deep RNN architecture. Data might be relevant at different levels of the stack.
+
+![deep-rnns](../assets/images/RNN-15.png)
+
 <ins>**Practical LSTM**</ins>
-
-https://coursera.com
-
-https://towardsdatascience.com/recurrent-neural-networks-by-example-in-python-ffd204f99470
-
-https://www.simplilearn.com/tutorials/deep-learning-tutorial/rnn
