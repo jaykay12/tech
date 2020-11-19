@@ -175,7 +175,7 @@ public class Runner {
 
 #### Abstract factory
 
-This pattern lets us produce families of related objects without specifying their concrete classes.
+Produces families of related objects without specifying their concrete classes.
 
 Real-life example is a Furniture making store, which sells Chair, Sofa & Table of 2 styles: Modern & Wooden.
 
@@ -189,10 +189,76 @@ Real-life example is a Furniture making store, which sells Chair, Sofa & Table o
 
 #### Builder
 
-- Use the Builder pattern to get rid of a “telescopic constructor”.
+Helps constructing complex objects in step-by-step manner, where all these objects differ in representations. Objects are having lot many attributes & having separate constructors for invoking these attributes for object creation is really cumbersome.
+
+Basically solves the issues in Factory & Abstract Factory DP.
+
+![builder-dp](../assets/images/DP-7.png)
+
+- Concepts
+  - Builder class is a static nested class inside the main object class.
+  - Builder class must have a public parameterized constructor with all mandatory data members.
+  - Builder class should have setters for all optional data members & should return Builder object.
+  - build() method is required which returns the final object to the runner.
+
+`Mobile.java`
+```java
+public class Mobile {
+  private String RAM;
+  private String Size;
+  private String Camera;
+  boolean is4GEnabled;
+
+  // GETTERS for these 5 private members
+
+  private Mobile(MobileBuilder builder) {
+    this.RAM = builder.RAM;
+    this.Size = builder.Size;
+    this.Camera = builder.Camera;
+    this.is4GEnabled = builder.is4GEnabled;
+  }
+
+  public static class MobileBuilder {
+    private String RAM;
+    private String Size;
+    private String Camera;
+    boolean is4GEnabled;
+
+    public MobileBuilder(String RAM, String Size) {
+      this.RAM = RAM; this.Size = Size;
+    }
+
+    public MobileBuilder setCamera(String Camera) {
+      this.Camera = Camera;
+      return this;
+    }
+
+    public MobileBuilder setIs4GEnabled(boolean is4GEnabled) {
+      this.is4GEnabled = is4GEnabled;
+      return this;
+    }
+
+    public Mobile build() {
+      return new Mobile(this);
+    }
+  }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        Mobile mobile1 = new Mobile.MobileBuilder("4 GB", "6 inch").setCamera("12px").setIs4GEnabled(true).build();
+        Mobile mobile2 = new Mobile.MobileBuilder("2 GB", "4.2 inch").setIs4GEnabled(false).build();
+	}
+}
+```
 
 #### Prototype
 
+
+---
 
 
 ## Structural Patterns
@@ -210,6 +276,8 @@ Real-life example is a Furniture making store, which sells Chair, Sofa & Table o
 #### Flyweight
 
 #### Proxy
+
+---
 
 ## Behavioral Patterns
 
