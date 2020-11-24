@@ -4,21 +4,23 @@ title: Dive into Design Patterns
 categories: [Java, Spring]
 ---
 
-Design patterns are the solutions to some prominent & frequent problems, one faces while designing softwares.
-  - These solutions are "evolved" rather than being "discovered".
-  - Design patterns provides guidelines to solve a particular problem in a particular way in some particular context while keeping no check on implementation.
-  - Using these, code can be made more flexible, reusable and maintainable.
-  - The standard 23 Design Patterns are known as Gang of Four (GoF) Design Patterns.
+Design patterns - Solutions to some prominent & frequent problems, one faces while designing softwares.
+  - "Evolved" not "Discovered".
+  - Provides guidelines for solving a particular problem in particular way in some particular context. No strictness on implementation.
+  - Using DPs, code becomes more flexible, reusable and maintainable.
+  - Gang of Four (GoF) Design Patterns - standard 23 DPs.
 
 
 3 different kinds of design patterns are there:
-  - Creational Patterns : Deals with object creation.
-  - Structural Patterns : Deals with the composition of objects & classes.
-  - Behavioral Patterns : Focuses on interactions between objects.
+  - <ins>Creational Patterns</ins> : Deals with object creation.
+  - <ins>Structural Patterns</ins> : Deals with the composition of objects & classes.
+  - <ins>Behavioral Patterns</ins> : Focuses on interactions between objects.
 
-There are also 4th category: J2EE Patterns which specifically deals with presentation tier.
+Also a 4th category: <ins>J2EE Patterns</ins> which specifically deals with presentation tier.
 
 ## Creational Patterns
+
+![creational-patterns](../assets/images/DP-8.png)
 
 #### Singleton
 
@@ -257,6 +259,12 @@ public class Runner {
 
 #### Prototype
 
+In General, Prototype -> template of the actual object
+Prototype pattern:
+- Helps in scenarios where large number of instances of class are required, which are all nearly same.
+- Main advantage is the minimal instance creation process which is costly than cloning process.
+
+<script src="https://gist.github.com/jaykay12/6b8facc541322de31e6879e9a283b2f1.js"></script>
 
 ---
 
