@@ -193,15 +193,15 @@ Real-life example is a Furniture making store, which sells Chair, Sofa & Table o
 
 Helps constructing complex objects in step-by-step manner, where all these objects differ in representations. Objects are having lot many attributes & having separate constructors for invoking these attributes for object creation is really cumbersome.
 
-Basically solves the issues in Factory & Abstract Factory DP.
+Basically solves the issues of Factory & Abstract Factory DP.
 
 ![builder-dp](../assets/images/DP-7.png)
 
-- Concepts
-  - Builder class is a static nested class inside the main object class.
-  - Builder class must have a public parameterized constructor with all mandatory data members.
-  - Builder class should have setters for all optional data members & should return Builder object.
-  - build() method is required which returns the final object to the runner.
+Concepts
+- Builder class is a static nested class inside the main object class.
+- Builder class must have a public parameterized constructor with all mandatory data members.
+- Builder class should have setters for all optional data members & should return Builder object.
+- build() method is required which returns the final object to the runner.
 
 `Mobile.java`
 ```java
@@ -259,13 +259,110 @@ public class Runner {
 
 #### Prototype
 
-In General, Prototype -> template of the actual object
-Prototype pattern:
-- Helps in scenarios where large number of instances of class are required, which are all nearly same.
-- Main advantage is the minimal instance creation process which is costly than cloning process.
+Generally, Prototype is a template of the actual object to be constructed.
+- Useful when large number of instances of classes are required, which are all nearly same.
+- Main advantage is the minimal instance creation process which is costly than the cloning process.
+- This DP also supplements cases when we require exact copies of existing objects but don't want to be dependent on their classes.
 
-<script src="https://gist.github.com/jaykay12/6b8facc541322de31e6879e9a283b2f1.js"></script>
+**Issues with normal approach**
+If we have to exactly copy an existing object natively, we create a new object of the same class, traverse all fields of existing object & copy values to the new object. Here, catch is that maybe some fields are private & couldn't be accessed/copied.
 
+Concepts
+- An interface/class implementing Cloneable having abstract clone() method declared.
+- Prototype registry for holding the prominet prototypes.
+- Separate Prototype models which inherits the base interface & implements clone() method accordingly.
+
+`SolrCore.java `
+```java
+package tech.jaykay12.designpatterns.prototype;
+
+public interface SolrCore extends Cloneable {
+    public SolrCore clone() throws CloneNotSupportedException;
+}
+```
+
+`Intent.java `
+```java
+package tech.jaykay12.designpatterns.prototype.model;
+
+public class Intent implements SolrCore {
+    private String name = null;
+
+    @Override
+    public Intent clone() throws CloneNotSupportedException {
+        return (Intent) super.clone();
+    }
+}
+```
+
+`Mapping.java`
+```java
+package tech.jaykay12.designpatterns.prototype.model;
+
+public class Mapping implements SolrCore {
+    private String name = null;
+
+    @Override
+    public Mapping clone() throws CloneNotSupportedException {
+        return (Mapping) super.clone();
+    }
+}
+```
+
+`Mcat.java`
+```java
+package tech.jaykay12.designpatterns.prototype.model;
+
+public class Mcat implements SolrCore {
+    private String name = null;
+
+    @Override
+    public Mcat clone() throws CloneNotSupportedException {
+        return (Mcat) super.clone();
+    }
+}
+```
+
+`CoreDirectory.java`
+```java
+package tech.jaykay12.designpatterns.prototype;
+
+public class CoreDirectory {
+    public static class CoreName {
+        public static final String INTENT = "intent";
+        public static final String MCAT = "mcat";
+        public static final String MAPPING = "kw-mapping";
+    }
+
+    private static java.util.Map<String , SolrCore> cores = new java.util.HashMap<>();
+
+    static {
+        cores.put(CoreName.INTENT, new Intent());
+        cores.put(CoreName.MCAT, new Mcat());
+        cores.put(CoreName.MAPPING, new Mapping());
+    }
+
+    public static SolrCore getInstance(final String s) throws CloneNotSupportedException {
+        return ((SolrCore) cores.get(s)).clone();
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        try {
+            String mappingCore1  = SolrCore.getInstance(CoreName.MAPPING).toString();
+            String intentCore1  = SolrCore.getInstance(CoreName.INTENT).toString();
+            String mappingCore2  = SolrCore.getInstance(CoreName.MAPPING).toString();
+        }
+        catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 ---
 
 
