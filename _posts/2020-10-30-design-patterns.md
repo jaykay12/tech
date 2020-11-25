@@ -432,7 +432,101 @@ public class Runner {
 
 ## Structural Patterns
 
-#### Adapter
+![structural-pattern](../assets/images/DP-4.png)
+
+#### Adapter Pattern
+
+Allows objects with imcompatible interfaces to collaborate.
+- Helps creating a middle-layer class that serves as translator between the legacy code & new code.
+- Arrays.asList() is a quite famous adapter used.
+- Also known as Wrapper Pattern
+- 2 ways of implementing adapter patter:
+  - Class adapter which uses inheritence
+  - Object adapter which uses composition
+
+![issues](../assets/images/DP-5.png)
+![solution](../assets/images/DP-6.png)
+
+`RoundHole.java`
+```java
+public class RoundHole {
+    private double radius;
+
+    public RoundHole(double radius) {
+        this.radius = radius;
+    }
+
+    public boolean fits(RoundPeg rpeg) {
+        if(this.radius >= rpeg.getRadius())
+            return true;
+        else
+            return false;
+    }
+}
+```
+
+`RoundPeg.java`
+```java
+public class RoundPeg {
+    private double radius;
+
+    public RoundPeg(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return this.radius;
+    }
+}
+```
+
+`SquarePeg.java`
+```java
+public class SquarePeg {
+    private double side;
+
+    public SquarePeg(double side) {
+        this.side = side;
+    }
+
+    public double getSide() {
+        return this.side;
+    }
+}
+```
+
+`SquarePegAdapter.java`
+```java
+public class SquarePegAdapter extends RoundPeg {
+    private SquarePeg sqpeg;
+
+    public SquarePegAdapter(SquarePeg sqpeg) {
+        this.sqpeg = sqpeg;
+    }
+
+    @Override
+    public double getRadius() {
+        return Math.sqrt(Math.pow(sqpeg.getSide()/2, 2)*2);
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        RoundHole hole = new RoundHole(5);
+        RoundPeg rpeg = new RoundPeg(5);
+        hole.fits(rpeg);                                                 // true
+
+        SquarePeg sqpeg = new SquarePeg(6);
+        hole.fits(sqpeg);                                                // compilation error
+
+        SquarePegAdapter sqpegAdapter = new SquarePegAdapter(sqpeg);
+        hole.fits(sqpegAdapter);                                         // false
+    }
+}
+```
 
 #### Bridge
 
