@@ -532,7 +532,123 @@ public class Runner {
 
 #### Composite
 
-#### Decorator
+#### Decorator Pattern
+
+Used to extend the behavior of an instance at runtime. This modification doesn't impact the other instances.
+
+- Provides alternative to the native approach of subclassing for functionality extensions.
+- Also called as wrapper design pattern just like adapter dp.
+- Decorator dp lets us attach these new behaviors to objects by placing these objects inside special wrapper objects (decorators) that contain these behaviors.
+
+Concepts
+- Component interface
+- Component implementation which extends component interface
+- Decorator which extends component interface & posses HAS-A relation with component implementation
+- Concrete decorators which extend Decorator & adds extra functionalities.
+
+`DataSource.java`
+```java
+public interface DataSource {
+    void writeData(String data);
+    String readData();
+}
+```
+
+`FileDataSource.java`
+```java
+public class FileDataSource implements DataSource {
+    private String name;
+
+    public FileDataSource(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void writeData(String data) {
+        SOUT("Writing data to file");
+    }
+
+    @Override
+    public String readData() {
+        SOUT("Reading data from file");
+    }
+}
+```
+
+`DataSourceDecorator.java`
+```java
+public class DataSourceDecorator implements DataSource {
+    private DataSource wrappee;
+
+    DataSourceDecorator(DataSource source) {
+        this.wrappee = source;
+    }
+
+    @Override
+    public void writeData(String data) {
+        wrappee.writeData(data);
+    }
+
+    @Override
+    public String readData() {
+        return wrappee.readData();
+    }
+}
+```
+
+`EncryptionDecorator.java`
+```java
+public class EncryptionDecorator extends DataSourceDecorator {
+    public EncryptionDecorator(DataSource source) {
+        super(source);
+    }
+
+    @Override
+    public void writeData(String data) {
+        super.writeData(encode(data));
+    }
+
+    @Override
+    public String readData() {
+        return decode(super.readData());
+    }
+}
+```
+
+`CompressionDecorator.java`
+```java
+public class CompressionDecorator extends DataSourceDecorator {
+    public CompressionDecorator(DataSource source) {
+        super(source);
+    }
+
+    @Override
+    public void writeData(String data) {
+        super.writeData(compress(data));
+    }
+
+    @Override
+    public String readData() {
+        return decompress(super.readData());
+    }  
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        DataSourceDecorator encoded = new CompressionDecorator(
+                                         new EncryptionDecorator(
+                                             new FileDataSource("input.txt")));  
+        DataSource plain = new FileDataSource("input.txt");
+
+        SOUT(plain.readData());
+        SOUT(encoded.readData());
+    }
+}
+```
+
 
 #### Facade
 
