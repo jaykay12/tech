@@ -538,7 +538,83 @@ Used for decoupling abstraction from its implementation so that both can vary  i
 
 ![bridge](../assets/images/DP-7.png)
 
-#### Composite
+#### Composite Pattern
+
+Used mainly for the cases when objects form a tree-like hierarchy. In this hierarchy, each node is either a composite or a leaf node.
+
+- Provides 2 basic element types which share common interface: simple leaves & complex containers. These containers can further contain simple leaves & more containers making this a tree structre.
+- Using this pattern, simple as well complex elements are treated uniformly.
+
+![composite](../assets/images/DP-8.png)
+
+`FileSystemObject.java`
+```java
+public interface FileSystemObject {
+  public abstract void print();
+}
+```
+
+`File.java`
+```java
+public class File extends FileSystemObject {
+  private String fileName;
+  public File(String fileName) {
+      this.fileName = fileName;
+  }
+  
+  @Override
+  public void print() {
+      Sout(fileName);
+  }
+}
+```
+
+`Folder.java`
+```java
+public class Folder extends FileSystemObject {
+    private String folderPath;
+    private List<String> childrens;
+
+    public Folder(String folderPath) {
+        this.folderPath = folderPath;
+        this.childrens = new ArrayList<>();
+    }
+    public add(FileSystemObject fobj) {
+        this.childrens.add(fobj);
+    }
+
+    @Override
+    public void print() {
+        Sout(folderPath);
+        for(FileSystemObject fobj:childrens) {
+            fobj.print();
+        }
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+
+        FileSystemObject file1 = new File("model-v1.bin");
+        FileSystemObject file2 = new File("model-v2.bin");
+        FileSystemObject file3 = new File("dataset.csv");
+        FileSystemObject folder1 = new Folder("/ml");
+        FileSystemObject folder2 = new Folder("/dataset");
+        FileSystemObject folder3 = new Folder("/models");
+
+        folder2.add(file3);
+        folder3.add(file1);
+        folder3.add(file2);
+        folder1.add(folder2);
+        folder1.add(folder3);
+
+        folder1.print();
+    }
+}
+```
 
 #### Decorator Pattern
 
