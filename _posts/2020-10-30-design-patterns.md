@@ -561,7 +561,7 @@ public class File extends FileSystemObject {
   public File(String fileName) {
       this.fileName = fileName;
   }
-  
+
   @Override
   public void print() {
       Sout(fileName);
@@ -733,8 +733,41 @@ public class Runner {
 }
 ```
 
+#### Facade Pattern
 
-#### Facade
+Used for providing simplified interface to set of complex subsystems.
+
+- Is appropriate when we have a complex subsystems, which we desire to expose in a simplistic manner.
+- It hides the internal complexities from the outer world.
+- Also decouples the code making it easier to modify/rectify the subsystems without affecting the external client facing interfaces.
+
+![facade](../assets/images/DP-9.png)
+
+`MCATService.java`
+```java
+public class MCATService {
+    public List<String> suggestMCATs(String searchQuery) {
+        String modifiedSearchQuery = new SearchQueryFormatter.clean(searchQuery);
+        List<String> mcats = new SolrMappingLogic.getTopMappings(modifiedSearchQuery);
+        mcats.addAll(new SolrMCATLogic.getExactMCATs(modifiedSearchQuery));
+        mcats.addAll(new SolrMCATLogic.getSimilarMCATs(mcats.get(0)));
+        mcats = new BusinessLogic.reorganise(mcats);
+    }
+}
+```
+
+We have several subsystems in place namely, SearchQueryFormatter.java, SolrMappingLogic.java, SolrMCATLogic.java, BusinessLogic.java etc but MCATService will act as facade to us.
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        List<String> mcats = new MCATService.suggestMCATs("Lg washing machine 4kg");
+    }
+}
+```
+
+Due to decoupling between the interface & implementation, its easy to modify/rectify/change the implementation.
 
 #### Flyweight
 
