@@ -769,9 +769,70 @@ public class Runner {
 
 Due to decoupling between the interface & implementation, its easy to modify/rectify/change the implementation.
 
-#### Flyweight
+#### Flyweight Pattern
 
-#### Proxy
+Used in scenarios where lots of similar objects are spawned in the system. Since, each of these objects consumes memory which is crucial for low storage devices like mobiles or embedded systems, Flyweight pattern is highly useful.
+
+- We try to fit more objects in the available RAM by sharing common data between these objects rather than keeping that data in each object.
+- Flyweight is a shared object which can be used in multiple contexts simultaneously.
+
+Concepts
+- Number of objects created should be huge
+- Object properties can be divided into intrinsic & extrinsic. Intrinsic properties are part of the flyweight class & extrinsic properties are set by the client code.
+
+![without-flyweight](../assets/images/DP-10.png)
+
+![with-flyweight](../assets/images/DP-11.png)
+
+#### Proxy Pattern
+
+Used in scenarios when we require to represent the actual service object with a simpler one. Proxy object serves as placeholder for the actual service objects.
+
+Types of proxies:
+- Virtual proxy used for lazy initialisation. If the actual service object is too heavy & memory-hungry to be created.
+- Protection proxy used for access control. If the actual service object requires some sort of authentication.
+- Remote proxy used for remote handling & connection establishment stuff.
+- Logging & Caching proxy used for logging & request/data caching purposes.
+
+`CommandExecutor.java`
+```java
+public interface CommandExecutor {
+    public void runCommand(String command, String user);
+}
+```
+
+`CommandExecutorImpl.java`
+```java
+public class CommandExecutorImpl extends CommandExecutor {
+    @Override
+    public void runCommand(String command, String user) {
+        Runtime.getRuntime().exec(command);
+    }
+}
+```
+
+`CommandExecutorProxy.java`
+```java
+public class CommandExecutorProxy extends CommandExecutorImpl {
+    @Override
+    public void runCommand(String command, String user) {
+        if(user.equals("admin")) {
+            super.runCommand(command);
+        } else
+            Sout("Permission Denied");
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        new CommandExecutorProxy.runCommand("ls", "admin");
+        new CommandExecutorProxy.runCommand("rm", "jalaz");
+    }
+}
+```
 
 ---
 
