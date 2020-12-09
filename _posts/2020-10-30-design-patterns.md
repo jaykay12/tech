@@ -838,27 +838,148 @@ public class Runner {
 
 ## Behavioral Patterns
 
+![](../assets/images/DP-12.png)
+![](../assets/images/DP-13.png)
+
 #### Chain of responsibility
 
-#### Command
+Used in scenarios when a client's request is passed through a chain of handlers. Each handler upon receiving the request decides whether to process it or pass it to the next handler.
+
+- Java Exception handling with multiple catch blocks is an excellent example.
+- Customer servicing support is a good real life example.
+- Use COR when these handlers are to be decided at run-time.
+
+![cor](../assets/images/DP-14.png)
+
+`Dispenser.java`
+```java
+public interface Dispenser {
+    void setNextDispencer(Dispenser next);
+    void dispense(Integer amount);
+}
+```
+
+`Rupee2000Dispenser`
+```java
+public class Rupee2000Dispenser implements Dispenser {
+
+  private Dispenser next = null;
+
+	@Override
+	public void setNextDispencer(Dispenser next) {
+		this.next = next;
+	}
+
+	@Override
+	public void dispense(Integer amount) {
+			int num = amount/2000;
+			int remainder = amount % 2000;
+			System.out.println("Dispensing "+num+" 2000 note");
+			if(remainder !=0) {
+        if(next!=null)
+          this.next.dispense(remainder);
+        else
+          Sout("Couldn't dispense remaining amount");
+      }
+	}
+}
+```
+
+`Rupee500Dispenser`
+```java
+public class Rupee500Dispenser implements Dispenser {
+
+  private Dispenser next = null;
+
+  @Override
+  public void setNextDispencer(Dispenser next) {
+    this.next = next;
+  }
+
+  @Override
+  public void dispense(Integer amount) {
+      int num = amount/500;
+      int remainder = amount % 500;
+      System.out.println("Dispensing "+num+" 500 note");
+      if(remainder !=0) {
+        if(next!=null)
+          this.next.dispense(remainder);
+        else
+          Sout("Couldn't dispense remaining amount");
+      }
+  }
+}
+```
+
+`Rupee100Dispenser`
+```java
+public class Rupee100Dispenser implements Dispenser {
+
+	private Dispenser next = null;
+
+	@Override
+	public void setNextDispencer(Dispenser next) {
+		this.next = next;
+	}
+
+	@Override
+	public void dispense(Integer amount) {
+			int num = amount/100;
+			int remainder = amount % 100;
+			System.out.println("Dispensing "+num+" 100 note");
+			if(remainder !=0) {
+        if(next!=null)
+          this.next.dispense(remainder);
+        else
+          Sout("Couldn't dispense remaining amount");
+      }
+	}
+}
+```
+
+`ATMDispenseChain.java`
+```java
+public class ATMDispenseChain {
+  public ATMDispenseChain() {
+    private Dispenser dispenser;
+    public ATMDispenseChain(){
+      dispenser = new Rupee2000Dispenser();
+      dispenser.setNextDispencer(new Rupee500Dispenser().setNextDispencer(new Rupee100Dispenser()));
+    }
+  }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+  public static void main(String[] args) {
+    ATMDispenseChain atmdispenser = new ATMDispenseChain();
+    atmdispenser.dispense(2600);
+    atmdispenser.dispense(3300);
+  }
+}
+```
+
+#### Command Pattern (``*``)
 
 #### Interpreter
 
-#### Iterator
+#### Iterator Pattern (`*`)
 
 #### Mediator
 
-#### Memento
+#### Memento Pattern (`*`)
 
-#### Observer
+#### Observer Pattern (`*`)
 
-#### State
+#### State Pattern (`*`)
 
-#### Strategy
+#### Strategy Pattern (`*`)
 
 #### Template method
 
-#### Visitor
+#### Visitor Pattern (`*`)
 
 [How to do in java](https://howtodoinjava.com/gang-of-four-java-design-patterns/)
 [Journal Dev](https://www.journaldev.com/1827/java-design-patterns-example-tutorial)
