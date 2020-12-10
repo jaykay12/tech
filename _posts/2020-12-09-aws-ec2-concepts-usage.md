@@ -45,14 +45,28 @@ Features:
     - z1d.metal (48 CPU, 384 GB)
     - x1e.32xlarge (128 CPU, 3904 GB)
 
-- Key pairs
+
+- <ins>**Key pairs**</ins>
+  - Consists of _public key_ that AWS stores & _private key_ that we store.
+  - When we launch a new instance, key pair is assigned to it. Then, for logging in to it, we use the private key.
+  - Always store the private key or `.pem` file in a secure place as anyone who has this private key can log in on your behalf.
+
 
 - <ins>**Security groups**</ins>
   - Set of firewall rules that control the traffic for the instance.
+  - Acts as a virtual firewall for the EC2 instances to control incoming and outgoing traffic.
+  - Inbound rules control the incoming traffic to your instance, and outbound rules control the outgoing traffic from your instance
 
-- Virtual private clouds
 
-- Amazon EBS
+- <ins>**Virtual private clouds**</ins>
+  - Amazon Virtual Private Cloud (Amazon VPC) lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources.
+  - IndiaMART Search GCP cluster is an example of VPC wherein R&D server is accessible from Fts-master2, Repeater server etc without any latency & security concerns as all 3 servers are in the same VPC.
+
+
+- <ins>**Amazon EBS**</ins>
+  - Amazon Elastic Block Store
+  - Easy to use, high performance block storage service designed for use with Amazon EC2.
+  - Used with the EC2 cloud service to store persistent data. This means that the data is retained even when the EC2 instances are shut down.
 
 ## Creation & Handling
 
@@ -104,14 +118,56 @@ Create a Key-pair in this step & secure/download the key generated in this step 
 `Launched`:
 
   ![launch-initiate](../assets/images/AWS-EC2-10.png)
-  
+
 #### Connecting
 
+- **Step 1**: Locate the private key stored in Step 7 & provide read permissions.
+`chmod 400 jalaz-tech.pem`
+
+- **Step 2**: Grab the Public IP of the instance from AWS Instance console.
+
+- **Step 3**: Using SSH client log into the instance.
+
+```bash
+jalaz@jalaz-personal:~$ ssh -i "jalaz-tech.pem" ubuntu@54.199.225.204
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1029-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Dec 10 19:09:09 UTC 2020
+
+  System load:  0.0               Processes:           90
+  Usage of /:   14.6% of 7.69GB   Users logged in:     0
+  Memory usage: 17%               IP address for eth0: 172.31.33.234
+  Swap usage:   0%
+
+  0 packages can be updated.
+  0 updates are security updates.
+ubuntu@ip-172-31-33-234:~$
+```
 
 #### Advanced Concepts
 
 
 ## Deploying KitabGhar on EC2 Instance
+
+#### Setting up
+
+**Step 1** Cloning the repo
+```bash
+ubuntu@ip-172-31-33-234:~/kitabghar$ git clone https://github.com/jaykay12/KitabGhar.git
+Cloning into 'KitabGhar'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 416 (delta 0), reused 0 (delta 0), pack-reused 413
+Receiving objects: 100% (416/416), 1.96 MiB | 1.93 MiB/s, done.
+Resolving deltas: 100% (225/225), done.
+```
+
+**Step 2** Transferring files(books/posters) to the instance
 
 #### Setting up MySQL Database
 
