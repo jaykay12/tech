@@ -169,8 +169,96 @@ Resolving deltas: 100% (225/225), done.
 
 **Step 2** Transferring files(books/posters) to the instance
 
-#### Setting up MySQL Database
+#### Setting up KitabGhar Database: MySQL
 
-#### Setting up KitabGhar Portal
+**Step 1**: Refresh the Ubuntu packages by running `sudo apt update`
 
-#### Setting up KitabGhar Recommend API
+**Step 2**: Install MySQL
+```bash
+ubuntu@ip-172-31-33-234:~$ sudo apt install mysql-server
+Reading package lists... Done
+Building dependency tree... Done
+...
+...
+...
+Setting up mysql-client-5.7 (5.7.32-0ubuntu0.18.04.1) ...
+Setting up mysql-server-5.7 (5.7.32-0ubuntu0.18.04.1) ...
+Processing triggers for systemd (237-3ubuntu10.42) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+```
+
+**Step 3**: Secure the MySQL environment by running `sudo mysql_secure_installation`
+
+**Step 4**: By default, the general command of `mysql -u root -p` doesn't work. Run the following commands for getting this done.
+```bash
+ubuntu@ip-172-31-33-234:~$ mysql -u root -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+ubuntu@ip-172-31-33-234:~$ sudo mysql
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'jalaz';
+Query OK, 0 rows affected (0.00 sec)
+mysql> exit
+
+ubuntu@ip-172-31-33-234:~$ mysql -u root -p
+Enter password:
+mysql>
+```
+
+**Step 5**: Configuring KitabGhar DB
+```bash
+ubuntu@ip-172-31-33-234:~$ mysql -u root -p
+Enter password:
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+
+mysql> CREATE DATABASE kitabghar;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kitabghar          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+
+mysql> exit
+Bye
+
+ubuntu@ip-172-31-33-234:~$ cd kitabghar/KitabGhar/
+ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar$ mysql -u root -p kitabghar < KitabGhar.sql
+Enter password:
+ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar$ mysql -u root -p
+Enter password:
+
+mysql> use kitabghar;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_kitabghar |
++---------------------+
+| books               |
+| connections         |
+| reviews             |
+| shelfs              |
+| users               |
++---------------------+
+```
+
+`KitabGhar database is running good & configured on MySQL server`
+
+
+#### Setting up KitabGhar Portal: Tomcat
+
+#### Setting up KitabGhar Recommend API: Python-flask
