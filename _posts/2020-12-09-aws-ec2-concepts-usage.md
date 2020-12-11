@@ -5,6 +5,7 @@ categories: [Deployment, AWS]
 ---
 
 AWS or Amazon Web Services provides on-demand cloud computing services & APIs to subscribers on the metered pay-as-you-go basis.
+
 [AWS Developer Console](https://aws.amazon.com/console/)
 
 ![aws-ec2](../assets/images/AWS-EC2-1.png)
@@ -153,10 +154,12 @@ ubuntu@ip-172-31-33-234:~$
 
 ## Deploying KitabGhar on EC2 Instance
 
-#### Setting up
+### Setting up the project
 
 **Step 1** Cloning the repo
 ```bash
+ubuntu@ip-172-31-33-234:~/ mkdir kitabghar
+ubuntu@ip-172-31-33-234:~/ cd kitabghar
 ubuntu@ip-172-31-33-234:~/kitabghar$ git clone https://github.com/jaykay12/KitabGhar.git
 Cloning into 'KitabGhar'...
 remote: Enumerating objects: 3, done.
@@ -167,9 +170,19 @@ Receiving objects: 100% (416/416), 1.96 MiB | 1.93 MiB/s, done.
 Resolving deltas: 100% (225/225), done.
 ```
 
-**Step 2** Transferring files(books/posters) to the instance
+**Step 2** Transferring files(books/thumbnails) to the instance
+```bash
+jalaz@jalaz-personal:~$ scp -i "jalaz-tech.pem" -r /home/jalaz/Github/KitabGhar/KitabGhar/bookpics ubuntu@54.199.225.204:/home/ubuntu/kitabghar/KitabGhar/KitabGhar/.
+HoldMyHands.jpg                                                   100%   49KB  55.6KB/s   00:00    
+RailsWD.png                                                       100%   89KB  73.5KB/s   00:01    
+...
+...
+CormenALGO.png                                                    100%  112KB 212.8KB/s   00:00
+SahniALGO.png                                                     100%  340KB 471.9KB/s   00:00
+```
 
-#### Setting up KitabGhar Database: MySQL
+
+### Setting up KitabGhar Database: MySQL
 
 **Step 1**: Refresh the Ubuntu packages by running `sudo apt update`
 
@@ -177,7 +190,7 @@ Resolving deltas: 100% (225/225), done.
 ```bash
 ubuntu@ip-172-31-33-234:~$ sudo apt install mysql-server
 Reading package lists... Done
-Building dependency tree... Done
+Building dependency tree
 ...
 ...
 ...
@@ -259,6 +272,136 @@ mysql> show tables;
 `KitabGhar database is running good & configured on MySQL server`
 
 
-#### Setting up KitabGhar Portal: Tomcat
+### Setting up KitabGhar Portal: Tomcat
+
+#### Configuring tomcat (Native approach)
+
+**Step 1**: Updating the sources.list for getting legacy packages by running
+`sudo vi /etc/apt/sources.list` & adding the entry `deb http://security.ubuntu.com/ubuntu trusty-security main universe` to this file.
+
+**Step 2**: Update the package directory using `sudo apt update`
+
+**Step 3**: Install Tomcat
+```bash
+ubuntu@ip-172-31-33-234:~$ sudo apt install tomcat7 tomcat7-admin tomcat7-docs tomcat7-examples
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+...
+...
+After this operation, 206 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+...
+...
+Setting up tomcat7 (7.0.52-1ubuntu0.16) ...
+● tomcat7.service - LSB: Start Tomcat.
+Setting up tomcat7-admin (7.0.52-1ubuntu0.16) ...
+Setting up tomcat7-docs (7.0.52-1ubuntu0.16) ...
+Setting up tomcat7-examples (7.0.52-1ubuntu0.16) ...
+```
+
+**Step 4**: Installing & Configuring Java
+```bash
+ubuntu@ip-172-31-33-234:~$ javac -version
+javac 1.8.0_275
+ubuntu@ip-172-31-33-234:~$ java -version
+openjdk version "11.0.9.1" 2020-11-04
+OpenJDK Runtime Environment (build 11.0.9.1+1-Ubuntu-0ubuntu1.18.04)
+OpenJDK 64-Bit Server VM (build 11.0.9.1+1-Ubuntu-0ubuntu1.18.04, mixed mode, sharing)
+
+ubuntu@ip-172-31-33-234:~$ sudo update-alternatives --config java
+There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+ubuntu@ip-172-31-33-234:~$ echo $JAVA_HOME
+
+ubuntu@ip-172-31-33-234:~$ sudo nano /etc/environment
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+
+ubuntu@ip-172-31-33-234:~$ source /etc/environment
+ubuntu@ip-172-31-33-234:~$ echo $JAVA_HOME
+/usr/lib/jvm/java-11-openjdk-amd64
+```
+
+**Step 6**: Starting tomcat using any of the following commands:
+```bash
+sudo service tomcat7 start
+```
+
+#### Configuring tomcat (Preferred approach)
+
+**Step 1**: Download the core from the [Official website](https://tomcat.apache.org/download-70.cgi)
+```bash
+ubuntu@ip-172-31-33-234:~/test$ wget https://downloads.apache.org/tomcat/tomcat-7/v7.0.107/bin/apache-tomcat-7.0.107.tar.gz
+```
+
+**Step 2**: Extraction
+```bash
+ubuntu@ip-172-31-33-234:~$ tar -xvzf apache-tomcat-7.0.107.tar.gz
+```
+
+**Step 3**: Starting tomcat
+```bash
+ubuntu@ip-172-31-33-234:~$ cd apache-tomcat-7.0.107/bin
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107/bin$ bash startup.sh
+Using CATALINA_BASE:   /home/ubuntu/apache-tomcat-7.0.107
+Using CATALINA_HOME:   /home/ubuntu/apache-tomcat-7.0.107
+Using CATALINA_TMPDIR: /home/ubuntu/apache-tomcat-7.0.107/temp
+Using JRE_HOME:        /usr/lib/jvm/java-11-openjdk-amd64
+Using CLASSPATH:       /home/ubuntu/apache-tomcat-7.0.107/bin/bootstrap.jar:/home/ubuntu/apache-tomcat-7.0.107/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+```
+
+#### Exposing 8080 port of the EC2 instance
+
+**Step 1**: We need to add in-bound rules in the security group associated with the instance.
+
+![sg-rules](../assets/images/AWS-EC2-11.png)
+
+**Step 2**: Verify if tomcat is accessible from outside world
+
+![web-access](../assets/images/AWS-EC2-12.png)
+
+#### Configuring the portal to run on tomcat
+
+**Step 1**: Create a softlink of repo webapp to the tomcat webapps
+```bash
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107/webapps$ ln -s /home/ubuntu/kitabghar/KitabGhar/KitabGhar ./
+```
+
+**Step 2**: Restart the tomcat
+```bash
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107$ ps -ef | grep "tomcat"
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107$ kill -9 3517
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107/bin$ bash startup.sh
+```
+
+**Step 3** Check the progress from logs
+```bash
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107$ cd logs/
+ubuntu@ip-172-31-33-234:~/apache-tomcat-7.0.107/logs$ tail -10f catalina.out
+INFO: Starting service [Catalina]
+Dec 11, 2020 8:19:21 PM org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.107
+Dec 11, 2020 8:19:21 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory [/home/ubuntu/apache-tomcat-7.0.107/webapps/KitabGhar]
+INFO: Deployment of web application directory [/home/ubuntu/apache-tomcat-7.0.107/webapps/KitabGhar] has finished in [207,201] ms
+Dec 11, 2020 8:22:48 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory [/home/ubuntu/apache-tomcat-7.0.107/webapps/ROOT]
+Dec 11, 2020 8:22:48 PM org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deployment of web application directory [/home/ubuntu/apache-tomcat-7.0.107/webapps/ROOT] has finished in [94] ms
+Dec 11, 2020 8:22:49 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 208106 ms
+```
+
+**Step 4** Use browser for verifying the portal liveness on the instance
+
+![portal-home](../assets/images/AWS-EC2-13.png)
+
+![portal-library](../assets/images/AWS-EC2-14.png)
+
+Once, Recommend API is configured on the instance, this section will also churn out personalised recommendations.
+
+![portal-recommendations](../assets/images/AWS-EC2-15.png)
 
 #### Setting up KitabGhar Recommend API: Python-flask
