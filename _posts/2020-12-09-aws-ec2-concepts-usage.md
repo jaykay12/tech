@@ -149,14 +149,11 @@ Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 5.4.0-1029-aws x86_64)
 ubuntu@ip-172-31-33-234:~$
 ```
 
-#### Advanced Concepts
-
-
 ## Deploying KitabGhar on EC2 Instance
 
 ### Setting up the project
 
-**Step 1** Cloning the repo
+**Step 1** Cloning KitabGhar Platform
 ```bash
 ubuntu@ip-172-31-33-234:~/ mkdir kitabghar
 ubuntu@ip-172-31-33-234:~/ cd kitabghar
@@ -170,7 +167,18 @@ Receiving objects: 100% (416/416), 1.96 MiB | 1.93 MiB/s, done.
 Resolving deltas: 100% (225/225), done.
 ```
 
-**Step 2** Transferring files(books/thumbnails) to the instance
+**Step 2** Cloning KitabGhar Recommend API
+```bash
+ubuntu@ip-172-31-33-234:~/kitabghar$ git clone https://github.com/jaykay12/KitabGhar-Recommend-API.git
+Cloning into 'KitabGhar-Recommend-API'...
+remote: Enumerating objects: 12, done.
+remote: Counting objects: 100% (12/12), done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 79 (delta 2), reused 10 (delta 2), pack-reused 67
+Unpacking objects: 100% (79/79), done.
+```
+
+**Step 3** Transferring files(books/thumbnails) to the instance
 ```bash
 jalaz@jalaz-personal:~$ scp -i "jalaz-tech.pem" -r /home/jalaz/Github/KitabGhar/KitabGhar/bookpics ubuntu@54.199.225.204:/home/ubuntu/kitabghar/KitabGhar/KitabGhar/.
 HoldMyHands.jpg                                                   100%   49KB  55.6KB/s   00:00    
@@ -277,7 +285,7 @@ mysql> show tables;
 #### Configuring tomcat (Native approach)
 
 **Step 1**: Updating the sources.list for getting legacy packages by running
-`sudo vi /etc/apt/sources.list` & adding the entry `deb http://security.ubuntu.com/ubuntu trusty-security main universe` to this file.
+`sudo vi /etc/apt/sources.list` & adding the entry _deb http://security.ubuntu.com/ubuntu trusty-security main universe_ to this file.
 
 **Step 2**: Update the package directory using `sudo apt update`
 
@@ -396,6 +404,8 @@ INFO: Server startup in 208106 ms
 
 **Step 4** Use browser for verifying the portal liveness on the instance
 
+`KitabGhar Platform is running good on port 8080 with full database integrations`
+
 ![portal-home](../assets/images/AWS-EC2-13.png)
 
 ![portal-library](../assets/images/AWS-EC2-14.png)
@@ -404,4 +414,112 @@ Once, Recommend API is configured on the instance, this section will also churn 
 
 ![portal-recommendations](../assets/images/AWS-EC2-15.png)
 
-#### Setting up KitabGhar Recommend API: Python-flask
+### Setting up KitabGhar Recommend API: Python-flask
+
+#### Configuring the environment
+
+**Step 1**:  Installing virtualenv
+```bash
+ubuntu@ip-172-31-33-234:~$ sudo apt install virtualenv
+Reading package lists... Done
+...
+Setting up python3-virtualenv (15.1.0+ds-1.1) ...
+Setting up virtualenv (15.1.0+ds-1.1) ...
+```
+
+**Step 2**: Installing pip
+```bash
+ubuntu@ip-172-31-33-234:~ sudo apt install python3-pip
+Reading package lists... Done
+...
+Setting up python3-pip (9.0.1-2.3~ubuntu1.18.04.4) ...
+Setting up python3-setuptools (39.0.1-2) ...
+```
+
+**Step 3**: Install dev client required for mysql integration with python
+```bash
+ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$ sudo apt-get install libmysqlclient-dev
+Reading package lists... Done
+...
+Setting up libmysqlclient-dev (5.7.32-0ubuntu0.18.04.1) ...
+```
+
+#### Running the Recommendation API
+
+**Step 1**: Configuring virtualenv
+```bash
+ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$ virtualenv venv
+Running virtualenv with interpreter /usr/bin/python2
+New python executable in /home/ubuntu/kitabghar/KitabGhar-Recommend-API/venv/bin/python2
+Also creating executable in /home/ubuntu/kitabghar/KitabGhar-Recommend-API/venv/bin/python
+Installing setuptools, pkg_resources, pip, wheel...done.
+
+ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$ source venv/bin/activate
+(venv) ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$
+```
+
+**Step 2**: Building the project
+```bash
+(venv) ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$ pip3 install -r requirements.txt
+Collecting atomicwrites==1.4.0 (from -r requirements.txt (line 1))
+...
+...
+Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 atomicwrites-1.4.0 attrs-19.3.0 click-7.1.2 importlib-metadata-1.7.0 iniconfig-1.0.1 itsdangerous-1.1.0 more-itertools-5.0.0 mysqlclient-2.0.1 numpy-1.19.1 packaging-20.4 pluggy-0.13.1 py-1.9.0 pyparsing-2.4.7 pytest-6.0.1 scipy-1.5.2 six-1.15.0 toml-0.10.1 zipp-3.1.0
+```
+
+**Step 4**: Running the API
+```bash
+(venv) ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API$ cd api
+(venv) ubuntu@ip-172-31-33-234:~/kitabghar/KitabGhar-Recommend-API/api$ python3 app.py
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 283-095-556
+```
+
+`Recommendation API is running good`
+
+![recommend-api-running](../assets/images/AWS-EC2-16.png)
+
+`API Logs`
+
+```bash
+Done: Sales Data Gathered from Database!
+Generated: Popular Recommendations on Sales!
+['PROG1023', 'NOV1046', 'ACAD1004', 'ACAD1009', 'ACAD1030', 'ACAD1042']
+127.0.0.1 - - [12/Dec/2020 12:56:37] "GET /recommendations/sales HTTP/1.1" 200 -
+Done: Rating Data Gathering from Database!
+Generated: Popular Recommendations on Ratings!
+['NOV1013', 'NOV1021', 'PROG1031', 'ACAD1029', 'NOV1037', 'NOV1047']
+127.0.0.1 - - [12/Dec/2020 12:56:37] "GET /recommendations/ratings HTTP/1.1" 200 -
+Done: Retrived Current Books of User!
+['NOV1015', 'PROG1009', 'PROG1023', 'NOV1046']
+Total Subscribers: 14
+Total Books: 130
+Done: Hashing!
+Done: Dynamic Rating Extracted from Database!
+Done: Constructed Data Matrix!
+Done: Constructed Similarity Matrix!
+Generated: Matrices!
+Generated: Item-Item Similarity Recommendations
+127.0.0.1 - - [12/Dec/2020 12:56:38] "GET /recommendations/itembased/jalaz.kumar HTTP/1.1" 200 -
+```
+
+## Additional Step
+
+Setting up CronTab for the KitabGhar platform & Recommend API to run on instance startup
+
+```bash
+ubuntu@ip-172-31-33-234:~$ crontab -e
+```
+
+```bash
+@reboot bash /home/ubuntu/apache-tomcat-7.0.107/bin/startup.sh
+
+@reboot cd /home/ubuntu/kitabghar/KitabGhar-Recommend-API && bash start.sh
+```
