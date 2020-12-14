@@ -1058,11 +1058,87 @@ public class FileSystemClient {
 }
 ```
 
-#### Interpreter
+#### Interpreter Pattern
+
+Used for defining a grammatical representation for a language and provides an interpreter to deal with this grammar
+- Not much prevelant design pattern
+- Used in java.util.Pattern class.
+- Useful for creating syntax tree of the grammer.
 
 #### Iterator Pattern (`*`)
 
-#### Mediator
+#### Mediator Pattern
+
+Used to provide a centralised communication medium to objects.
+- Reduces chaotic dependencies between object by restricting direct communicatio  between them & forces them to collaborate only via `Mediator` object.
+- ATC at airport is a real-time great example for Mediator DP.
+- Fewer the dependencies a class carries, easier is to modify & maintain that class.
+- Objects communicating via mediator are called `Colleague` objects.
+- Colleagues are not aware of each other's existence, thus enabling loose coupling.
+
+`ATC.java`
+```java
+public class ATC {
+    private List<String> airportList = new ArrayList<>();
+    private isAirStripFree = true;
+
+    public void allowTakeOff(String flightId) {
+      if(isAirStripFree)
+        airportList.remove(flightId);
+    }
+
+    public void allowLanding(String flightId) {
+      if(isAirStripFree)
+        airportList.add(flightId);
+    }
+}
+```
+
+`Flight.java`
+```java
+public interface Flight {
+    String flightId;
+    ATC controller;
+    public Flight(String id, ATC atc) {  flightId = id; controller = atc; }
+    public void seekTakeOff();
+    public void seekLanding();
+}
+```
+
+`AirlinesFlight.java`
+```java
+public class AirlinesFlight implements Flight {
+  public AirlinesFlight(String id, ATC atc) {  super(id, atc);  }
+  public void seekTakeOff() { controller.allowTakeOff(flightId); }
+  public void seekLanding() { controller.allowLanding(flightId); }
+}
+```
+
+`CargoFlight.java`
+```java
+public class CargoFlight implements Flight {
+  public CargoFlight(String id, ATC atc) {  super(id, atc);  }
+  public void seekTakeOff() { controller.allowTakeOff(flightId); }
+  public void seekLanding() { controller.allowLanding(flightId); }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String args[]) {
+        ATC atc = new ATC();
+        Flight spicejetBLU_DLI = new AirlinesFlight("SP121", atc);
+        Flight dtdcBLU_KUK = new CargoFlight("DTDC37", atc);
+        Flight goairCHD_BLU = new AirlinesFlight("GA763", atc);
+
+        goairCHD_BLU.seekLanding();
+        dtdcBLU_KUK.seekTakeOff();
+        goairCHD_BLU.seekTakeOff();
+        spicejetBLU_DLI.seekTakeOff();
+    }
+}
+```
 
 #### Memento Pattern (`*`)
 
