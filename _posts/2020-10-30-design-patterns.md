@@ -1065,7 +1065,134 @@ Used for defining a grammatical representation for a language and provides an in
 - Used in java.util.Pattern class.
 - Useful for creating syntax tree of the grammer.
 
-#### Iterator Pattern (`*`)
+#### Iterator Pattern
+
+Lets us traverse elements of a group of objects (collection) without exposing the underlying representations (list, map, set etc.)
+- Different kinds of iterators can be provided as per our requirements.
+- Use Iterator DP, when collection has complex data structure under the hood & we wish to hide its complexity from the clients.
+
+![iterator-pattern](../assets/images/DP-15.png)
+
+`Channel.java`
+```java
+public class Channel {
+  	private String name;
+  	private String type;
+
+  	public Channel(String name, String type){
+  		this.number = name;
+  		this.type = type;
+  	}
+
+  	public String getName() {	return name;	}
+  	public String getType() {	return type;	}
+
+  	@Override
+  	public String toString(){
+  		return "Name="+name+", Type="+type;
+  	}
+}
+```
+
+`ChannelCollection.java`
+```java
+public interface ChannelCollection {
+  	public void addChannel(Channel c);
+  	public void removeChannel(Channel c);
+  	public ChannelIterator iterator(String type);
+}
+```
+
+`ChannelIterator.java`
+```java
+public interface ChannelIterator {
+    public boolean hasNext();
+    public Channel next();
+}
+```
+
+`ChannelCollectionImpl.java`
+```java
+public class ChannelCollectionImpl implements ChannelCollection {
+    private List<Channel> channelsList = new ArrayList<>();
+    public void addChannel(Channel c) {	this.channelsList.add(c);	}
+    public void removeChannel(Channel c) {	this.channelsList.remove(c);	}
+
+    @Override
+  	public ChannelIterator iterator(String type) {
+  		return new ChannelIteratorImpl(type, this.channelsList);
+  	}
+}
+```
+
+`ChannelIteratorImpl.java`
+```java
+public class ChannelIteratorImpl implements ChannelIterator {
+    private String type;
+    private List<Channel> channelsList;
+    private Integer position;
+
+    public ChannelIteratorImpl(String type, List<Channel> channelsList) {
+        this.type = type;   this.channelsList = channelsList;   this.position = 0;
+    }
+
+    @Override
+    public boolean hasNext() {
+        while(position < channelsList.size()) {
+            Channel c = channelsList.get(position);
+            if(c.getType().equals(type) || type.equals("ALL"))
+                return true;
+            else
+                position++;
+        }
+        return false;
+    }
+
+    @Override
+		public Channel next() {
+			Channel c = channelsList.get(position);
+			position++;
+			return c;
+		}
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String args[]) {
+        ChannelCollection channels = new ChannelIteratorImpl();
+        channels.addChannel(new Channel("ABP News", "News"));
+        channels.addChannel(new Channel("MTV", "Music"));
+        channels.addChannel(new Channel("IndiaTV", "News"));
+        channels.addChannel(new Channel("Aaj Tak", "News"));
+        channels.addChannel(new Channel("Mastii", "Music"));
+        channels.addChannel(new Channel("B4U", "Music"));
+        channels.addChannel(new Channel("Zee News", "News"));
+        channels.addChannel(new Channel("NDTV", "News"));
+
+        ChannelIterator newsChannelIterator = channels.iterator("News");
+        ChannelIterator musicChannelIterator = channels.iterator("Music");
+        ChannelIterator allChannelIterator = channels.iterator("All");
+
+        while(newsChannelIterator.hasNext()) {
+          Channel c = newsChannelIterator.next();
+          SOUT(c.toString());
+        }
+
+        while(musicChannelIterator.hasNext()) {
+          Channel c = musicChannelIterator.next();
+          SOUT(c.toString());
+        }
+
+        while(allChannelIterator.hasNext()) {
+          Channel c = allChannelIterator.next();
+          SOUT(c.toString());
+        }
+    }
+}
+```
+
 
 #### Mediator Pattern
 
