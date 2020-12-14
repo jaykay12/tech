@@ -961,7 +961,102 @@ public class Runner {
 }
 ```
 
-#### Command Pattern (``*``)
+#### Command Pattern
+
+Used to abstract business logic into discrete actions called commands.
+- Achieves loose coupling between 2 classes: `Invoker` class calls method on `Receiver` class to perform business operation called `Command`.
+- Runnable in java uses command DP.
+
+`FileSystemReceiver.java`
+```java
+public interface FileSystemReceiver {
+    void openFile();
+    void closeFile();
+}
+```
+
+`LinuxFileSystemReceiver.java`
+```java
+public class LinuxFileSystemReceiver implements FileSystemReceiver {
+  	@Override
+  	public void openFile() {    System.out.println("Opening file in Linux"); }
+
+  	@Override
+  	public void closeFile() {		System.out.println("Closing file in Linux");	}
+}
+```
+
+`WindowsFileSystemReceiver.java`
+```java
+public class WindowsFileSystemReceiver implements FileSystemReceiver {
+  	@Override
+  	public void openFile() {    System.out.println("Opening file in Windows"); }
+
+  	@Override
+  	public void closeFile() {		System.out.println("Closing file in Windows");	}
+}
+```
+
+`Command.java`
+```java
+public interface Command {
+    void run();
+}
+```
+
+`OpenFileCommand.java`
+```java
+public class OpenFileCommand implements Command {
+    private FileSystemReceiver fileSystem;
+
+    public OpenFileCommand(FileSystemReceiver fs){ this.fileSystem = fs; }
+
+    @Override
+    public void run() {		this.fileSystem.openFile();	}
+}
+```
+
+`CloseFileCommand.java`
+```java
+public class CloseFileCommand implements Command {
+    private FileSystemReceiver fileSystem;
+
+    public CloseFileCommand(FileSystemReceiver fs){ this.fileSystem = fs; }
+
+    @Override
+    public void run() {		this.fileSystem.closeFile();	}
+}
+```
+
+```java
+public class FileInvoker {
+    public Command command;
+    public FileInvoker(Command c) {  this.command = c;	}
+    public void execute() {	this.command.run();	}
+}
+```
+
+`FileSystemClient.java`
+```java
+public class FileSystemClient {
+  	public static void main(String[] args) {
+        FileSystemReceiver fs;
+        if(System.getProperty("os.name").contains("Windows")) {
+            fs = new WindowsFileSystemReceiver();
+        } else {
+            fs = new UnixFileSystemReceiver();
+        }
+
+    		OpenFileCommand openFileCommand = new OpenFileCommand(fs);
+        FileInvoker file = new FileInvoker(openFileCommand);
+    		file.execute();
+
+    		CloseFileCommand closeFileCommand = new CloseFileCommand(fs);
+        FileInvoker file = new FileInvoker(closeFileCommand);        
+        file.execute();
+  	}
+}
+```
 
 #### Interpreter
 
