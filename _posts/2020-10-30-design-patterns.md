@@ -1073,6 +1073,11 @@ Lets us traverse elements of a group of objects (collection) without exposing th
 
 ![iterator-pattern](../assets/images/DP-15.png)
 
+<ins>**Constituents:**</ins>:
+- Iterator
+- Aggregate or Collection
+- ConcreteIterator
+
 `Channel.java`
 ```java
 public class Channel {
@@ -1193,7 +1198,6 @@ public class Runner {
 }
 ```
 
-
 #### Mediator Pattern
 
 Used to provide a centralised communication medium to objects.
@@ -1202,6 +1206,11 @@ Used to provide a centralised communication medium to objects.
 - Fewer the dependencies a class carries, easier is to modify & maintain that class.
 - Objects communicating via mediator are called `Colleague` objects.
 - Colleagues are not aware of each other's existence, thus enabling loose coupling.
+
+<ins>**Constituents:**</ins>:
+- Mediator: Interface for communication between Colleagues.
+- Colleague: Interface for Colleagues.
+- ConcreteColleague: Individual object which communicates with each other via Mediator.
 
 `ATC.java`
 ```java
@@ -1267,7 +1276,96 @@ public class Runner {
 }
 ```
 
-#### Memento Pattern (`*`)
+#### Memento Pattern
+
+Used to restore state of an object to a previous state. Also called as snapshot pattern.
+- Used in IDEs for creating snapshots of project in development.
+- Used in undo/redo operations.
+- Used in such applications in which object’s state is continuously changing and the user may decide to rollback or undo the changes at any point.
+
+<ins>**Constituents:**</ins>:
+- Originator: Creates & rolls back a Memento.
+- Caretaker: Manages & keeps track of multiple Mementos.
+- Memento: Lock box that is written and read by the Originator, and shepherded by the Caretaker.
+  - Is an Immutable object so that once created, its state couldn't be changed.
+
+`Article.java`
+```java
+public class Article
+{
+    private long id;
+    private String title;    
+    private String content;
+
+    public Article(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    //Setters and Getters
+
+    public ArticleMemento createMemento() {
+        return new ArticleMemento(id, title, content);
+    }
+
+    public void restore(ArticleMemento m) {
+        this.id = m.getId();
+        this.title = m.getTitle();
+        this.content = m.getContent();
+    }
+
+    @Override
+    public String toString() {
+        return "Article [id=" + id + ", title=" + title + ", content=" + content + "]";
+    }
+}
+```
+
+`ArticleMemento.java`
+```java
+public final class ArticleMemento
+{
+    private final long id;
+    private final String title;
+    private final String content;
+
+    public ArticleMemento(long id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
+
+    // Getters for 3 variables
+}
+```
+
+`Runner.java`
+```java
+public class Runner
+{
+    public static void main(String[] args)
+    {
+        Article article = new Article(1, "AWS");
+        article.setContent("EC2 is Elastic Compute Cloud");
+        SOUT(article);
+
+        ArticleMemento memento = article.createMemento();
+
+        article.setContent("S3 is Simple Storage Service");
+        SOUT(article);
+
+        article.restore(memento);
+        SOUT(article);
+    }
+}
+```
+
+`OUTPUT`
+```bash
+Article [id=1, title=AWS, content=EC2 is Elastic Compute Cloud]
+Article [id=1, title=AWS, content=S3 is Simple Storage Service]
+Article [id=1, title=AWS, content=EC2 is Elastic Compute Cloud]
+```
 
 #### Observer Pattern (`*`)
 
