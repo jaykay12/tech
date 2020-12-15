@@ -1208,9 +1208,9 @@ Used to provide a centralised communication medium to objects.
 - Colleagues are not aware of each other's existence, thus enabling loose coupling.
 
 <ins>**Constituents:**</ins>:
-- Mediator: Interface for communication between Colleagues.
-- Colleague: Interface for Colleagues.
-- ConcreteColleague: Individual object which communicates with each other via Mediator.
+- Mediator – Interface for communication between Colleagues.
+- Colleague – Interface for Colleagues.
+- ConcreteColleague – Individual object which communicates with each other via Mediator.
 
 `ATC.java`
 ```java
@@ -1284,9 +1284,9 @@ Used to restore state of an object to a previous state. Also called as snapshot 
 - Used in such applications in which object’s state is continuously changing and the user may decide to rollback or undo the changes at any point.
 
 <ins>**Constituents:**</ins>:
-- Originator: Creates & rolls back a Memento.
-- Caretaker: Manages & keeps track of multiple Mementos.
-- Memento: Lock box that is written and read by the Originator, and shepherded by the Caretaker.
+- Originator – Creates & rolls back a Memento.
+- Caretaker – Manages & keeps track of multiple Mementos.
+- Memento – Lock box that is written and read by the Originator, and shepherded by the Caretaker.
   - Is an Immutable object so that once created, its state couldn't be changed.
 
 `Article.java`
@@ -1367,7 +1367,93 @@ Article [id=1, title=AWS, content=S3 is Simple Storage Service]
 Article [id=1, title=AWS, content=EC2 is Elastic Compute Cloud]
 ```
 
-#### Observer Pattern (`*`)
+#### Observer Pattern
+
+Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically. Also called as publish-subscribe pattern.
+
+- In observer pattern, there are many observers (subscriber objects) that are observing a particular subject (publisher object).
+- Helps in making the objects loosely coupled.
+- Defines a subscription mechanism to notify multiple objects about any events that happen to the object they’re observing.
+- Used when changes in one object state may require changing other objects.
+- Used in real-time like newspaper subscription, push notifications, database triggered updates etc.
+- Model-View-Controller (MVC) frameworks also use Observer pattern where Model is the Subject and Views are observers that can register to get notified of any change to the model.
+
+- Subject – Interface defining the operations for attaching and de-attaching Observers to Subject.
+- ConcreteSubject – concrete Subject class. It maintain the state of the object and when a change in the state occurs it notifies the attached Observers.
+- Observer – Interface defining the operations that are used for notify this object.
+- ConcreteObserver – concrete Observer implementations.
+
+`Subject.java`
+```java
+public interface Subject {
+    public void attach(Observer o);
+    public void detach(Observer o);
+    public void notifyUpdate(Message m);
+}
+```
+
+`MessagePublisher.java`
+```java
+public class MessagePublisher implements Subject {
+    private List<Observer> observers = new ArrayList<>();
+
+    @Override
+    public void attach(Observer o) {    observers.add(o);    }
+
+    @Override
+    public void detach(Observer o) {    observers.remove(o);    }
+
+    @Override
+    public void notifyUpdate(Message m) {
+        for(Observer o: observers) {
+            o.update(m);
+        }
+    }
+}
+```
+
+`Observer.java`
+```java
+public interface Observer {
+    public void update(Message m);
+}
+```
+
+`MessageSubscriber.java`
+```java
+public class MessageSubscriber implements Observer {
+    String subscriptionId;
+
+    public MessageSubscriber(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
+
+    @Override
+    public void update(String message) {
+        SOUT("MessageSubscriber :: " +subscriptionId + " | " + message);
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        MessageSubscriber s1 = new MessageSubscriber("1");
+        MessageSubscriber s1 = new MessageSubscriber("2");
+        MessageSubscriber s1 = new MessageSubscriber("3");
+        MessagePublisher p = new MessagePublisher();
+
+        p.attach(s1);
+        p.attach(s2);
+        p.notifyUpdate(new Message("First Message"));   //s1 and s2 will receive the update
+
+        p.detach(s1);
+        p.attach(s3);
+        p.notifyUpdate(new Message("Second Message")); //s2 and s3 will receive the update
+    }
+}
+```
 
 #### State Pattern (`*`)
 
