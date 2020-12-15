@@ -1541,6 +1541,80 @@ public class Runner {
 
 #### Strategy Pattern
 
+Used when we choose a specific implementation of task in run time – out of multiple other implementations for same task.
+
+- Involves removing the algorithm from its host class and putting it in separate class, so that there might be different strategies, which can be selected in runtime.
+- Allows to add new algorithm without modifying existing algorithms or context class.
+
+![strategy-dp](../assets/images/DP-17.png)
+
+`UDGOrderingStrategy.java`
+```java
+public interface UDGOrderingStrategy {
+    public List<String> reorder(List<String>);
+}
+```
+
+`UDGSearchContext.java`
+```java
+public class UDGSearchContext {
+    UDGOrderingStrategy strategy;
+
+    public void setStrategy(UDGOrderingStrategy strategy) {
+        this.strategy =  strategy;
+    }
+
+    public use(List<String> usergroups) {
+        strategy.reorder(usergroups);
+    }
+}
+```
+
+`SupplierUsageStrategy.java`
+```java
+public class SupplierUsageStrategy implements UDGOrderingStrategy {
+    public List<String> reorder(List<String> usergroups) {
+        SOUT("Reordering usergroups on supplier usage");
+        return usergroups;
+    }
+}
+```
+
+`SolrFrequencyStrategy.java`
+```java
+public class SolrFrequencyStrategy implements UDGOrderingStrategy {
+    public List<String> reorder(List<String> usergroups) {
+        SOUT("Reordering usergroups on solr frequency");
+        return usergroups;
+    }
+}
+```
+
+`TextMatchingStrategy.java`
+```java
+public class TextMatchingStrategy implements UDGOrderingStrategy {
+    public List<String> reorder(List<String> usergroups) {
+        SOUT("Reordering usergroups on text matching");
+        return usergroups;
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        UDGSearchContext context = new UDGSearchContext();
+        List<String> usergroups = {"lg washing machine", "automatic washing machine", "home washing machine", "industrial washing machine"};
+
+        context.setStrategy(new SupplierUsageStrategy());
+        context.use(usergroups);
+
+        context.setStrategy(new TextMatchingStrategy());
+        context.use(usergroups);
+    }
+}
+```
 
 
 #### Template method
