@@ -1207,7 +1207,7 @@ Used to provide a centralised communication medium to objects.
 - Objects communicating via mediator are called `Colleague` objects.
 - Colleagues are not aware of each other's existence, thus enabling loose coupling.
 
-<ins>**Constituents:**</ins>:
+<ins>**Constituents**</ins>:
 - Mediator – Interface for communication between Colleagues.
 - Colleague – Interface for Colleagues.
 - ConcreteColleague – Individual object which communicates with each other via Mediator.
@@ -1283,7 +1283,7 @@ Used to restore state of an object to a previous state. Also called as snapshot 
 - Used in undo/redo operations.
 - Used in such applications in which object’s state is continuously changing and the user may decide to rollback or undo the changes at any point.
 
-<ins>**Constituents:**</ins>:
+<ins>**Constituents**</ins>:
 - Originator – Creates & rolls back a Memento.
 - Caretaker – Manages & keeps track of multiple Mementos.
 - Memento – Lock box that is written and read by the Originator, and shepherded by the Caretaker.
@@ -1378,6 +1378,7 @@ Defines a one-to-many dependency between objects so that when one object changes
 - Used in real-time like newspaper subscription, push notifications, database triggered updates etc.
 - Model-View-Controller (MVC) frameworks also use Observer pattern where Model is the Subject and Views are observers that can register to get notified of any change to the model.
 
+<ins>**Constituents**</ins>:
 - Subject – Interface defining the operations for attaching and de-attaching Observers to Subject.
 - ConcreteSubject – concrete Subject class. It maintain the state of the object and when a change in the state occurs it notifies the attached Observers.
 - Observer – Interface defining the operations that are used for notify this object.
@@ -1455,9 +1456,92 @@ public class Runner {
 }
 ```
 
-#### State Pattern (`*`)
+#### State Pattern
 
-#### Strategy Pattern (`*`)
+Lets an object alter its behavior when its internal state changes. It appears as if the object changed its class.
+- For every possible state of an object, there is a separate concrete class.
+- Each concrete state object will have logic to accept/reject state transition request.
+- Java.Thread is an example of state pattern.
+
+<ins>**Constituents**</ins>:
+- State – Interface define operations which each state must handle.
+- Concrete States – classes which contain the state specific behavior.
+- Context – Defines an interface to client to interact.
+
+![state-dp](../assets/images/DP-16.png)
+
+`DocumentState.java`
+```java
+public interface PackageState {
+    public void updateState(DeliveryContext ctx);
+}
+```
+
+`Ordered.java`
+```java
+public class Ordered implements PackageState {
+  @Override
+  public void updateState(DeliveryContext ctx) {
+      System.out.println("Package: Ordered !!");
+      ctx.setCurrentState(new Shipped());
+  }
+}
+```
+
+`Shipped.java`
+```java
+public class Shipped implements PackageState {
+  @Override
+  public void updateState(DeliveryContext ctx) {
+      System.out.println("Package: Shipped !!");
+      ctx.setCurrentState(new Delivered());
+  }
+}
+```
+
+`Delivered.java`
+```java
+public class Delivered implements PackageState {
+  @Override
+  public void updateState(DeliveryContext ctx) {
+      System.out.println("Package: Delivered !!");
+  }
+}
+```
+
+`DeliveryContext.java`
+```java
+public class DeliveryContext {
+    private PackageState currentState;
+    private String packageId;
+
+    public DeliveryContext(PackageState currentState, String packageId) {
+        this.currentState = currentState;
+        this.packageId = packageId;
+    }
+
+    public void update() {
+        currentState.updateState(this);
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String[] args) {
+        DeliveryContext ctx = new DeliveryContext(new Ordered(), "Realme ear phones");
+        ctx.update();       // Ordered
+        ctx.update();       // Shipped
+        ctx.update();       // Delivered
+    }
+}
+```
+
+
+#### Strategy Pattern
+
+
 
 #### Template method
 
