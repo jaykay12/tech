@@ -1676,6 +1676,83 @@ public class Runner {
 
 #### <ins>Visitor Pattern</ins>
 
+Used when we wish to add new behavior to an existing hierarchy of classes but without modifying their source codes.
+
+- Separates the algorithm from the data structure on which it operates upon.
+- Double dispatch mechanism is used.
+
+<ins>**Constituents**</ins>:
+- Vistor – Used for adding the additional behavior. (LoggingVisitor.java)
+- ConcreteVisitor – (CatalinaLogging.java, KibanaLogging.java)
+- Visitable – The data structure on which some additional behavior is added using Visitor. (QueryFormatter.java)
+- ConcreteVisitable – (MCATSearchQueryFormatter.java, UserGroupSearchQueryFormatter.java)
+
+`QueryFormatter.java`
+```java
+public abstract class QueryFormatter {
+    public final void removeLocations(String searchQuery){ }
+    public final void removeMUs(String searchQuery){ }
+    public void logResults(LoggingVisitor v);
+}
+```
+
+`MCATSearchQueryFormatter.java`
+```java
+public class MCATSearchQueryFormatter extends QueryFormatter {
+    public void logResults(LoggingVisitor v) {
+        v.visit(this);
+    }
+}
+```
+
+`UserGroupSearchQueryFormatter.java`
+```java
+public class UserGroupSearchQueryFormatter extends QueryFormatter {
+    public void logResults(LoggingVisitor v) {
+        v.visit(this);
+    }
+}
+```
+
+`LoggingVisitor.java`
+```java
+public interface LoggingVisitor {
+    public void visit(MCATSearchQueryFormatter mcatsearch);
+    public void visit(UserGroupSearchQueryFormatter usergroupsearch);
+}
+```
+
+`CatalinaLogging.java`
+```java
+public class CatalinaLogging extends LoggingVisitor {
+    @Override
+    public void visit(MCATSearchQueryFormatter mcatsearch) {
+        SOUT("Catalina logging configured for MCAT Search API");
+    }
+
+    @Override
+    public void visit(UserGroupSearchQueryFormatter usergroupsearch) {
+        SOUT("Catalina logging configured for UserGroup Search API");
+    }
+}
+```
+
+`KibanaLogging.java`
+```java
+public class KibanaLogging extends LoggingVisitor {
+    @Override
+    public void visit(MCATSearchQueryFormatter mcatsearch) {
+        SOUT("Kibana logging configured for MCAT Search API");
+    }
+
+    @Override
+    public void visit(UserGroupSearchQueryFormatter usergroupsearch) {
+        SOUT("Kibana logging configured for UserGroup Search API");
+    }
+}
+```
+
+Here, both Search APIs are already functioning data objects. We have added logging to these using Visitors.
 
 [How to do in java](https://howtodoinjava.com/gang-of-four-java-design-patterns/)
 [Journal Dev](https://www.journaldev.com/1827/java-design-patterns-example-tutorial)
