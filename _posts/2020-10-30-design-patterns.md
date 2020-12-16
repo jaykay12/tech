@@ -18,6 +18,8 @@ Design patterns - Solutions to some prominent & frequent problems, one faces whi
 
 Also a 4th category: <ins>J2EE Patterns</ins> which specifically deals with presentation tier.
 
+![basics](../assets/images/DP-18.png)
+
 ## Creational Patterns
 
 ![creational-patterns](../assets/images/DP-1.png)
@@ -1482,7 +1484,7 @@ public interface PackageState {
 public class Ordered implements PackageState {
   @Override
   public void updateState(DeliveryContext ctx) {
-      System.out.println("Package: Ordered !!");
+      SOUT("Package: Ordered !!");
       ctx.setCurrentState(new Shipped());
   }
 }
@@ -1493,7 +1495,7 @@ public class Ordered implements PackageState {
 public class Shipped implements PackageState {
   @Override
   public void updateState(DeliveryContext ctx) {
-      System.out.println("Package: Shipped !!");
+      SOUT("Package: Shipped !!");
       ctx.setCurrentState(new Delivered());
   }
 }
@@ -1504,7 +1506,7 @@ public class Shipped implements PackageState {
 public class Delivered implements PackageState {
   @Override
   public void updateState(DeliveryContext ctx) {
-      System.out.println("Package: Delivered !!");
+      SOUT("Package: Delivered !!");
   }
 }
 ```
@@ -1580,16 +1582,6 @@ public class SupplierUsageStrategy implements UDGOrderingStrategy {
 }
 ```
 
-`SolrFrequencyStrategy.java`
-```java
-public class SolrFrequencyStrategy implements UDGOrderingStrategy {
-    public List<String> reorder(List<String> usergroups) {
-        SOUT("Reordering usergroups on solr frequency");
-        return usergroups;
-    }
-}
-```
-
 `TextMatchingStrategy.java`
 ```java
 public class TextMatchingStrategy implements UDGOrderingStrategy {
@@ -1617,9 +1609,73 @@ public class Runner {
 ```
 
 
-#### Template method
+#### <ins>Template method Pattern</ins>
 
-#### Visitor Pattern (`*`)
+Used to create a method stub (sequence & default methods) and deferring some of the steps of implementation to the subclasses.
+
+- Used for defining fixed sequencial steps for any alogirithmic process. This basic skeleton can't be overridden in sub classes.
+- Template method must be final so that, any changes in the underlying methods & their sequence in forbidden. Here, buildhouse() is a template method.
+- All default functions must be final so that, no change can be done in subclasses.
+- All such functions which needs to be implemented in subclasses must be abstract.
+
+`House.java`
+```java
+public abstract class House {
+    public final void buildhouse() {
+        constructBase();
+        constructWalls();
+        paintHouse();
+    }
+
+    public abstract void constructWalls();
+
+    private final void constructBase() {
+        SOUT("Base has been constructed.");
+    }
+
+    private final void paintHouse() {
+        SOUT("House has been painted.");
+    }
+}
+```
+
+`ConcreteHouse.java`
+```java
+public class ConcreteHouse extends House {
+    @Override
+    public void constructWalls() {
+        SOUT("Concrete halls has been constructed.");
+    }
+}
+```
+
+`GlassHouse.java`
+```java
+public class GlassHouse extends House {
+    @Override
+    public void constructWalls() {
+        SOUT("Glass halls has been constructed.");
+    }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+    public static void main(String args[]) {
+        House house = null;
+
+        house = new ConcreteHouse();
+        house.buildhouse();
+
+        house = new GlassHouse();
+        house.buildhouse();
+    }
+}
+```
+
+#### <ins>Visitor Pattern</ins>
+
 
 [How to do in java](https://howtodoinjava.com/gang-of-four-java-design-patterns/)
 [Journal Dev](https://www.journaldev.com/1827/java-design-patterns-example-tutorial)
