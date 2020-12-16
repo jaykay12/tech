@@ -1760,10 +1760,69 @@ Here, both Search APIs are already functioning data objects. We have added loggi
 
 ---
 
+### Design Principles
+
+SOLID Principles are the 5 most recommended design principles.
+- Forms the fundamental guidlines for building OOPs applications which are robust, extensible & maintainable.
+- Is an acronym
+
+S.O.L.I.D
+
+- <ins>Single Responsibility</ins> :
+  - One class should have one and only one responsibility.
+  - Also called as Separation of Concerns.
+
+- <ins>Open Closed</ins> :
+  - SW components should be open for extensions, but closed for modifications.
+
+- <ins>Liskov’s Substitution</ins> :
+  - Supplements Open Closed.
+  - Derived types must  be completely substitutable for their base types.
+  - Extremely helpful in run-time polymorphism.
+
+- <ins>Interface Segregation</ins> :
+  - Clients should not be forced to implement unnecessary methods which they will not use.
+  - If such needs looks inevitable, break that interface into separate interfaces.
+
+- <ins>Dependency Inversion</ins> :
+  - Depend on abstractions, not on concretions.
+  - Software should be designed in such a way that various modules can be separated from each other using an abstract layer to bind them together.
+  - Bean configuration is a classic example.
+
+---
+
 ## Miscellaneous Design Patterns
 
 #### DAO Design Pattern
 
-#### Dependency Injection Pattern
+- DAO stands for Data Access Object
+- Used to separate the data persistence logic in a separate layer.
+
+![dao](../assets/images/DP-19.png)
+
+<ins>Advantages</ins>:
+- Any change required in persistence mechanism affects only the DAO layer. Either we store our data in in-memory DB, no-sql DB or Files.
+- Much easier to write unit tests & mock.
+- Emphasises working with interfaces rather than implementation.
+
 
 #### MVC Pattern
+
+- MVC stands for Model View Controller
+- Used to separate the logic of different layers in a program in independent units. Part of the Separation of Concern principle.
+- Provides a clear-cut separation between domain objects which represents real-world entities and the presentation layer we see on the screen.
+- Domain objects should be completely independent and should work without a View layer as well.
+
+![mvc](../assets/images/DP-20.png)
+
+<ins>Advantes</ins>:
+- Allows rapid application development. Parallel teams may work upon {Views}, {Models & Controllers}.
+- Since, view mechanism is totally independent of service controllers. Its quite easy to port views to PWAs, Angular, React etc.
+-
+
+#### Dependency Injection Pattern
+
+- Allows in removing the hard-coded dependencies.
+- Moves the dependency resolution from compile-time to runtime.
+- Dependency Injection in Java is a way to achieve Inversion of control (IoC) in our application by moving objects binding from compile time to runtime.
+- We can achieve IoC through Factory Pattern, Template Method Design Pattern & Strategy Pattern too.
