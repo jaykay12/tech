@@ -79,7 +79,7 @@ We can always use AWS account to log-in & carry out tasks but creating & using I
 
 **Step 1:** Log-in to Console using AWS Account credentials & Open [IAM Portal](https://console.aws.amazon.com/iam/home?region=ap-northeast-1)
 
-**Step 2:** Continued.
+**Step 2:** <Will update later>
 
 ### Basic Workflow
 
@@ -121,4 +121,14 @@ We can always use AWS account to log-in & carry out tasks but creating & using I
 
 ---
 
-## Technical Details
+## Developer Guide (Java SDK)
+
+<Will update later>
+
+## Developer Guide (S3 REST APIs)
+
+Making REST API calls from code is quite cumbersome. It requires us to setup mechanism for setting valid credentials & calculating signatures along with API calls for getting authenticated.
+
+Thus, AWS SDKs & AWS CLI is preferred & recommended.
+
+<Will update later>
