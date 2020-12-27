@@ -123,12 +123,14 @@ We can always use AWS account to log-in & carry out tasks but creating & using I
 
 ## Developer Guide (Java SDK)
 
-<Will update later>
+Will be updated later
+
+## Developer Guide (Boto package for python)
+
+Will be updated later
 
 ## Developer Guide (S3 REST APIs)
 
 Making REST API calls from code is quite cumbersome. It requires us to setup mechanism for setting valid credentials & calculating signatures along with API calls for getting authenticated.
 
 Thus, AWS SDKs & AWS CLI is preferred & recommended.
-
-<Will update later>
