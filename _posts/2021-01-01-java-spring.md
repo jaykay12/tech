@@ -498,7 +498,43 @@ public class Runner {
 }
 ```
 
+Till now, beans were declared using `<bean>` & injected using `<constructor-arg>` & `<property>` elements in XML config file.
+
+`Autowiring` is a concept ofr reducing this effort more. Used prominently with Annotation-based & Java-based configuration approaches.
+
 #### Annotation-based
+
+With Spring 2.5, DI can be configured using annotations.
+- Annotation injection is done before XML injection
+- Is overridden by XML injection.
+- Is not turned on in IoC container by default.
+- `<context:annotation-config/>` is inserted in config file for turning on annotations.
+
+Few important annotations:
+- `@Required` : Applies to bean property setter methods & mandates that the property should be populated at configuration time.
+
+- `@Autowired` : Can be applied to property setter methods, consructors, properties or non-setter methods as well. Autowired with (required-false) is of great usage.
+
+- `@Qualifier` : Used in scenarios when we have more than 1 bean of same type in our configurations. Used along with Autowired to remove this confusion.
+```java
+public class Profile {
+   @Autowired
+   @Qualifier("student1")
+   private Student student;
+}
+```
+
+
+- Other JSR-250 annotations like:
+  - `@Resource`
+  - `@PostConstruct` :
+      - Used as alternate initialisation callback.
+      - Not used prominently.
+      - In sync with `init-method` defined with a bean in xml config.
+  - `@PreDestroy` :
+      - Used as alternate destruction callback.
+      - Not used prominently.
+      - In sync with `destroy-method` defined with a bean in xml config.
 
 #### Java-based
 
