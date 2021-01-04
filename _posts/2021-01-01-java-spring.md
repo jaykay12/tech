@@ -239,18 +239,271 @@ Title : "Glory in the sky!"
 Bean will destroy now.
 ```
 
-
 ## Spring Core Concepts
 
-#### DI
+Dependency Injection & AOP are 2 prime spring core concepts.
+DI is the more prominent one though.
 
-<ins>**Annotation-based**</ins>
+### DI
 
-<ins>**XML-based**</ins>
+For a fully-functional application, several objects must work together. In complex application, all classes should be as indepedent as possible from rest for reusability, scalability & easy testability.
 
-#### IOC
+DI
+- helps in gluing these classes together while keeping them indepedent.
+- makes our code loosely coupled.
+- is achieved by 2 ways:
+  - DI using constructors
+  - DI using Setter methods
 
-#### Aspect Oriented Programming
+Creating objects using new() or using factory methods comes under the domain of dependency lookup. It carries problems like tight coupling & hard to test.
+
+`W/O DI`
+```java
+public class Employee {
+   private Address address;
+   public Employee() {
+      address = new Address();
+   }
+}
+```
+
+`Constructor-based DI`
+```java
+public class Employee{  
+  private Address address;  
+  public Employee(Address address){  
+    this.address=address;  
+  }
+}
+```
+
+`Setter-based DI`
+```java
+public class Employee{  
+  private Address address;  
+  public void setAddress(Address address){  
+    this.address=address;  
+  }
+}
+```
+
+In both these cases, instance of Address class is provided by external source such as XML file.
+
+We can mix both, but it is convention to use C-DI for mandatory dependencies & S-DI for optional dependencies.
+
+Code is cleaner with DI & more effective decoupling.
+
+|Constructor-DI|Setter-DI|
+|---|---|
+||Supports Partial dependency|
+|Is overridden by S-DI|Used in case of conflicting|
+||More flexible|
+
+#### XML-based
+
+<ins>**Primitive C-DI**</ins>
+
+`Employee.java`
+```java
+public class Employee {  
+    private int id;
+    private String name;
+
+    public Employee(int id, String name) {  
+        this.id = id;
+        this.name = name;
+    }
+}
+```
+
+`app-config.xml`
+```bash
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+    xmlns=""  
+    xmlns:xsi=""  
+    xmlns:p=""  
+    xsi:schemaLocation="">  
+
+    <bean id="employee" class="tech.jaykay12.Employee">  
+        <constructor-arg value="10" type="int" ></constructor-arg>  
+        <constructor-arg value="Jalaz"></constructor-arg>
+    </bean>
+</beans>
+```
+
+`Runner.java`
+```java
+public class Runner {  
+    public static void main(String[] args) {  
+        Resource res = new ClassPathResource("app-config.xml");  
+        BeanFactory factory = new XmlBeanFactory(res);
+        Employee s = (Employee)factory.getBean("employee");    
+    }
+}
+```
+
+<ins>**C-DI with dependent object**</ins>
+
+`Address.java`
+```java
+public class Address {
+    private String city;
+    private String state;
+    public Address(String city, String state) {
+        this.city = city;
+        this.state = state;
+    }
+}
+```
+
+`Employee.java`
+```java
+public class Employee {
+    private String name;
+    private Address address;
+
+    public Employee(String name, Address address) {  
+        this.name = name;
+        this.address = address;
+    }
+}
+```
+
+`app-config.xml`
+```bash
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+    xmlns=""  
+    xmlns:xsi=""  
+    xmlns:p=""  
+    xsi:schemaLocation="">  
+
+    <bean id="address" class="tech.jaykay12.Address">  
+        <constructor-arg value="Saharanpur"></constructor-arg>  
+        <constructor-arg value="UP"></constructor-arg>
+    </bean>
+
+    <bean id="employee" class="tech.jaykay12.Employee">   
+        <constructor-arg value="Jalaz"></constructor-arg>
+        <constructor-arg>
+          <ref bean="address" />
+        </constructor-arg>
+    </bean>
+</beans>
+```
+
+`Runner.java`
+```java
+public class Runner {  
+    public static void main(String[] args) {  
+        Resource res = new ClassPathResource("app-config.xml");  
+        BeanFactory factory = new XmlBeanFactory(res);
+        Employee s = (Employee)factory.getBean("employee");    
+    }
+}
+```
+
+<ins>**Primitive S-DI**</ins>
+
+`Employee.java`
+```java
+public class Employee {  
+    private int id;
+    private String name;
+    //SETTERS & GETTERS
+}
+```
+
+`app-config.xml`
+```bash
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+    xmlns=""  
+    xmlns:xsi=""  
+    xmlns:p=""  
+    xsi:schemaLocation="">  
+
+    <bean id="employee" class="tech.jaykay12.Employee">  
+        <property name="id">
+            <value>75655</value>
+        </property>
+        <property name="name">
+            <value>"Jalaz"</value>
+        </property>
+    </bean>
+</beans>
+```
+
+`Runner.java`
+```java
+public class Runner {  
+    public static void main(String[] args) {  
+        Resource res = new ClassPathResource("app-config.xml");  
+        BeanFactory factory = new XmlBeanFactory(res);
+        Employee s = (Employee)factory.getBean("employee");    
+    }
+}
+```
+
+<ins>**S-DI with Dependent object**</ins>
+
+`Address.java`
+```java
+public class Address {
+    private String city;
+    private String state;
+    //GETTERS & SETTERS
+}
+```
+
+`Employee.java`
+```java
+public class Employee {
+    private String name;
+    private Address address;
+    //GETTERS & SETTERS
+}
+```
+
+`app-config.xml`
+```bash
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+    xmlns=""  
+    xmlns:xsi=""  
+    xmlns:p=""  
+    xsi:schemaLocation="">  
+
+    <bean id="address" class="tech.jaykay12.Address">  
+        <property name="city" value="Saharanpur" />
+        <property name="state" value="UP" />
+    </bean>
+
+    <bean id="employee" class="tech.jaykay12.Employee">   
+        <property name="name" value="Jalaz" />
+        <property name="address" ref="address" />
+    </bean>
+</beans>
+```
+
+`Runner.java`
+```java
+public class Runner {  
+    public static void main(String[] args) {  
+        Resource res = new ClassPathResource("app-config.xml");  
+        BeanFactory factory = new XmlBeanFactory(res);
+        Employee s = (Employee)factory.getBean("employee");    
+    }
+}
+```
+
+#### Annotation-based
+
+#### Java-based
+
+
+### Aspect Oriented Programming
 
 #### POJO
 
