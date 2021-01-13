@@ -244,11 +244,11 @@ Bean will destroy now.
 Dependency Injection & AOP are 2 prime spring core concepts.
 DI is the more prominent one though.
 
-### DI
+### Dependency Injection
 
 For a fully-functional application, several objects must work together. In complex application, all classes should be as indepedent as possible from rest for reusability, scalability & easy testability.
 
-DI
+DI basically,
 - helps in gluing these classes together while keeping them indepedent.
 - makes our code loosely coupled.
 - is achieved by 2 ways:
@@ -301,7 +301,7 @@ Code is cleaner with DI & more effective decoupling.
 
 #### XML-based
 
-<ins>**Primitive C-DI**</ins>
+<ins>**Primitive Constructor-DI**</ins>
 
 `Employee.java`
 ```java
@@ -343,7 +343,7 @@ public class Runner {
 }
 ```
 
-<ins>**C-DI with dependent object**</ins>
+<ins>**Constructor-DI with dependent object**</ins>
 
 `Address.java`
 ```java
@@ -404,7 +404,7 @@ public class Runner {
 }
 ```
 
-<ins>**Primitive S-DI**</ins>
+<ins>**Primitive Setter-DI**</ins>
 
 `Employee.java`
 ```java
@@ -446,7 +446,7 @@ public class Runner {
 }
 ```
 
-<ins>**S-DI with Dependent object**</ins>
+<ins>**Setter-DI with Dependent object**</ins>
 
 `Address.java`
 ```java
@@ -500,7 +500,7 @@ public class Runner {
 
 Till now, beans were declared using `<bean>` & injected using `<constructor-arg>` & `<property>` elements in XML config file.
 
-`Autowiring` is a concept ofr reducing this effort more. Used prominently with Annotation-based & Java-based configuration approaches.
+`Autowiring` is a concept of reducing this effort more. Used prominently with Annotation-based & Java-based configuration approaches.
 
 #### Annotation-based
 
@@ -538,13 +538,84 @@ public class Profile {
 
 #### Java-based
 
+Helps in writing entire spring configuration without any XML file.
+
+- `@Configuration` : Indicates that the class can be used by IoC containers as source of bean definitions.
+
+- `@Bean` : When annotated on any method, return type of this method should be registered as a bean in the spring application context.
+
+- `@Scope` : By default is singleton, used for setting the scope of bean
+
+`JavaConfig.java`
+```java
+@Configuration
+public class JavaConfig {
+    @Bean
+    @Scope("prototype")
+    public Blog blog(){
+      return new Blog();
+    }
+}
+```
+
+This is equivalent to the XML configuration.
+
+`XMLConfig.xml`
+```bash
+<beans>
+   <bean id = "blog" class = "tech.jaykay12.Blog" />
+</beans>
+```
+
+`Blog.java`
+```java
+public class Blog {
+   private String title;
+   // Setters & Getters
+   }
+}
+```
+
+`Runner.java`
+```java
+public class Runner {
+   public static void main(String[] args) {
+      ApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+      ctx.register(ExtraConfig.class);            // Useful in case of multi config files
+      ctx.refresh();
+
+      Blog blog = ctx.getBean(Blog.class);
+      blog.setTitle("Goa Plans!");
+      helloWorld.getTitle();
+   }
+}
+```
 
 ### Aspect Oriented Programming
-
-#### POJO
-
+_Will touch-down this topic any time in the future._
 
 
+### Spring MVC
+Java framework which is used to build web applications.
+- Follows the Model-View-Controller design pattern.
+- Uses `DispatcherServlet`, a special class that receives the incoming request and maps it to the right resource such as controllers, models, and views.
 
+![spring-mvc](../assets/images/SPRING-5.png)
 
-###
+Contains annotations like `@Controller`, `@RequestMapping` etc.
+
+`pom.xml`
+```bash
+<dependency>  
+    <groupId>org.springframework</groupId>  
+    <artifactId>spring-webmvc</artifactId>  
+    <version>5.1.1.RELEASE</version>  
+</dependency>  
+
+<dependency>    
+    <groupId>javax.servlet</groupId>    
+    <artifactId>servlet-api</artifactId>    
+    <version>3.0-alpha-1</version>    
+</dependency>  
+```
