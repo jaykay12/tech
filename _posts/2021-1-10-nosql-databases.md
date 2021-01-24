@@ -9,6 +9,12 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 - Provides flexible schemas.
 - Scale easily with large amounts of data and high user loads.
 
+**Features:**
+- Non relational
+- Schema-less
+- Distributed
+- Simple API
+
 ### Need for NoSQL
 
 - <ins>**Relationship data**</ins>
@@ -65,6 +71,8 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 - Great for usecases where we need to traverse relationships to look for patterns such as social networks, fraud detection, and recommendation engines.
 - Example: Neo4j, JanusGraph
 
+![nosql-db](../assets/images/NOSQL-3.png)
+
 #### When should NoSQL be used over SQL
 
 - **Development Pace**
@@ -78,17 +86,15 @@ NoSQL databases are non tabular, and store data differently than relational tabl
   - NoSQL DBs store data in a form that is similar to the objects used in application thus, reducing the efforts & cost in translation.
 
 
-- **Large Amount of data**
-  - Handling of bigdata is one of the fundamental architectural requisite of NoSQL DBs.
-  - Large amount of data generated from various applications can't be served affordably by SQL DBs.
+- **Supports large amount of data**
   - NoSQL DBs use scale-out mechanism which is much better than the scale-up method of SQL DBs.
   - Scale-out architecture is one of the most affordable ways to handle large volumes of traffic
   - Scale-out architectures also provide benefits such as being able to upgrade a database or change its structure with zero downtime.
 
 
-- **Application paradigm support**
-  - Scalability of NoSQL databases allows one DB to serve both transactional and analytical workloads from the same database. In SQL databases, usually, a separate data warehouse is used to support analytics.
-  - NoSQL databases often have superior integration with real-time streaming technologies.
+- **Multi Application paradigm support**
+  - NoSQL can serve both transactional and analytical workloads from the same database. In SQL DBs, separate data warehouse is required to support analytics.
+  - NoSQL have superior integration capabilities with real-time streaming technologies.
 
 ### Advantages
 
@@ -99,20 +105,48 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 - <ins>**High Scalability**</ins>
   - NoSQL DBs use sharding for horizontal scaling.
     - Sharding: Partitioning of data and placing it on multiple machines in such a way that the order of the data is preserved.
-    - Horizontal scaling: Adding more machines to handle the data.
-    - Vertical scaling: Adding more resources to the existing machine. Tougher to implement than horizontal.
   - NoSQL can handle such huge amount of data because of this scalability, as the data grows NoSQL scale itself to handle that data in efficient manner.
+
+![scale-up-scale-out](../assets/images/NOSQL-2.png)
 
 ### Drawbacks
 
 - <ins>**Narrow focus**</ins>
+  - Mainly designed for storage & lacks transactional management best features.
 
 - <ins>**Open-source**</ins>
+  - Due to this, no reliable software standards.
 
-- <ins>**GUI is not available**</ins>
+- <ins>**No GUI**</ins>
+  - GUI mode tools for db access are not available.
 
 - <ins>**Large document size**</ins>
+  - Data stored is of immense size & stored in formats like JSON making these packets quite costly in networking.
 
 - <ins>**Management challenge**</ins>
+  - Data management in NoSQL is more challenging than SQL DBs.
+  - Setting up of NoSQL is also cumbersome.
 
 ### SQL vs NoSQL Databases
+
+`CAP theorem` states that it's impossible for a distributed data store to offer more than two out of three:
+
+- **Consistency:**
+  - Data should remain consistent even after the execution of an operation.
+  - Once data is written, any future read request should contain that data.
+
+- **Availability:**
+  - DB should always be available and responsive.
+  - Should not have any downtime.
+
+- **Partition Tolerance:**
+  - System should continue to function even if the communication among the servers is not stable.
+
+
+![sql-nosql](../assets/images/NOSQL-4.png)
+
+Just like SQL DBs follow ACID rules, NoSQL DBs follow BASE rules.
+
+- **Basically available** means DB is available all the time as per CAP theorem
+- **Soft state** means even without an input; the system state may change
+- **Eventual consistency** means that the system will become consistent over time
