@@ -68,7 +68,7 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 #### When should NoSQL be used over SQL
 
 - **Development Pace**
-  - Is Higher for NoSQL as compared to SQL
+  - Is higher for NoSQL as compared to SQL
   - Due to sprints & frequent code changes, NoSQL supports quick changes as opposed to SQL, where schema needs to be updated by DB Admin, Data unload & Data load is required for each change.
 
 
@@ -79,8 +79,8 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 
 
 - **Large Amount of data**
-  - Data generated from various applications can't be served affordably by SQL DBs.
-  - Handling Bigdata is the fundamental architectural requisite.
+  - Handling of bigdata is one of the fundamental architectural requisite of NoSQL DBs.
+  - Large amount of data generated from various applications can't be served affordably by SQL DBs.
   - NoSQL DBs use scale-out mechanism which is much better than the scale-up method of SQL DBs.
   - Scale-out architecture is one of the most affordable ways to handle large volumes of traffic
   - Scale-out architectures also provide benefits such as being able to upgrade a database or change its structure with zero downtime.
@@ -90,6 +90,29 @@ NoSQL databases are non tabular, and store data differently than relational tabl
   - Scalability of NoSQL databases allows one DB to serve both transactional and analytical workloads from the same database. In SQL databases, usually, a separate data warehouse is used to support analytics.
   - NoSQL databases often have superior integration with real-time streaming technologies.
 
+### Advantages
+
+- <ins>**High Availability**</ins>
+  - Auto-replication feature of NoSQL DBs supports this.
+  - In case of failure, data automatically replicates to a previous consistent state making the system available most of the time.
+
+- <ins>**High Scalability**</ins>
+  - NoSQL DBs use sharding for horizontal scaling.
+    - Sharding: Partitioning of data and placing it on multiple machines in such a way that the order of the data is preserved.
+    - Horizontal scaling: Adding more machines to handle the data.
+    - Vertical scaling: Adding more resources to the existing machine. Tougher to implement than horizontal.
+  - NoSQL can handle such huge amount of data because of this scalability, as the data grows NoSQL scale itself to handle that data in efficient manner.
+
 ### Drawbacks
+
+- <ins>**Narrow focus**</ins>
+
+- <ins>**Open-source**</ins>
+
+- <ins>**GUI is not available**</ins>
+
+- <ins>**Large document size**</ins>
+
+- <ins>**Management challenge**</ins>
 
 ### SQL vs NoSQL Databases
