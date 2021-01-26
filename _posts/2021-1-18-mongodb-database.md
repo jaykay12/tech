@@ -116,10 +116,19 @@ jalaz@jalaz-personal:~$ sudo systemctl stop mongodb
 
 - <ins>**Import/Export**</ins>
   - `mongodump`
+    - provides a method for creating BSON dump files from the mongod instances.
+
   - `mongorestore`
+    - restore these BSON dumps into mongod instances.
+
   - `bsondump`
+    - converts BSON dump files into JSON.
+
   - `mongoimport`
+    - provides a method for taking data in JSON, CSV, or TSV and importing it into a mongod instance.
+
   - `mongoexport`
+    - provides a method to export data from a mongod instance into JSON, CSV, or TSV.
 
 - <ins>**Diagnostics**</ins>
   - `mongotop`
@@ -131,9 +140,123 @@ jalaz@jalaz-personal:~$ sudo systemctl stop mongodb
 
 ### Basic Usage
 
+MongoDB provides 2 types of data models:
+- Embedded data model
+- Normalized data model
+
+<ins>**Embedded data model**</ins>
+
+```json
+{
+    _id: "<ObjectId101>",
+    Emp_ID: "75655",
+    Personal_details: {
+        Name: "Jalaz Kumar",
+        Date_Of_Birth: "1995-08-12"
+    },
+    Contact: {
+        e-mail: "jalaz.kumar@indiamart.com",
+        city: "Almora"
+    }
+}
+```
+
+<ins>**Normalized data model**</ins>
+
+`Employee`
+```json
+{
+    _id: "<ObjectId101>",
+    Emp_ID: "75655"
+}
+```
+
+`Personal Details`
+```json
+{
+    _id: "<ObjectId102>",
+    DocEmpID: "<ObjectId101>",
+    Name: "Jalaz Kumar",
+    Date_Of_Birth: "1995-08-12"
+}
+```
+
+`Contact`
+```json
+{
+    _id: "<ObjectId103>",
+    DocEmpID: "<ObjectId101>",
+    e-mail: "jalaz.kumar@indiamart.com",
+    city: "Almora"
+}
+```
+
+#### Important Commands
+
+<ins>**Creation & Insertion**</ins>
+
+    use DATABASE_NAME
+    show dbs
+    db.dropDatabase()
+
+    db.createCollection(name, options)
+    show collections
+    db.COLLECTION_NAME.drop()
+    db.COLLECTION_NAME.insert(document)
+    db.COLLECTION_NAME.insert([document1,document2])
+    db.COLLECTION_NAME.insertOne(document)
+    db.COLLECTION_NAME.insertMany(document1,document2)
+
+<ins>**Querying & Projection**</ins>
+
+    db.COLLECTION_NAME.find()
+    db.COLLECTION_NAME.find().pretty()
+    db.COLLECTIONNAME.findOne()
+
+|SQL DBs (RDBMS)|NoSQL DBs|
+|---|---|
+|where name = 'jalaz'|db.students.find({"name":"jalaz"})|
+|where likes < 50|db.students.find({"likes":{$lt:50}})|
+|where name in ["Raj", "Ram", "Raghu"]|db.students.find({"name":{$in:["Raj", "Ram", "Raghu"]}})|
+|where team = 'search' AND company = 'indiamart'|db.students.find({$and:[{"team":"search"},{"company": "indiamart"}]})|
+|where likes>10 AND (skill = 'solr' OR name = 'jalaz')|db.students.find({"likes":{$gt:10}, $or: [{"skill": "solr"},{"name": "jalaz"}]})|
+|where age is not greater than 25|db.students.find({"Age": {$not: {$gt:"25"}}})|
+
+    db.COLLECTION_NAME.find({},{KEY_1:1, KEY_2:0, KEY_3:1})
+    db.COLLECTION_NAME.find().limit(NUMBER)
+    db.COLLECTION_NAME.find().limit(NUMBER).skip(NUMBER)
+    db.COLLECTION_NAME.find().sort({KEY:1})
+
+<ins>**Updation & Deletion**</ins>
+
+2 functions are used prominently:
+- update() : updates the value in the existing document.
+- save() : replaces the existing document with the document passed as argument.
 
 
+    db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
+    db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})
+    db.COLLECTION_NAME.findOneAndUpdate(SELECTIOIN_CRITERIA, UPDATED_DATA)
+    db.COLLECTION_NAME.updateOne(<filter>, <update>)
+    db.COLLECTION_NAME.updateMany(<filter>, <update>)
 
+    db.COLLECTION_NAME.remove(DELETION_CRITERIA)
+    db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
 
+<ins>**Indexing**</ins>
 
-### Advanced Usage
+<ins>**Aggregation**</ins>
+
+---
+
+### Practical Usage
+
+### Advanced Concepts
+
+1. Sharding
+
+2. Replication
+
+3. Backups
+
+4. Deployment
