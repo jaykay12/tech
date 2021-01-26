@@ -4,8 +4,6 @@ title: MongoDB, Peer Document NoSQL DBs
 categories: [NoSQL Databases, Databases]
 ---
 
-![mongodb](../assets/images/MONGODB-1.png)
-
 MongoDB is a
   - cross-platform
   - document-oriented NoSQL DB
@@ -14,6 +12,9 @@ provides
   - Easy scalability
   - High performance
   - High availability
+
+![mongodb](../assets/images/MONGODB-1.png)
+
 
 ### Concepts & Terminologies
 
@@ -207,7 +208,7 @@ MongoDB provides 2 types of data models:
     db.COLLECTION_NAME.insertOne(document)
     db.COLLECTION_NAME.insertMany(document1,document2)
 
-<ins>**Querying & Projection**</ins>
+<ins>**Querying**</ins>
 
     db.COLLECTION_NAME.find()
     db.COLLECTION_NAME.find().pretty()
@@ -221,6 +222,8 @@ MongoDB provides 2 types of data models:
 |where team = 'search' AND company = 'indiamart'|db.students.find({$and:[{"team":"search"},{"company": "indiamart"}]})|
 |where likes>10 AND (skill = 'solr' OR name = 'jalaz')|db.students.find({"likes":{$gt:10}, $or: [{"skill": "solr"},{"name": "jalaz"}]})|
 |where age is not greater than 25|db.students.find({"Age": {$not: {$gt:"25"}}})|
+
+<ins>**Projection & Advanced Querying**</ins>
 
     db.COLLECTION_NAME.find({},{KEY_1:1, KEY_2:0, KEY_3:1})
     db.COLLECTION_NAME.find().limit(NUMBER)
@@ -268,7 +271,6 @@ MongoDB provides 2 types of data models:
 |---|---|
 |SELECT author, count(*) FROM books GROUP BY author|db.books.aggregate([{$group : {_id : "$author", num_books : {$sum : 1}}}])|
 
----
 
 ### Practical Usage
 
@@ -488,6 +490,45 @@ WriteResult({ "nRemoved" : 1 })
 		"ns" : "tech.employee"
 	}
 ]
+```
+
+`Aggregations`
+
+```bash
+> db.employee.aggregate([{$group: {_id:"$team","team strength": {$sum:1}}}])
+{ "_id" : "M-Site", "team strength" : 1 }
+{ "_id" : "Search", "team strength" : 2 }
+{ "_id" : "Gl-Admin", "team strength" : 1 }
+{ "_id" : "Personalization", "team strength" : 1 }
+{ "_id" : "SOA-ML", "team strength" : 1 }
+{ "_id" : null, "team strength" : 1 }
+{ "_id" : "WebERP", "team strength" : 1 }
+> db.employee.aggregate([{$group: {_id:"$college","college strength": {$sum:1}}}])
+{ "_id" : "GEC Dwarka", "college strength" : 1 }
+{ "_id" : "Jaypee Noida", "college strength" : 2 }
+{ "_id" : "NIT Hamirpur", "college strength" : 4 }
+{ "_id" : "DCRUST Sonipat", "college strength" : 1 }
+> db.employee.aggregate([{$group: {_id:"$college","contactperson": {$first:"$name"}}}])
+{ "_id" : "GEC Dwarka", "contactperson" : "Akash Kumar" }
+{ "_id" : "Jaypee Noida", "contactperson" : "Arpit Mathur" }
+{ "_id" : "NIT Hamirpur", "contactperson" : "Jalaz Kumar" }
+{ "_id" : "DCRUST Sonipat", "contactperson" : "Tripti" }
+```
+
+`Dropping collection & database`
+
+```bash
+> show collections
+employee
+> db.employee.drop()
+true
+> show collections
+> db
+tech
+> db.dropDatabase()
+{ "dropped" : "tech", "ok" : 1 }
+> db
+test
 ```
 
 ### Advanced Concepts
