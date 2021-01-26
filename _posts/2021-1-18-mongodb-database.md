@@ -275,7 +275,8 @@ MongoDB provides 2 types of data models:
 `Data Information`
 
 Employee information are used as sample dataset.
-Name", "Team" & "College" are the fields.
+
+Fields: name, team, college
 
 `Database & Collection setup`
 
@@ -328,7 +329,166 @@ BulkWriteResult({
 }
 ```
 
+`Querying the collection`
 
+```bash
+> db.employee.find()
+{ "_id" : ObjectId("601066eeccdbc60bd56cd617"), "name" : "Jalaz Kumar", "team" : "Search", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd619"), "name" : "Atul Agarwal", "team" : "Personalization", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd61a"), "name" : "Narendra Dodwaria", "team" : "SOA-ML", "college" : "NIT Hamirpur" }
+> db.employee.find().pretty()
+{
+	"_id" : ObjectId("601066eeccdbc60bd56cd617"),
+	"name" : "Jalaz Kumar",
+	"team" : "Search",
+	"college" : "NIT Hamirpur"
+}
+{
+	"_id" : ObjectId("601067b8ccdbc60bd56cd619"),
+	"name" : "Atul Agarwal",
+	"team" : "Personalization",
+	"college" : "NIT Hamirpur"
+}
+{
+	"_id" : ObjectId("601067b8ccdbc60bd56cd61a"),
+	"name" : "Narendra Dodwaria",
+	"team" : "SOA-ML",
+	"college" : "NIT Hamirpur"
+}
+> db.employee.find({"team":"Search"})
+{ "_id" : ObjectId("601066eeccdbc60bd56cd617"), "name" : "Jalaz Kumar", "team" : "Search", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("60106838ccdbc60bd56cd61c"), "name" : "Tripti", "team" : "Search", "college" : "DCRUST Murthal" }
+> db.employee.find({$or:[{"team":"M-Site"},{"college":"GEC Dwarka"}]})
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61e"), "name" : "Akash Kumar", "team" : "Gl-Admin", "college" : "GEC Dwarka" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61f"), "name" : "Shivam Chimra", "team" : "M-Site", "college" : "Jaypee Noida" }
+```
+
+`Advanced Querying`
+```bash
+> db.employee.find({},{name:1,_id:0,team:1})
+{ "name" : "Jalaz Kumar", "team" : "Search" }
+{ "name" : "Atul Agarwal", "team" : "Personalization" }
+{ "name" : "Narendra Dodwaria", "team" : "SOA-ML" }
+{ "name" : "Shreya", "team" : "LEAP-ML" }
+{ "name" : "Tripti", "team" : "Search" }
+{ "name" : "Arpit Mathur", "team" : "WebERP" }
+{ "name" : "Akash Kumar", "team" : "Gl-Admin" }
+{ "name" : "Shivam Chimra", "team" : "M-Site" }
+> db.employee.find({},{name:1,_id:0,team:1}).limit(2)
+{ "name" : "Jalaz Kumar", "team" : "Search" }
+{ "name" : "Atul Agarwal", "team" : "Personalization" }
+> db.employee.find({},{name:1,_id:0,team:1}).limit(2).skip(3)
+{ "name" : "Shreya", "team" : "LEAP-ML" }
+{ "name" : "Tripti", "team" : "Search" }
+> db.employee.find({},{name:1,_id:0,team:1}).sort({name:1})
+{ "name" : "Akash Kumar", "team" : "Gl-Admin" }
+{ "name" : "Arpit Mathur", "team" : "WebERP" }
+{ "name" : "Atul Agarwal", "team" : "Personalization" }
+{ "name" : "Jalaz Kumar", "team" : "Search" }
+{ "name" : "Narendra Dodwaria", "team" : "SOA-ML" }
+{ "name" : "Shivam Chimra", "team" : "M-Site" }
+{ "name" : "Shreya", "team" : "LEAP-ML" }
+{ "name" : "Tripti", "team" : "Search" }
+> db.employee.find({},{name:1,_id:0,team:1}).sort({team:-1})
+{ "name" : "Arpit Mathur", "team" : "WebERP" }
+{ "name" : "Jalaz Kumar", "team" : "Search" }
+{ "name" : "Tripti", "team" : "Search" }
+{ "name" : "Narendra Dodwaria", "team" : "SOA-ML" }
+{ "name" : "Atul Agarwal", "team" : "Personalization" }
+{ "name" : "Shivam Chimra", "team" : "M-Site" }
+{ "name" : "Shreya", "team" : "LEAP-ML" }
+{ "name" : "Akash Kumar", "team" : "Gl-Admin" }
+```
+
+`Updating Documents`
+
+```bash
+> db.employee.find({"name":"Tripti"},{name:1,_id:0,team:1, college:1})
+{ "name" : "Tripti", "team" : "Search", "college" : "DCRUST Murthal" }
+> db.employee.update({"name":"Tripti"},{$set:{"college":"DCRUST Sonipat"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.employee.find({"name":"Tripti"},{name:1,_id:0,team:1, college:1})
+{ "name" : "Tripti", "team" : "Search", "college" : "DCRUST Sonipat" }
+> db.employee.find({},{name:1,college:1})
+{ "_id" : ObjectId("601066eeccdbc60bd56cd617"), "name" : "Jalaz Kumar", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd619"), "name" : "Atul Agarwal", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd61a"), "name" : "Narendra Dodwaria", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd61b"), "name" : "Shreya" }
+{ "_id" : ObjectId("60106838ccdbc60bd56cd61c"), "name" : "Tripti", "college" : "DCRUST Sonipat" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61d"), "name" : "Arpit Mathur", "college" : "Jaypee Noida" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61e"), "name" : "Akash Kumar", "college" : "GEC Dwarka" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61f"), "name" : "Shivam Chimra", "college" : "Jaypee Noida" }
+> db.employee.save({"_id" : ObjectId("601067b8ccdbc60bd56cd61b"), "name" : "Shreya", "college": "NIT Hamirpur"})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.employee.find({},{name:1,college:1})
+{ "_id" : ObjectId("601066eeccdbc60bd56cd617"), "name" : "Jalaz Kumar", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd619"), "name" : "Atul Agarwal", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd61a"), "name" : "Narendra Dodwaria", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("601067b8ccdbc60bd56cd61b"), "name" : "Shreya", "college" : "NIT Hamirpur" }
+{ "_id" : ObjectId("60106838ccdbc60bd56cd61c"), "name" : "Tripti", "college" : "DCRUST Sonipat" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61d"), "name" : "Arpit Mathur", "college" : "Jaypee Noida" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61e"), "name" : "Akash Kumar", "college" : "GEC Dwarka" }
+{ "_id" : ObjectId("601068b7ccdbc60bd56cd61f"), "name" : "Shivam Chimra", "college" : "Jaypee Noida" }
+```
+
+`Deleting Documents`
+
+```bash
+> db.employee.remove({"_id":ObjectId("60106786ccdbc60bd56cd618")})
+WriteResult({ "nRemoved" : 1 })
+```
+
+`Dealing with Indexes`
+
+```bash
+> db.employee.createIndex({"name":1})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.employee.getIndexes()
+[
+	{
+		"v" : 2,
+		"key" : {
+			"_id" : 1
+		},
+		"name" : "_id_",
+		"ns" : "tech.employee"
+	},
+	{
+		"v" : 2,
+		"key" : {
+			"name" : 1
+		},
+		"name" : "name_1",
+		"ns" : "tech.employee"
+	}
+]
+> db.employee.dropIndex({"team":1})
+{
+	"nIndexesWas" : 2,
+	"ok" : 0,
+	"errmsg" : "can't find index with key: { team: 1.0 }",
+	"code" : 27,
+	"codeName" : "IndexNotFound"
+}
+> db.employee.dropIndex({"name":1})
+{ "nIndexesWas" : 2, "ok" : 1 }
+> db.employee.getIndexes()
+[
+	{
+		"v" : 2,
+		"key" : {
+			"_id" : 1
+		},
+		"name" : "_id_",
+		"ns" : "tech.employee"
+	}
+]
+```
 
 ### Advanced Concepts
 
