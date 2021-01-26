@@ -244,12 +244,91 @@ MongoDB provides 2 types of data models:
     db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
 
 <ins>**Indexing**</ins>
+- Indexes support the efficient resolution of queries
+- W/O indexes, MongoDB has to scan the humongous amount of data & that is quite inefficient.
+- Indexes are special Data structure which stores the small portion of data in easy-to-traverse form.
+
+
+    db.COLLECTION_NAME.createIndex({KEY:1})
+    db.COLLECTION_NAME.createIndex({KEY_1:1, KEY_2:-1})
+    db.COLLECTION_NAME.createIndex({KEY:1}, OPTIONS)
+    db.COLLECTION_NAME.dropIndex({KEY:1})
+    db.COLLECTION_NAME.dropIndexes({KEY_1:1, KEY_2:-1})
+    db.COLLECTION_NAME.getIndexes()
 
 <ins>**Aggregation**</ins>
+- Aggregation operation processes data records & returns computed results
+- Aggregation in MongoDB is equivalent to `count(*)` & `GROUP BY` of SQL.
+- Using aggregation, multiple documents can be grouped & final results are provided after performing various operations on this grouped data.
+
+
+    db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+
+|SQL DB|NoSQL DB|
+|---|---|
+|SELECT author, count(*) FROM books GROUP BY author|db.books.aggregate([{$group : {_id : "$author", num_books : {$sum : 1}}}])|
 
 ---
 
 ### Practical Usage
+
+`Data Information`
+
+Employee information are used as sample dataset.
+Name", "Team" & "College" are the fields.
+
+`Database & Collection setup`
+
+```bash
+jalaz@jalaz-personal:~$ mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("3474ef53-05e5-43a9-a73a-0569aadcb8ec") }
+MongoDB server version: 3.6.8
+> show dbs
+admin    0.000GB
+config   0.000GB
+> use tech
+switched to db tech
+> db.createCollection("employee")
+{ "ok" : 1 }
+> show collections
+employee
+```
+
+`Insertion into collection`
+
+```bash
+> db.employee.insert({name: "Jalaz Kumar", team: "Search", college: "NIT Hamirpur"})
+WriteResult({ "nInserted" : 1 })
+> db.employee.insert([{name: "Atul Agarwal", team: "Personalization", college: "NIT Hamirpur"},{name:"Narendra Dodwaria", team: "SOA-ML", college: "NIT Hamirpur"},{name: "Shreya", team: "LEAP-ML", colllege: "NIT Hamirpur"}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 3,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.employee.insertOne({name: "Tripti", team: "Search", college: "DCRUST Murthal"})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("60106838ccdbc60bd56cd61c")
+}
+> db.employee.insertMany([{name: "Arpit Mathur", team: "WebERP", college: "Jaypee Noida"},{name:"Akash Kumar", team: "Gl-Admin", college: "GEC Dwarka"}, {name: "Shivam Chimra", team: "M-Site", college: "Jaypee Noida"}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("601068b7ccdbc60bd56cd61d"),
+		ObjectId("601068b7ccdbc60bd56cd61e"),
+		ObjectId("601068b7ccdbc60bd56cd61f")
+	]
+}
+```
+
+
 
 ### Advanced Concepts
 
