@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://jaykay12.github.io/tech/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/search/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/about/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/mongodb-database/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/nosql-databases/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-spring/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/aws-s3-concepts-usage/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/python/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/aws-ec2-concepts-usage/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/page2/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/page3/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/page4/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/page5/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/page6/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/categories/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/rnn-lstm-gru/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/design-patterns/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/spring-boot-heroku/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/apache-solr-querying/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/test-driven-development-spring-boot/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/fasttext-ml/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-collections/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/apache-solr-indexing-configurations/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-logging/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/webrtc/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-networking/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-io/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-jdbc/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-multithreading-synchronization/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-regex/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-exception-handling/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-string/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-array-object-wrapper/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-oops/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-fundamentals/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/java-features-architecture/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/recommender-systems-collaborative-flitering/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/spring-boot/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/rest-apis/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/nodejs-heroku/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/python-google-sheets-api/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/flask-heroku/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/oauth/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/google-analytics/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://jaykay12.github.io/tech/flask-sendgrid-azure/</loc>
+  <lastmod>2021-01-26T20:41:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
