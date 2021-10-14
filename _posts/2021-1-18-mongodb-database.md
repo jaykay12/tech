@@ -1,7 +1,7 @@
 ---
 layout: post
-title: MongoDB, Peer Document NoSQL DBs
-categories: [NoSQL Databases, Databases]
+title: MongoDB, Best Document NoSQL Database
+categories: [NoSQL Databases, Database]
 ---
 
 MongoDB is a

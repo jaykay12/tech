@@ -1,5 +1,5 @@
 ---
 layout: post
-title: Basics of Google Guice
+title: Google Guice
 categories: [Java, Web Development]
 ---

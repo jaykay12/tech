@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Basics of Apache Spark
+title: Apache Spark
 categories: [Data Engineering]
 ---
 
