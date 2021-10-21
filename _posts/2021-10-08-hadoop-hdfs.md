@@ -1,5 +1,13 @@
 ---
 layout: post
-title: Apachen Hadoop & HDFS
+title: Apache Hadoop & HDFS
 categories: [Data Engineering]
 ---
+
+# Introduction
+
+# Architecture
+
+# Usage
+
+# HDFS Commands
