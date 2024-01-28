@@ -27,9 +27,10 @@ Partitioning is the process of splitting a database table into multiple groups. 
    - Horizontal partitioning splits the database by rows.
       - Effective when queries return a subset of rows that are often grouped together.
       - Splits a homogeneous type of data into multiple databases. That’s why sharding can be implemented at either the application or database level.
-      - Sharding is a first-class concept for DBs & are natively sharded like HDFS, MongoDB, HBase etc.
+      - Sharding is a first-class concept for DBs & they are natively sharded like HDFS, MongoDB, HBase etc.
+      - Helps in parallel processing. Speeds up query resolution, since each machine has to scan fewer rows when responding to a query.
 
-Sharding is a kind of Horizontal partitioning, but involves multiple machines.
+Sharding is a form of Horizontal partitioning, but involves multiple machines.
 For eg: segments of solr index is a kind of horizontal partitoning, but shards is a different concept altogether.
 
 #### Benefits of Sharding
