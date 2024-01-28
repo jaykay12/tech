@@ -6,14 +6,14 @@ categories: [Miscellaneous]
 
 Deep dive into concepts of Sharding, Distributed Index management & SolrCloud
 
-## Sharding
+# Sharding
 
 Sharding is a method of splitting and storing a single logical dataset in multiple machines.
 
    - This becomes necessary if a dataset is too large to be stored in a single database.
    - A single machine can store and process data upto a limit. Sharding overcomes this limitation by splitting data into smaller chunks, called shards, and storing them across several machines.
 
-#### Partitioning vs Sharding
+### Partitioning vs Sharding
 
 Partitioning is the process of splitting a database table into multiple groups. Partitioning is classified into two types: 
 
@@ -31,7 +31,7 @@ Partitioning is the process of splitting a database table into multiple groups. 
 Sharding is a form of Horizontal partitioning, but involves multiple machines.
 For eg: segments of solr index is a kind of horizontal partitoning, but shards is a different concept altogether.
 
-#### Benefits of Sharding
+### Benefits of Sharding
 
 - _Improves response time_
 Data retrieval takes longer on a single large database. System needs to search through many rows to retrieve the correct data. Since, shard is a logical subset of this entire database, it takes less time to retrieve specific information from a sharded database. 
@@ -57,7 +57,7 @@ Operations may need to search through many databases to find the requested data.
 Once sharding is employed, **redistributing data** is an important problem.
 
 
-### Types of Sharding
+## Types of Sharding
 
 There exist various sharding strategies. Each strategy has pros and cons.
 
@@ -73,7 +73,7 @@ Sharding operates on a shared-nothing architecture. Each physical shard operates
 In former, only the physical shards that contain the data that you request will process the data in parallel for you. 
 For latter, the application layer coordinates data storage and access from these multiple shards.
 
-#### Key-based or Algorthmic Sharding
+### Key-based or Algorthmic Sharding
 
 - In algorithmic sharding, the client can determine shard without any help. The data is simply plugged into a hash function to determine which shard each data value must go to.
 - Algorithmically sharded databases use a sharding function (partition_key) -> database_id to locate data. A simple sharding function may be "hash(key) % NUM_DB"
@@ -88,7 +88,7 @@ For latter, the application layer coordinates data storage and access from these
 - During data rebalancing, both new and old hashing functions could become invalid
 - Does not do sharding based on the meaning of the information.
 
-#### Range-based Sharding
+### Range-based Sharding
 
  - This involves sharding data according to the ranges of a given value. The range is based on a field, which is known as the shard key.
 
@@ -101,7 +101,7 @@ For latter, the application layer coordinates data storage and access from these
 - Poor choice of shard key could create unbalanced shards and adversely impact performance. For eg: fitso shards user information based upon age groups.
 
 
-#### Directory Sharding
+### Directory Sharding
 
 - In directory-based sharding, a lookup table is created and maintained. It uses a shard key to track which physical shard holds what kind of data.
 
