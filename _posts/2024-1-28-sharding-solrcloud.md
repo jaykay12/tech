@@ -35,9 +35,29 @@ For eg: segments of solr index is a kind of horizontal partitoning, but shards i
 
 #### Benefits of Sharding
 
+- _Improves response time_
+Data retrieval takes longer on a single large database. System needs to search through many rows to retrieve the correct data. Since, shard is a logical subset of this entire database, it takes less time to retrieve specific information from a sharded database. 
 
+- _Avoid total service outage_
+If the machine/database fails, the application depending on the database fails too. Database sharding prevents this by distributing parts of the database into different machines. Failure of one of the computers does not shut down the application because it can operate with other functional shards. Sharding is also often done in combination with data replication across shards. So, if one shard becomes unavailable, the data can be accessed and restored from an alternate shard.
 
-### Driving Principles
+- _Scale efficiently_
+Once a database is horizontally sharded, we can scale it further by going more granular or using varying sharding schemes.
+
+### Challenges of Sharding
+
+Sharding adds additional programming and operational complexity to the application codebase, this this is kind of last resort that is taken up when no other scaling methods works.
+Managing multiple servers having different logical partions of data adds operational challenges. 
+
+> Before we begin, see whether sharding can be avoided or deferred.
+
+1. Getting more expensive/bigger machine. Storage capacity is growing at the speed of Moore’s law. 
+2. Vertically partition by functionality. Binary blobs tend to occupy large amounts of space and are isolated within your application.
+
+Operations may need to search through many databases to find the requested data. These are called **cross-partition operations** and they tend to be inefficient. Sharding schemes attempt to minimize the number of cross-partition operations.
+**Hotspots** are another common problem — having uneven distribution of data and operations. Hotspots largely counteract the benefits of sharding.
+Once sharding is employed, **redistributing data** is an important problem.
+
 
 ### Types of Sharding
 
@@ -45,18 +65,6 @@ There exist various strategies to distribute data into multiple databases. Each 
 
 Shard or Partition Key is a portion of primary key which determines how data should be distributed. A partition key allows you to retrieve and modify data efficiently by routing operations to the correct database. Entries with the same partition key are stored in the same node. A logical shard is a collection of data sharing the same partition key. A database node, sometimes referred as a physical shard, contains multiple logical shards.
 
-### Challenges of Sharding
-
-Sharding adds additional programming and operational complexity to your application. 
-You lose the convenience of accessing the application’s data in a single location. Managing multiple servers adds operational challenges. 
-
-
-Before you begin, see whether sharding can be avoided or deferred.
-
-1. Get a more expensive machine. Storage capacity is growing at the speed of Moore’s law. 
-2. Vertically partition by functionality. Binary blobs tend to occupy large amounts of space and are isolated within your application.
-
-Cross-partition queries are inefficient, and many sharding schemes attempt to minimize the number of cross-partition operations. On the other hand, partitions need to be granular enough to evenly distribute the load amongst nodes. Finding the right balance can be tricky.
 
 
 
