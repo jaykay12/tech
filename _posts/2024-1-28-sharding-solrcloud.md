@@ -17,6 +17,8 @@ Sharding is a method of splitting and storing a single logical dataset in multip
 
 Partitioning is the process of splitting a database table into multiple groups. Partitioning is classified into two types: 
 
+![horivsverti](../assets/images/Sharding-1.png)
+
    - Vertical partitioning creates different partitions of the database columns.
       - Effective when queries usually return only a subset of columns of the data.
       - Domain specific. We draw a logical split within the application data, storing them in different databases.
@@ -88,6 +90,8 @@ For latter, the application layer coordinates data storage and access from these
 - During data rebalancing, both new and old hashing functions could become invalid
 - Does not do sharding based on the meaning of the information.
 
+![algorithmic](../assets/images/Sharding-2.png)
+
 ### Range-based Sharding
 
  - This involves sharding data according to the ranges of a given value. The range is based on a field, which is known as the shard key.
@@ -100,6 +104,7 @@ For latter, the application layer coordinates data storage and access from these
 - May create database hotspots, since data could be unevenly distributed. For eg: We choose to shard our AS index based upon first character.
 - Poor choice of shard key could create unbalanced shards and adversely impact performance. For eg: fitso shards user information based upon age groups.
 
+![dynamic](../assets/images/Sharding-3.png)
 
 ### Directory Sharding
 
