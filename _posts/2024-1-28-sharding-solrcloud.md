@@ -69,6 +69,55 @@ A partition key allows you to retrieve and modify data efficiently by routing op
 
 Suppose, we shard our entire AS index, based upon generationSources & say we divide our cluster into 2 physical shards. Shard 1 will have logical shards of gS:[Organic,Bootstrapped] & Shard 2 will have logical shards of gs: [Generative,LM,GenAI]
 
+Sharding operates on a shared-nothing architecture. Each physical shard operates independently and is unaware of other shards. Now, since Sharding as a concept can be intrinsic or application-driven.
+In former, only the physical shards that contain the data that you request will process the data in parallel for you. 
+For latter, the application layer coordinates data storage and access from these multiple shards.
+
+#### Key-based or Algorthmic Sharding
+
+the data is plugged into a hash function to determine which shard each data value must go to.
+
+A hash function takes a piece of input data and generates a discrete output value known as the hash value. In key-based sharding, the hash value is the shard ID, which determines in which shard the data is stored. The values entered into the hash function all come from the same column, known as the shard key, to ensure that entries are placed consistently and with the appropriate accompanying data in the correct shards.
+
+This key is static -- i.e., its values don't change over time. If they do, it could slow down performance.
+
+Advantages of key-based sharding
+
+suitable for distributing data evenly to prevent hotspots; and
+no need to maintain a data map, since data is distributed algorithmically.
+Disadvantages of key-based sharding
+
+difficult to dynamically add or remove additional servers to the database;
+during data rebalancing, both new and old hashing functions could become invalid; and
+during migration, servers cannot write any new data, which may lead to application downtime.
+
+#### Range-based Sharding
+
+range-based sharding involves sharding data according to the ranges of a given value. The range is based on a field, which is known as the shard key.
+
+Advantages of range-based sharding
+
+straightforward implementation; and
+simple algorithm since different shards have identical schema to each other, as well as the original database.
+Disadvantages of range-based sharding
+
+may create database hotspots, since data could be unevenly distributed; and
+a poor choice of shard key could create unbalanced shards and adversely impact performance.
+
+
+#### Directory Sharding
+In directory-based sharding, a lookup table is created and maintained. It uses a shard key to track which shard holds what kind of data.
+
+Advantages of directory-based sharding
+
+provides greater flexibility in terms of dynamically assigning data to shards;
+superior to key-based sharding because it doesn't require a hash function; and
+superior to range-based sharding since it ties each key to its own specific shard.
+Disadvantages of directory-based sharding
+
+can have a negative impact on application performance because it requires connection to the lookup table before every query or write; and
+corruption or failure of the lookup table could lead to data loss or accessibility issues.
+
 
 ## Legacy Distributed Index & Querying (Solr)
 
