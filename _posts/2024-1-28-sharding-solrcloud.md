@@ -6,8 +6,6 @@ categories: [Miscellaneous]
 
 Deep dive into concepts of Sharding, Distributed Index management & SolrCloud
 
-![fasttext](../assets/images/FT-1.png)
-
 ## Sharding
 
 Sharding is a method of splitting and storing a single logical dataset in multiple machines.
@@ -61,11 +59,15 @@ Once sharding is employed, **redistributing data** is an important problem.
 
 ### Types of Sharding
 
-There exist various strategies to distribute data into multiple databases. Each strategy has pros and cons depending on various assumptions a strategy makes. It is crucial to understand these assumptions and limitations. Operations may need to search through many databases to find the requested data. These are called cross-partition operations and they tend to be inefficient. Hotspots are another common problem — having uneven distribution of data and operations. Hotspots largely counteract the benefits of sharding.
+There exist various sharding strategies. Each strategy has pros and cons.
 
-Shard or Partition Key is a portion of primary key which determines how data should be distributed. A partition key allows you to retrieve and modify data efficiently by routing operations to the correct database. Entries with the same partition key are stored in the same node. A logical shard is a collection of data sharing the same partition key. A database node, sometimes referred as a physical shard, contains multiple logical shards.
+**Shard** or Partition Key is a portion of primary key which determines how data should be distributed. 
+A partition key allows you to retrieve and modify data efficiently by routing operations to the correct database. Entries with the same partition key are stored in the same node. 
 
+- A logical shard is a collection of data sharing the same partition key.
+- A database node, sometimes referred as a physical shard, contains multiple logical shards.
 
+Suppose, we shard our entire AS index, based upon generationSources & say we divide our cluster into 2 physical shards. Shard 1 will have logical shards of gS:[Organic,Bootstrapped] & Shard 2 will have logical shards of gs: [Generative,LM,GenAI]
 
 
 ## Legacy Distributed Index & Querying (Solr)
