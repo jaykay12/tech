@@ -128,14 +128,27 @@ For eg: Search Infra uses this kind of Directory sharding, where in lookup table
 
 ## Legacy Scaling and Distribution (Solr Context)
 
-![distributed-legacy](../assets/images/Sharding-4.png)
-
 Distribution|Replication
 ---|---
 Searches are taking too long|High QPS which one machine cannot handle, so you need to distribute searches across multiple read-only copies of the index
 Index is approaching the physical limitations of machine|Separate indexing and searching
 We divide the index into partitions called shards, each of which runs on a separate machine. Solr then partitions searches into sub-searches, which run on the individual shards, reporting results collectively|Indexing opertaions (committing, segments creation, optimising index) are costly, we don't want them to be having on machines which fall in user path
 The architectural details underlying index sharding are abstracted, we simply experience faster performance on queries against very large indexes|
+
+![distributed-legacy](../assets/images/Sharding-4.png)
+
+This is how Solr scaling cycle progresses, AutoSuggest is at step 2, Serving is at step 4.
+
+#### Index Sharding (Distributed Indexing)
+
+In legacy setup, getting your documents indexed on different shards (sharding-logic) resides with application. Solr supports distributed indexing (routing) in its true form only in the SolrCloud mode.
+
+In the legacy distributed mode, Solr does not calculate universal term/doc frequencies. 
+Solr calculates TF/IDF at the shard level. However, if our collection is heavily skewed in its distribution across servers & we use TF/IDFs, then it may lead to irrelevancy. 
+
+#### Distributed Searches (Querying/Serving)
+
+
 
 ## SolrCloud
 
