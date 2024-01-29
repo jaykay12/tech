@@ -192,6 +192,8 @@ There are concepts like: ShardHandlerFactory, ShardDoc which Distributed Searchi
 
 When we have a query volume that single shards cannot keep up with, it’s time to replicate each shard in your distributed search setup.
 
+![cluster-scaling](../assets/images/Sharding-7.png)
+
    - The idea is to combine distributed search with replication.
    - Combined distributed-replication configuration features a master server for each shard and then 1-n slaves that are replicated from the master.
    - Query requests should be load balanced across each of the shard slaves.
