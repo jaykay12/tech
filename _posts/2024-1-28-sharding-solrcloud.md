@@ -188,6 +188,15 @@ TBA
 
 There are concepts like: ShardHandlerFactory, ShardDoc which Distributed Searching uses, & was reused later in SolrCloud also. Will cover those later in the section of SolrCloud.
 
+#### Combining Distribution and Replication
+
+When we have a query volume that single shards cannot keep up with, it’s time to replicate each shard in your distributed search setup.
+
+   - The idea is to combine distributed search with replication.
+   - Combined distributed-replication configuration features a master server for each shard and then 1-n slaves that are replicated from the master.
+   - Query requests should be load balanced across each of the shard slaves.
+   - None of the master shards in this configuration know about each other. You index to each master, the index is replicated to each slave, and then searches are distributed across the slaves, using one slave from each master/slave shard.
+   -  Using ELBs or haProxies (this entire sharding & replication can be sorted)
 
 ## SolrCloud
 
