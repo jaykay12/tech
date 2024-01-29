@@ -146,8 +146,42 @@ In legacy setup, getting your documents indexed on different shards (sharding-lo
 In the legacy distributed mode, Solr does not calculate universal term/doc frequencies. 
 Solr calculates TF/IDF at the shard level. However, if our collection is heavily skewed in its distribution across servers & we use TF/IDFs, then it may lead to irrelevancy. 
 
-#### Distributed Searches (Querying/Serving)
+### Distributed Searches (Querying/Serving)
 
+If a query request includes the **shards** parameter, the Solr server distributes the request across all the shards listed as arguments to the parameter.
+
+   - Preferred to configure the shard parameter as a default in the RequestHandler section of solrconfig.xml, instead of passing in the request-params
+   - Only query requests are distributed. This includes requests to the SearchHandler (or any handler extending from org.apache.solr.handler.component.SearchHandler) using these standard components that support distributed search.
+       - Query component
+       - Facet component
+       - Highlighting component
+       - Stats component
+       - Debug component
+    
+   - The nodes allowed in the shards parameter is configurable through the shardsWhitelist property in solr.xml. This whitelist is automatically configured for SolrCloud but needs explicit configuration for master/slave mode.
+   - using `-Dsolr.disable.shardsWhitelist=true` we can skip this whitelisting checks.
+   - Shard information can be returned with each document in a distributed search by including fl=id,[shard] in the search request. This returns the shard URL.
+
+There are 2 ways to configure this:
+Pure Distributed|Node-specific
+---|---
+![siab](../assets/images/Sharding-5.png)|![morarity](../assets/images/Sharding-6.png)
+Every node calls the replicas of other shards & its own sharded-index. The calling shard aggregates/merge the response|Aggregator nodes only calls data-nodes(shards) & only serves to merge the response.
+2 different kinds of operations are happening in every node|only 1 kind of operation happens in aggregator-node & data-node
+
+
+#### Practical working.
+
+<To-update-later> 
+
+#### Limitations of Legancy Distributed Searching:
+
+1. Each document indexed must have a unique key. "id" field must be of type: stored.
+2. The number of shards is limited by number of characters allowed for GET method’s URI; most Web servers generally support at least 4000 characters, but many servers limit URI length to reduce their vulnerability to Denial of Service (DoS) attacks. (This can be made entirely config-driven)
+3. TF/IDF relevancy computations only used shard-local statistics.
+4. SolrCloud provides for a truly distributed set of features with support for things like automatic routing, leader election, optimistic concurrency and other sanity checks that are expected out of a distributed system.
+
+There are concepts like: ShardHandlerFactory, ShardDoc which Distributed Searching uses, & was reused later in SolrCloud also. Will cover those later in the section of SolrCloud.
 
 
 ## SolrCloud
