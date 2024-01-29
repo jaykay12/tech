@@ -137,6 +137,7 @@ The architectural details underlying index sharding are abstracted, we simply ex
 
 ![distributed-legacy](../assets/images/Sharding-4.png)
 
+
 This is how Solr scaling cycle progresses, AutoSuggest is at step 2, Serving is at step 4.
 
 #### Index Sharding (Distributed Indexing)
@@ -162,17 +163,21 @@ If a query request includes the **shards** parameter, the Solr server distribute
    - using `-Dsolr.disable.shardsWhitelist=true` we can skip this whitelisting checks.
    - Shard information can be returned with each document in a distributed search by including fl=id,[shard] in the search request. This returns the shard URL.
 
-There are 2 ways to configure this:
-Pure Distributed|Node-specific
----|---
-![siab](../assets/images/Sharding-5.png)|![morarity](../assets/images/Sharding-6.png)
-Every node calls the replicas of other shards & its own sharded-index. The calling shard aggregates/merge the response|Aggregator nodes only calls data-nodes(shards) & only serves to merge the response.
-2 different kinds of operations are happening in every node|only 1 kind of operation happens in aggregator-node & data-node
+
+![siab](../assets/images/Sharding-5.png)
+
+  - Every node calls the replicas of other shards & its own sharded-index. The calling shard aggregates/merge the response
+  - 2 different kinds of operations are happening in every node
+
+
+![morarity](../assets/images/Sharding-6.png)
+  - Aggregator nodes only calls data-nodes(shards) & only serves to merge the response.
+  - Only 1 kind of operation happens in aggregator-node & data-node.
 
 
 #### Practical working.
 
-<To-update-later> 
+TBA
 
 #### Limitations of Legancy Distributed Searching:
 
