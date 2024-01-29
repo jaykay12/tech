@@ -126,9 +126,16 @@ For eg: Search Infra uses this kind of Directory sharding, where in lookup table
 
 
 
-## Legacy Distributed Index & Querying (Solr)
+## Legacy Scaling and Distribution (Solr Context)
 
+![distributed-legacy](../assets/images/Sharding-4.png)
 
+Distribution|Replication
+---|---
+Searches are taking too long|High QPS which one machine cannot handle, so you need to distribute searches across multiple read-only copies of the index
+Index is approaching the physical limitations of machine|Separate indexing and searching
+We divide the index into partitions called shards, each of which runs on a separate machine. Solr then partitions searches into sub-searches, which run on the individual shards, reporting results collectively|Indexing opertaions (committing, segments creation, optimising index) are costly, we don't want them to be having on machines which fall in user path
+The architectural details underlying index sharding are abstracted, we simply experience faster performance on queries against very large indexes|
 
 ## SolrCloud
 
