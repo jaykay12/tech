@@ -202,4 +202,19 @@ When we have a query volume that single shards cannot keep up with, it’s time 
 
 ## SolrCloud
 
+The ability to set up a cluster of Solr servers that combines fault tolerance and high availability. Supports the following features along with distributed indexing & querying:
+- Central configuration for the entire cluster
+- Automatic load balancing and fail-over for queries
+- ZooKeeper integration for cluster coordination and configuration.
+
+SolrCloud is flexible distributed search and indexing, without a master node to allocate nodes, shards and replicas. Instead, Solr uses ZooKeeper to manage these locations, depending on configuration files and schemas. Queries and updates can be sent to any server. Solr will use the information in the ZooKeeper database to figure out which servers need to handle the request.
+
 ### How it is better than Legacy
+
+Before SolrCloud, Solr supported Distributed Search, which allowed one query to be executed across multiple shards, so the query was executed against the entire Solr index and no documents would be missed from the search results. So splitting an index across shards is not exclusively a SolrCloud concept. There were, however, several problems with the distributed approach that necessitated improvement with SolrCloud:
+
+- Splitting an index into shards was somewhat manual.
+- There was no support for distributed indexing, which meant that you needed to explicitly send documents to a specific shard; Solr couldn’t figure out on its own what shards to send documents to.
+- There was no load balancing or failover, so if you got a high number of queries, you needed to figure out where to send them and if one shard died it was just gone.
+
+SolrCloud addresses those limitations. There is support for distributing both the index process and the queries automatically, and ZooKeeper provides failover and load balancing. Additionally, every shard can have multiple replicas for additional robustness.
