@@ -5,42 +5,28 @@ categories: [Java]
 ---
 
 - `Multiprocessing` and `Multithreading` -> Used to achieve `Multitasking`.
-
-- Multithreading in Java is a process of executing multiple threads simultaneously.
-
-- Java Multithreading is mostly used in games, animation, etc.
+- Multithreading in Java is a process of executing multiple threads simultaneously. Although on the CPU world, there is lot of context switch happening behind the scenes depending upon the cores, but to the application world, this looks like simulatenous executions.
+- Java Multithreading is heavily used in games, animation, etc.
 
 ### Multitasking
 
-  Process of executing multiple tasks simultaneously.
-  We use multitasking to utilize the CPU.
+  Process of executing multiple tasks simultaneously. We use multitasking to utilize the CPU.
+
+![OS](../assets/images/JA-18.png)
 
   - <ins>**Process-based Multitasking**</ins>
       - `Multiprocessing`
-
-      - Each process has an address in memory. In other words, each process allocates a separate memory area.
-
-      - A process is heavyweight.
-
+      - Process is an instance of the program under execution.
+      - Each process has an address in memory. In other words, each process gets allocated a separate memory area. (Heap memory)
       - Cost of communication between the process is high.
-
       - Switching from one process to another requires some time for saving and loading registers, memory maps, updating lists, etc.
-
 
   - <ins>**Thread-based Multitasking**</ins>
       - `Multithreading`
-
-      - A thread is a lightweight sub-process, the smallest unit of processing.
-
-      - Threads share the same address space.
-
+      - A thread is a lightweight sub-process, is the smallest unit of processing.
+      - Threads share the same address space. (Heap memory)
       - Cost of communication between the thread is low.
-
-      - It doesn't block the user because threads are independent and you can perform multiple operations at the same time.
-
       - Threads are independent, so it doesn't affect other threads if an exception occurs in a single thread.
-
-![OS](../assets/images/JA-18.png)
 
 ## Java Multithreading
 
