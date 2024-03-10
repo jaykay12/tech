@@ -20,6 +20,7 @@ categories: [Java]
       - Each process has an address in memory. In other words, each process gets allocated a separate memory area. (Heap memory)
       - Cost of communication between the process is high.
       - Switching from one process to another requires some time for saving and loading registers, memory maps, updating lists, etc.
+      - Eg, Web browser and music player. The user can browse the internet on the web browser while listen to the music in the music player without any delay or interruption.
 
   - <ins>**Thread-based Multitasking**</ins>
       - `Multithreading`
@@ -27,6 +28,7 @@ categories: [Java]
       - Threads share the same address space. (Heap memory)
       - Cost of communication between the thread is low.
       - Threads are independent, so it doesn't affect other threads if an exception occurs in a single thread.
+      - In the video player application, one thread might be responsible for playing the video while another thread handles the subtitles.
 
 <img src="../assets/images/JM-1.png" width="100%">
 
@@ -345,25 +347,36 @@ Basically, `Concurrency helps us do MultiThreading in a failsafe manner`
      }
      ```
 
-## Synchronization
+## Concurrency & Synchronization
 
-Capability to control the access to any shared resource.
+There are multiple synchronization mechanisms in java which helps implement concurrency:
 
+- Synchronization
+- Semaphors & Monitors
+- Atomic Operations
 
-Used when we want to allow only one thread to access the shared resource.
+Synchronization is the capability to control the access to any shared resource. Used when we want to allow only one thread to access the shared resource.
+It prevents thread interference & prevent consistency issues. (Inconsistent writes, deadlocks & race conditions)
 
+2 Types of Synchronization is required in the industry tech:
+  - Process Synchronization
+  - Thread Synchronization
 
-Prevents thread interference & prevent consistency issues.
+In Process synchronization ,we share system resources between processes in a such a way that, concurrent access to the shared data is handled properly thereby minimizing the chance of inconsistent data.
+Critical section problem is the prevalent problem in synchronization.
 
-2 Types of Synchronization:
- - Process Synchronization
- - Thread Synchronization
+<img src="../assets/images/JM-5.png" width="50%">
 
-In Java, Thread Synchronization is achieved for 2 main domains:
- - Mutual Exclusion using synchronized block, synchronized method & static Synchronization.
- - Cooperation using Inter-thread communication.
+Any solution to CS problem requires to follow these 3 conditions:
+1. Mutual Exclusion
+2. Progress
+3. Bounded Waiting
 
-Synchronization uses an internal entity known as the `lock` or `monitor`.
+In Java, Thread Synchronization is achieved using 2 main domains:
+ - `Mutual Exclusion` using synchronized block, synchronized method & static Synchronization.
+ - `Cooperation using Inter-thread communication`
+
+Thread synchronization uses an internal entity known as the `lock` or `monitor`.
  - Every object has an lock associated with it.
  - By convention, a thread that needs consistent access to an object's fields has to acquire the object's lock before accessing them, and then release the lock when it's done with them.
  - the package `java.util.concurrent.locks` contains several lock implementations.
