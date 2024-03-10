@@ -12,7 +12,7 @@ categories: [Java]
 
   Process of executing multiple tasks simultaneously. We use multitasking to utilize the CPU.
 
-![OS](../assets/images/JA-18.png)
+<img src="../assets/images/JA-18.png" width="30%">
 
   - <ins>**Process-based Multitasking**</ins>
       - `Multiprocessing`
@@ -28,13 +28,13 @@ categories: [Java]
       - Cost of communication between the thread is low.
       - Threads are independent, so it doesn't affect other threads if an exception occurs in a single thread.
 
-![OS](../assets/images/JM-1.png)
+<img src="../assets/images/JM-1.png" width="100%">
 
 ## Memory Explaination
 
-![OS](../assets/images/JM-2.png)
-![OS](../assets/images/JM-3.png)
-![OS](../assets/images/JM-4.png)
+<img src="../assets/images/JM-2.png" width="60%">
+<img src="../assets/images/JM-3.png" width="60%">
+<img src="../assets/images/JM-4.png" width="60%">
 
 ## Java Multithreading
 
