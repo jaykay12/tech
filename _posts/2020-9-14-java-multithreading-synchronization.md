@@ -502,7 +502,7 @@ synchronized (this) {
 
 If any static method is declared synchronized, the lock will be on the class not on object.
 
-<img src="../assets/images/JA-20.png" width="50%">
+<img src="../assets/images/JA-20.jpg" width="50%">
 
 The image depicts issue with normal synchronization. Suppose object1 and object2 are 2 instances of a class accessing a shared resource. Now t1 and t2 won't intefere with each other nor will t3 and t4 with each other. But since (t1/t2) cluster carries separate lock from (t3/t4) cluster, thus there are chances that t1 and t3 can interfere etc.
 
@@ -523,7 +523,7 @@ synchronized static void printTable(int n) {
 
 Deadlock in java is problem we see when implementing concurrency in multithreading.
 
-<img src="../assets/images/JA-21.png" width="60%">
+<img src="../assets/images/JA-21.png" width="30%">
 
 Deadlock can occur in a situation when a thread is waiting for an object lock, that is acquired by another thread and second thread is waiting for an object lock that is acquired by first thread. Since, both threads are waiting for each other to release the lock, the condition is called `deadlock`.
 
