@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Java - V - Multithreading
+title: Advanced Java - V - Multithreading & Concurrency
 categories: [Java]
 ---
 
@@ -35,6 +35,16 @@ categories: [Java]
 <img src="../assets/images/JM-2.png" width="60%">
 <img src="../assets/images/JM-3.png" width="60%">
 <img src="../assets/images/JM-4.png" width="60%">
+
+```
+Multithreading and concurrency are important concepts in Java that allow for efficient use of system resources and better performance in multi-tasking applications.
+Supported through the use of threads and synchronization mechanisms such as locks, semaphores, and monitors.
+```
+
+Multithreading can help improve the responsiveness of a program by allowing it to continue running while performing other tasks in the background.
+Concurrency, on the other hand, refers to the ability of multiple threads to access shared resources simultaneously.
+Basically, `Concurrency helps us do MultiThreading in a failsafe manner`
+
 
 ## Java Multithreading
 
