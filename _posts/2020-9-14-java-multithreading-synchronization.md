@@ -30,6 +30,12 @@ categories: [Java]
 
 ![OS](../assets/images/JM-1.png)
 
+## Memory Explaination
+
+![OS](../assets/images/JM-2.png)
+![OS](../assets/images/JM-3.png)
+![OS](../assets/images/JM-4.png)
+
 ## Java Multithreading
 
   - <ins>**Life cycle of a Thread**</ins>
