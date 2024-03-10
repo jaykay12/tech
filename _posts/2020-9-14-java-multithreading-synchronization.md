@@ -74,22 +74,22 @@ Basically, `Concurrency helps us do MultiThreading in a failsafe manner`
 
 There are 2 ways to carry out multi-threading in java:
  
-    1. Extending the `Thread class`
-       - Should be extended by any class whose instances are intended to be executed by a thread
-       - Internally implements Runnable interface.
-       - Useful methods:
-          - _public void start()_
-          - _public void run()_
-          - _public void sleep(long miliseconds)_
-          - _public void join(long miliseconds)_
-          - _public Thread currentThread()_
-          - _public Thread.State getState()_
-          - _public void setDaemon(boolean b)_
-          - _public void interrupt()_
+1. Extending the `Thread class`
+  - Should be extended by any class whose instances are intended to be executed by a thread
+  - Internally implements Runnable interface.
+  - Useful methods:
+    - _public void start()_
+    - _public void run()_
+    - _public void sleep(long miliseconds)_
+    - _public void join(long miliseconds)_
+    - _public Thread currentThread()_
+    - _public Thread.State getState()_
+    - _public void setDaemon(boolean b)_
+    - _public void interrupt()_
 
-    2. Implementing the `Runnable interface`
-        - Should be implemented by any class whose instances are intended to be executed by a thread.
-        - Only 1 method: _public void run()_
+2. Implementing the `Runnable interface`
+  - Should be implemented by any class whose instances are intended to be executed by a thread.
+  - Only 1 method: _public void run()_
 
 
 Starting a thread: start() method of Thread class is used to start a newly created thread. Following tasks are done:
