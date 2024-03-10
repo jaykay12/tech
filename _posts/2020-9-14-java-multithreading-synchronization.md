@@ -28,6 +28,8 @@ categories: [Java]
       - Cost of communication between the thread is low.
       - Threads are independent, so it doesn't affect other threads if an exception occurs in a single thread.
 
+![OS](../assets/images/JM-1.png)
+
 ## Java Multithreading
 
   - <ins>**Life cycle of a Thread**</ins>
