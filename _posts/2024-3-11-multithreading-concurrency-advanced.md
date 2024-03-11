@@ -4,9 +4,10 @@ title: Advanced Java - V - Multithreading & Concurrency - Part 2
 categories: [Java]
 ---
 
-### Synchronous-Asynchronous & Blocking-NonBlocking
+## Synchronous-Asynchronous & Blocking-NonBlocking calls
 
-### Concepts related to Asychronous Programming
+
+## Concepts related to Asychronous Programming
 
 We can create threads using 2 methods in Java:
  - Extending `Thread class` which implements `Runnable interface`
@@ -14,25 +15,20 @@ We can create threads using 2 methods in Java:
 
 <ins>**Callable**</ins>
 
- - One feature lacking in  `Runnable interface` is that a thread can't return result when it terminates, i.e. when run() completes. For supporting this feature, the `Callable interface` is present in Java.
-
+ - One feature lacking in  `Runnable interface` is that a thread can't return result when it terminates, i.e. when run() completes.
+ - For supporting this feature, the `Callable interface` was introduced in Java.
  - For implementing `Runnable`, the run() method needs to be implemented which does not return anything, while for a `Callable`, the call() method needs to be implemented which returns a result on completion.
-
  - A thread can’t be created with a Callable, it can only be created with a Runnable.
 
 <ins>**Future**</ins>
 
  - When the call() method completes, answer must be stored in an object known to the main thread, so that the main thread can know about the result that the thread returned.
 For this, a Future object is used.
-
  - Future is an object that holds the result – it may not hold it right now, but it will do so in the future (once the Callable returns).
-
  - Useful methods:
     - _public boolean cancel(boolean mayInterrupt)_
     - _public Object get() throws InterruptedException, ExecutionException_
     - _public boolean isDone()_
-  
-    - 
 
 `Callable` is similar to Runnable, in that it encapsulates a task that is meant to run on another thread, whereas a `Future` is used to store a result obtained from a different thread.
 
