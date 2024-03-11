@@ -92,12 +92,20 @@ Implementation of the `Producer-Consumer` pattern.
 - <ins>**Executor Interface**</ins>:
   - Core of the framework
   - defines a simple execute(Runnable) method that takes a task, which is then submitted for execution by a thread from a pool of worker threads.
+  - Contains execute() to support Runnables.
+    ```java
+    Executor executor = new ThreadPoolExecutor(1, 10, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+    executor.execute(runnableTask);
+    ```
 
 - <ins>**ExecutorService**</ins>:
   - Easiest way to create ExecutorService is to use one of the factory methods of the Executors class.
+  - ExecutorService is an extended version of Executor with more methods and features.
+  - Contains submit(), invokeAny() & invokeAll() for supporting Futures & Callables.
   - We can configure our own executor service (which is not required most of the time), in the following way.
     ```java
-    ExecutorService executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+    ExecutorService executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Callable<String>>());
+    Future<String> result = executorService.submit(callableTask);
     ```
 
 - <ins>**ThreadPoolExecutor**</ins>:
