@@ -53,9 +53,9 @@ This interface extends both Future<V> and Runnable interfaces.
 
 <ins>**FutureTask<V> class**</ins>
 
-This class implements RunnableFuture. It wraps either a Callable<T> or Runnable.
-
-The Java library has the concrete type `FutureTask`, which implements `Runnable` and `Future`, combining both functionality conveniently.
+- This class implements RunnableFuture. It wraps either a Callable<T> or Runnable.
+- The Java library has the concrete type `FutureTask`, which implements `Runnable` and `Future`, combining both functionality conveniently.
+- FutureTask is a concrete implementation of the Future, Runnable, and RunnableFuture interfaces and therefore can be submitted to an ExecutorService instance for execution.
 
 ```java
 import java.util.Random;
@@ -73,7 +73,7 @@ class CallableExample implements Callable {
 public class CallableFutureTest{
     public static void main(String[] args) throws Exception {
         FutureTask[] randomNumberTasks = new FutureTask[5];
-
+        
         for (int i = 0; i < 5; i++) {
             Callable callable = new CallableExample();
             randomNumberTasks[i] = new FutureTask(callable);
@@ -81,11 +81,14 @@ public class CallableFutureTest{
             t.start();
         }
 
+        // Blocking calls
         for (int i = 0; i < 5; i++)
             System.out.println(randomNumberTasks[i].get());
     }
 }
 ```
+
+If we directly do, a Future.get(), then this becomes a blocking call. The main thread waits here. For carrying out non-blocking calls, we can make use of `Future.isDone()`
 
 
 </ins>**CompletableFuture<V> class**</ins>
