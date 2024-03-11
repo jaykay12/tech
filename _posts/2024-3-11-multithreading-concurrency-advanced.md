@@ -83,16 +83,46 @@ Implementation of `Future` that provides method for defining & composing asynchr
 ## Executor Framework in Java
 
 Executor Framework (Introduced from Java 5) is used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.
+
 This framework have bunch of components that are used for managing worker threads efficiently.
 Implementation of the `Producer-Consumer` pattern.
 
 <img src="../assets/images/JM-6.png" width="50%">
 
-For using executor framework, we require some thread pool, which executes the task when submitted to it.
+- <ins>**Executor Interface**</ins>:
+  - Core of the framework
+  - defines a simple execute(Runnable) method that takes a task, which is then submitted for execution by a thread from a pool of worker threads.
+
+
+- <ins>**ThreadPoolExecutor**</ins>:
+  - Most commonly used implementations of the Executor interface.
+  - Manages a pool of worker threads and provides fine-grained control over thread management, allows us to specify parameters
+    - core pool size
+    - maximum pool size
+    - various queueing strategies
+
+   
+- <ins>**ForkJoinPool**</ins>:
+  - Introduced with Java7
+  - Discussed in detail later.
+
+
+- <ins>**Executors Utility Class**</ins>: 
+  - Offers factory methods for creating instances of Executor and ScheduledExecutorService.
+  - Simplifies the process of creating thread pools with various configurations.
+  - In detail, discussed below.
+
+#### Benefits of threadpool over simple-thread creations:
+
+- If we create a new thread without causing any throttling to existing processes, we end up adding large number of threads, which causes wastage of resource & memory.
+- Overhead of thread creation -> helps in improving responsiveness.
+- For managing individual thread life-cycle, the execution time increases.
+
+For using the `executor framework`, we require some thread pool, which executes the task when submitted to it.
 
 <img src="../assets/images/JM-7.png" width="80%">
 
-Few important factory methods provided in the Executors Class that are used to create ThreadPools of worker threads:
+Few important factory methods provided in the Executors Utility Class that are used to create ThreadPools of worker threads:
 
 ```java
 // thread pool of single thread.
