@@ -83,10 +83,14 @@ Implementation of `Future` that provides method for defining & composing asynchr
 ## Executor Framework in Java
 
 Executor Framework (Introduced from Java 5) is used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.
+This framework have bunch of components that are used for managing worker threads efficiently.
+Implementation of the `Producer-Consumer` pattern.
 
 <img src="../assets/images/JM-6.png" width="50%">
 
+For using executor framework, we require some thread pool, which executes the task when submitted to it.
 
+<img src="../assets/images/JM-7.png" width="80%">
 
 Few important factory methods provided in the Executors Class that are used to create ThreadPools of worker threads:
 
