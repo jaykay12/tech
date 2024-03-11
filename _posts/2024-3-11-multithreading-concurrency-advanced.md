@@ -93,6 +93,12 @@ Implementation of the `Producer-Consumer` pattern.
   - Core of the framework
   - defines a simple execute(Runnable) method that takes a task, which is then submitted for execution by a thread from a pool of worker threads.
 
+- <ins>**ExecutorService**</ins>:
+  - Easiest way to create ExecutorService is to use one of the factory methods of the Executors class.
+  - We can configure our own executor service (which is not required most of the time), in the following way.
+    ```java
+    ExecutorService executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+    ```
 
 - <ins>**ThreadPoolExecutor**</ins>:
   - Most commonly used implementations of the Executor interface.
@@ -180,6 +186,111 @@ task 9 is running on thread: pool-1-thread-2
 task 8 is running on thread: pool-1-thread-3
 task 10 is running on thread: pool-1-thread-1
 ```
+
+#### Assigning tasks to the ExecutorService
+
+ExecutorService can execute Runnable and Callable tasks.
+We can use these 4 methods to submit these tasks to the Executor Service: `execute()` | `submit()` | `invokeAny()` | `invokeAll()`
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExecutorFrameworkRunner {
+    
+    public static void main(String[] args) throws Exception {
+        // Create a FixedThreadPool with 3 threads
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        
+        Runnable runnableTask = () -> {
+            System.out.println("task is running on thread: " + Thread.currentThread().getName());
+        };
+
+        // Submit 5 tasks for execution
+        System.out.println("\n\nExecution of Runnable tasks");
+        for (int i = 1; i <= 5; i++) {
+            executorService.execute(runnableTask);
+        }
+        
+        // Isolating
+        Thread.sleep(5000);
+        
+        Callable<String> callableTask = () -> {
+            System.out.println("task is running on thread: " + Thread.currentThread().getName());
+            return "task executed";
+        };
+        
+        // Submit 5 tasks for execution
+        System.out.println("\n\nExecution of Callable tasks");
+        List<Future<String>> futureLists = new ArrayList();
+        for (int i = 1; i <= 5; i++) {
+            futureLists.add(executorService.submit(callableTask));
+        }
+        
+        Thread.sleep(5000);
+        System.out.println("Results gathered from tasks, count: " + futureLists.size());
+
+        // Isolating
+        Thread.sleep(5000);
+        
+        List<Callable<String>> callableTasks = new ArrayList<>();
+        callableTasks.add(callableTask);
+        callableTasks.add(callableTask);
+        callableTasks.add(callableTask);
+
+        System.out.println("\n\nExecution of invokeAny Callable tasks");
+        String result = executorService.invokeAny(callableTasks);
+
+        // Isolating
+        Thread.sleep(5000);
+        System.out.println("\n\nExecution of invokeAll Callable tasks");
+        List<Future<String>> futures = executorService.invokeAll(callableTasks);
+
+        // Shutdown the executor when done
+        executorService.shutdown();
+    }
+}
+```
+
+`OUTPUT`
+```bash
+Execution of Runnable tasks
+task is running on thread: pool-1-thread-3
+task is running on thread: pool-1-thread-3
+task is running on thread: pool-1-thread-3
+task is running on thread: pool-1-thread-1
+task is running on thread: pool-1-thread-2
+
+
+Execution of Callable tasks
+task is running on thread: pool-1-thread-1
+task is running on thread: pool-1-thread-2
+task is running on thread: pool-1-thread-1
+task is running on thread: pool-1-thread-2
+task is running on thread: pool-1-thread-3
+Results gathered from tasks, count: 5
+
+
+Execution of invokeAny Callable tasks
+task is running on thread: pool-1-thread-1
+
+
+Execution of invokeAll Callable tasks
+task is running on thread: pool-1-thread-2
+task is running on thread: pool-1-thread-3
+task is running on thread: pool-1-thread-1
+```
+
+#### Important Points:
+
+- `submit()` returns a Future for task result tracking, while `execute()` is void and used for fire-and-forget tasks.
+- Best practice is to shut down an executor for releasing its resources. Failure to do so might lead to resource leaks and prevent the application from terminating properly.
+- Once an executor is shut down using the shutdown() method, it cannot be reused. Require to create new executor.
 
 </ins>**ThreadPoolExecutor**</ins>
 
