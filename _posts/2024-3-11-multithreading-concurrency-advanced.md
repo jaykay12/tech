@@ -13,15 +13,21 @@ We can create threads using 2 methods in Java:
  - Extending `Thread class` which implements `Runnable interface`
  - Implementing `Runnable interface`
 
-<ins>**Callable**</ins>
+<img src="../assets/images/JM-8.png" width="50%">
+
+<ins>**Callable Interface**</ins>
 
  - One feature lacking in  `Runnable interface` is that a thread can't return result when it terminates, i.e. when run() completes.
  - For supporting this feature, the `Callable interface` was introduced in Java.
+ - Interface that represents a task that can be executed concurrently and returns a result. It is similar to `Runnable interface`, but it can return a value and throw a checked exception.
  - For implementing `Runnable`, the run() method needs to be implemented which does not return anything, while for a `Callable`, the call() method needs to be implemented which returns a result on completion.
  - A thread can’t be created with a Callable, it can only be created with a Runnable.
 
-<ins>**Future**</ins>
 
+<ins>**Future<V> Interface**</ins>
+
+ - Interface that represents the result of an asynchronous computation.
+ - Allows us to cancel a task, check if it has completed, and retrieve the result of the computation.
  - When the call() method completes, answer must be stored in an object known to the main thread, so that the main thread can know about the result that the thread returned.
 For this, a Future object is used.
  - Future is an object that holds the result – it may not hold it right now, but it will do so in the future (once the Callable returns).
@@ -30,11 +36,24 @@ For this, a Future object is used.
     - _public Object get() throws InterruptedException, ExecutionException_
     - _public boolean isDone()_
 
+```
+We use Future and Callable together to perform concurrent tasks and retrieve the results in a thread-safe manner.
+```
+
+<img src="../assets/images/JM-9.png" width="60%">
+
 `Callable` is similar to Runnable, in that it encapsulates a task that is meant to run on another thread, whereas a `Future` is used to store a result obtained from a different thread.
 
 To create the thread, a `Runnable` is required. To obtain the result, a `Future` is required.
 
-</ins>**FutureTask**</ins>
+<ins>**RunnableFuture<V> Interface**</ins>
+
+This interface extends both Future<V> and Runnable interfaces.
+
+
+<ins>**FutureTask<V> class**</ins>
+
+This class implements RunnableFuture. It wraps either a Callable<T> or Runnable.
 
 The Java library has the concrete type `FutureTask`, which implements `Runnable` and `Future`, combining both functionality conveniently.
 
@@ -69,7 +88,7 @@ public class CallableFutureTest{
 ```
 
 
-</ins>**Completable Future**</ins>
+</ins>**CompletableFuture<V> class**</ins>
 
 Implementation of `Future` that provides method for defining & composing asynchronous tasks.
 
