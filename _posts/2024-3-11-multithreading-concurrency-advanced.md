@@ -72,14 +72,42 @@ public class CallableFutureTest{
 }
 ```
 
-</ins>**Excecutor Service**</ins>
-
 
 </ins>**Completable Future**</ins>
 
+Implementation of `Future` that provides method for defining & composing asynchronous tasks.
+
+- `thenApply()` -> for chaining multiple tasks
+- `allof()` -> wait for multiple tasks to complete
+
+## Executor Framework in Java
+
+Executor Framework (Introduced from Java 5) is used to run the Runnable objects without creating new threads every time and mostly re-using the already created threads.
+
+<img src="../assets/images/JM-6.png" width="50%">
 
 
-## ThreadPools
+
+Few important factory methods provided in the Executors Class that are used to create ThreadPools of worker threads:
+
+```java
+// thread pool of single thread.
+// used to execute tasks sequentially.
+ExecutorService executor = Executors.newSingleThreadExecutor();
+
+// thread pool of a fixed number of threads.
+// uses Blocking Queue for handling additional tasks.
+ExecutorService fixedPool = Executors.newFixedThreadPool(2);
+
+// thread pool that creates new threads as needed, but will reuse previously constructed threads when they are available.
+// uses SynchronousQueue queue.
+ExecutorService executorService = Executors.newCachedThreadPool();
+
+// used when we have a task that needs to be run at regular intervals or if we wish to delay a certain task.
+ScheduledExecutorService scheduledExecService = Executors.newScheduledThreadPool(1);
+```
+
+</ins>**ThreadPoolExecutor**</ins>
 
 </ins>**ForkJoinPool**</ins>
 
