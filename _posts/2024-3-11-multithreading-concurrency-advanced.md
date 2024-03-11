@@ -141,6 +141,46 @@ ExecutorService executorService = Executors.newCachedThreadPool();
 ScheduledExecutorService scheduledExecService = Executors.newScheduledThreadPool(1);
 ```
 
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ExecutorFrameworkRunner {
+    
+    public static void main(String[] args) {
+        // Create a FixedThreadPool with 3 threads
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        // Submit 10 tasks for execution
+        for (int i = 1; i <= 10; i++) {
+            final int taskId = i;
+            executor.execute(new Runnable() {
+                public void run() {
+                    System.out.println("Task " + taskId + " is running on thread: " + Thread.currentThread().getName());
+                }
+            });
+        }
+
+        // Shutdown the executor when done
+        executor.shutdown();
+    }
+}
+```
+
+`OUTPUT`
+```bash
+task 2 is running on thread: pool-1-thread-2
+task 1 is running on thread: pool-1-thread-1
+task 4 is running on thread: pool-1-thread-2
+task 6 is running on thread: pool-1-thread-2
+task 3 is running on thread: pool-1-thread-3
+task 7 is running on thread: pool-1-thread-2
+task 5 is running on thread: pool-1-thread-1
+task 9 is running on thread: pool-1-thread-2
+task 8 is running on thread: pool-1-thread-3
+task 10 is running on thread: pool-1-thread-1
+```
+
 </ins>**ThreadPoolExecutor**</ins>
 
 </ins>**ForkJoinPool**</ins>
