@@ -1,10 +1,26 @@
 ---
 layout: post
-title: Advanced Java - V - Multithreading & Concurrency - Part 2
+title: Advanced Java - V - CompletableFuture & Executor Services
 categories: [Java]
 ---
 
-## Synchronous-Asynchronous & Blocking-NonBlocking calls
+Parameter|Synchronous Programming|Asynchronous Programming
+---|---|---
+Principle|the main thread starts an axillary task and blocks until this task is finished. When the axillary task is completed, the main thread continues the main task|he main thread starts an axillary task in a worker thread and continues its task. When the worker thread completes the auxiliary task, it notifies the main thread
+Pros|simplest and most reliable code|shorter execution time as some tasks run in parallel
+Cons|longest execution time as all tasks run sequentially|most complicated code
+
+For a spectrum of programming in java, we have blocking-synchronous programming & non-blocking-asynchronous programming on the extreme ends.
+
+Readability & Debuggability is highest of blocking-sync codes.
+Performance is super of non-blocking-async codes.
+
+Blocking calls|Non-Blocking calls
+---|---
+function type which makes the execution await when called|function type which can work on any Future object & return similar Future object
+Future.get()|Future.isDone()
+CompletableFuture.get(),CompletableFuture.join()|CompletableFuture.thenApply(),CompletableFuture.thenRun()
+
 
 
 ## Concepts related to Asychronous Programming
