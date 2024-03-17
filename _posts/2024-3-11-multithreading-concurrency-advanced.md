@@ -24,9 +24,10 @@ We can create threads using 2 methods in Java:
  - A thread can’t be created with a Callable, it can only be created with a Runnable.
 
 
-<ins>**Future<V> Interface**</ins>
+<ins>**Future Interface**</ins>
 
- - Interface that represents the result of an asynchronous computation.
+
+ - Future<V> Interface that represents the result of an asynchronous computation.
  - Allows us to cancel a task, check if it has completed, and retrieve the result of the computation.
  - When the call() method completes, answer must be stored in an object known to the main thread, so that the main thread can know about the result that the thread returned.
 For this, a Future object is used.
@@ -46,14 +47,14 @@ We use Future and Callable together to perform concurrent tasks and retrieve the
 
 To create the thread, a `Runnable` is required. To obtain the result, a `Future` is required.
 
-<ins>**RunnableFuture<V> Interface**</ins>
+<ins>**RunnableFuture Interface**</ins>
 
-This interface extends both Future<V> and Runnable interfaces.
+RunnableFuture<V> interface extends both Future<V> and Runnable interfaces.
 
 
-<ins>**FutureTask<V> class**</ins>
+<ins>**FutureTask class**</ins>
 
-- This class implements RunnableFuture. It wraps either a Callable<T> or Runnable.
+- FutureTask<V> class implements RunnableFuture. It wraps either a Callable<T> or Runnable.
 - The Java library has the concrete type `FutureTask`, which implements `Runnable` and `Future`, combining both functionality conveniently.
 - FutureTask is a concrete implementation of the Future, Runnable, and RunnableFuture interfaces and therefore can be submitted to an ExecutorService instance for execution.
 
@@ -91,12 +92,14 @@ public class CallableFutureTest{
 If we directly do, a Future.get(), then this becomes a blocking call. The main thread waits here. For carrying out non-blocking calls, we can make use of `Future.isDone()`
 
 
-</ins>**CompletableFuture<V> class**</ins>
+</ins>**CompletableFuture class**</ins>
 
-Implementation of `Future` that provides method for defining & composing asynchronous tasks.
+CompletableFuture<V> is an implementation of `Future` that provides method for defining & composing asynchronous tasks.
 
 - `thenApply()` -> for chaining multiple tasks
 - `allof()` -> wait for multiple tasks to complete
+
+
 
 ## Executor Framework in Java
 
