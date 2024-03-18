@@ -34,11 +34,18 @@ We can create threads using 2 methods in Java:
 <ins>**Callable Interface**</ins>
 
  - One feature lacking in  `Runnable interface` is that a thread can't return result when it terminates, i.e. when run() completes.
- - For supporting this feature, the `Callable interface` was introduced in Java.
+ - For supporting this feature, the `Callable interface` was introduced in Java 5.
  - Interface that represents a task that can be executed concurrently and returns a result. It is similar to `Runnable interface`, but it can return a value and throw a checked exception.
  - For implementing `Runnable`, the run() method needs to be implemented which does not return anything, while for a `Callable`, the call() method needs to be implemented which returns a result on completion.
  - A thread can’t be created with a Callable, it can only be created with a Runnable.
 
+```java
+try {
+    int result = future.get(1, TimeUnit.SECONDS);
+} catch (ExecutionException | TimeoutException e) {
+    // Handle the exception thrown by the Callable task or the timeout
+}
+```
 
 <ins>**Future Interface**</ins>
 
@@ -108,7 +115,66 @@ public class CallableFutureTest{
 If we directly do, a Future.get(), then this becomes a blocking call. The main thread waits here. For carrying out non-blocking calls, we can make use of `Future.isDone()`
 
 
-</ins>**CompletableFuture class**</ins>
+## CompletableFuture class
+
+It is building block and a framework, with about 50 different methods for composing, combining, and executing asynchronous computation steps and handling errors.
+
+
+### Introduction
+
+CompletableFuture class is implementing both Future and CompletionStage interfaces.
+
+```java
+public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
+    ...... ...... ......
+}
+```
+
+It’s an extension of Future.
+When we use this, behind the scene it’s delegating the tasks into several threads. It actually uses the global ForkJoinPool => commonPool to execute the tasks in parallel. If we want, we can pass our own thread pool also.
+
+It represents a future result of an asynchronous computation. It provides a number of methods to perform various operations on the result of the async computation.
+
+
+Pivots|Future|CompletableFuture
+---|---|---
+Blocking vs non-blocking|1. Future.get() method will block the thread. So, it’s not completely asynchronous.<br> 2. We cannot perform further action on a Future's result without blocking.<br> 3. We can't attach a callback function to the Future and have it get called automatically when the Future’s result is available.|
+Composition|1. Lets we have x different Futures that run in parallel and then run some function after all of them completes. Multiple Futures can't be combined. <br> 2. Multiple Futures cannot be chained together. Let we execute a long-running computation and when the computation is done, we need its result as I/P to another long-running computation, and so on. You can not create such asynchronous workflow with Futures.|
+Exception Handling|Future API does not have any exception handling construct|
+Completion|Future cannot be mutually complete. Let’s say we call an API. Due to an issue we get an error. We need to return a cached response in that case. We can not do this with future.|
+
+
+
+`CompletableFuture provides a more flexible and powerful API for working with asynchronous computations than Future`
+
+### Methods supported
+
+### Usecase with Implementations
+
+#### Caller Methods
+
+1. runAsAsync()
+
+2. supplyAsAsync()
+
+#### Callback Methods
+
+1. thenApply()
+
+2. thenRun()
+
+3. thenCombine()
+
+`thenApply()` vs `thenApplyAsync()`
+latter is able to carry out the callback compute on the thread (ForkJoinPool.commonPool) in which this completableFuture was executing, former does computation on the main thread.
+
+#### Aggregator Methods
+
+1. combine()
+
+2. allOf()
+
+3. anyOf()
 
 CompletableFuture<V> is an implementation of `Future` that provides method for defining & composing asynchronous tasks.
 
