@@ -119,6 +119,8 @@ If we directly do, a Future.get(), then this becomes a blocking call. The main t
 
 It is building block and a framework, with about 50 different methods for composing, combining, and executing asynchronous computation steps and handling errors.
 
+Introduced in Java 8 that allows us to write asynchronous, non-blocking code.
+It offers non-blocking methods, composition methods, better exception handling, and explicit completion methods, which makes it easier to write robust and scalable concurrent code.
 
 ### Introduction
 
@@ -135,15 +137,14 @@ When we use this, behind the scene it’s delegating the tasks into several thre
 
 It represents a future result of an asynchronous computation. It provides a number of methods to perform various operations on the result of the async computation.
 
+Future and CompletableFuture are both abstractions for representing a result that will be available in the future, but there are some important differences between them:
 
 Pivots|Future|CompletableFuture
 ---|---|---
-Blocking vs non-blocking|1. Future.get() method will block the thread. So, it’s not completely asynchronous.<br> 2. We cannot perform further action on a Future's result without blocking.<br> 3. We can't attach a callback function to the Future and have it get called automatically when the Future’s result is available.|
-Composition|1. Lets we have x different Futures that run in parallel and then run some function after all of them completes. Multiple Futures can't be combined. <br> 2. Multiple Futures cannot be chained together. Let we execute a long-running computation and when the computation is done, we need its result as I/P to another long-running computation, and so on. You can not create such asynchronous workflow with Futures.|
-Exception Handling|Future API does not have any exception handling construct|
-Completion|Future cannot be mutually complete. Let’s say we call an API. Due to an issue we get an error. We need to return a cached response in that case. We can not do this with future.|
-
-
+Blocking vs non-blocking|1. Future.get() method blocks the thread so, it’s not fully asynchronous.<br> 2. No further action can be peformed on a Future's result without blocking.<br> 3. Callback function can't be attached to the Future and it be get called automatically when the Future’s result is available.|With CompletableFuture object, we can use various non-blocking methods to retrieve the result & act on it, such as thenApply(), thenAccept(), or join().
+Composition|1. Multiple Futures can't be combined. We have x different Futures that run in parallel and we can't run some function after all of them completes <br> 2. Multiple Futures cannot be chained together. Let we execute a long-running computation and when the computation is done, we need its result as I/P to another long-running computation, and so on. We can not create such asynchronous workflow with Futures.|1. CompletableFuture provides a more powerful composition API than Future.<br> 2.CompletableFuture provides methods such as thenCompose(), thenCombine(), and allOf() that helps compose multiple asynchronous operations and handling their results in a non-blocking way.
+Exception Handling|1. Future API does not have any exception handling construct<br> 2. With Future, you can only check if the computation completed successfully or not. If an exception occurs during the computation, we have to catch it explicitly.|With CompletableFuture, we can handle exceptions in a more declarative way using methods like exceptionally() and handle()
+Completion|1. With a Future object, there is no way to explicitly complete the future. Once a task is submitted to an executor service and get a Future object in return, we can only wait for the task to complete.<br> 2. Let’s say we call an API, due to an issue we get an error. We need to return a cached response in that case. We can not do this with future.|With CompletableFuture, we have more control over the completion of the future. It can be explicitly completed by calling complete(), completeExceptionally(), or cancel() methods.
 
 `CompletableFuture provides a more flexible and powerful API for working with asynchronous computations than Future`
 
