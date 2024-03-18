@@ -4,11 +4,13 @@ title: Circuit Breakers
 categories: [Miscellaneous]
 ---
 
-# Introduction
+# Fault Tolerance & Resiliency
 
-# Architecture
+1. Timeouts
+2. Circuit Breaker Pattern
+3. <> Pattern
 
-### Nomenclature
+# Circuit Breaker Pattern
 
 ### Usage
 
@@ -16,12 +18,13 @@ categories: [Miscellaneous]
 
 ## Prominent Leaders
 
-### Hystrix
+- <ins>**Hystrix**</ins>
 
-### Resilience4j
+- <ins>**Resilience4j**</ins>
 
-### Istio
+- <ins>**Istio**</ins>
 
-# Deep Dive into Hystrix
+- <ins>**Sentinel**</ins>
 
-# Sample Project
+- <ins>**Amazon Mesh**</ins>
+
