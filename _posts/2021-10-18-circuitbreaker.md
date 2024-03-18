@@ -20,6 +20,8 @@ categories: [Miscellaneous]
 
 ### Resilience4j
 
+### Istio
+
 # Deep Dive into Hystrix
 
 # Sample Project
