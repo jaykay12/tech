@@ -164,11 +164,9 @@ Completion|1. With a Future object, there is no way to explicitly complete the f
 
 `CompletableFuture provides a more flexible and powerful API for working with asynchronous computations than Future`
 
-### Methods supported
-
 <img src="../assets/images/JM-10.png" width="80%">
 
-#### Caller Methods
+### Caller Methods
 
 - **runAsAsync()**:
    - For running some task asynchronously & we dont want to return anything from the task.
@@ -220,24 +218,141 @@ CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
 }, executor);
 ```
 
-#### Callback Methods
+### Callback Methods
 
-1. thenApply()
+CompletableFuture.get() method is blocking. It waits until the Future is completed and returns the result after its completion.
 
-2. thenRun()
+For building asynchronous systems we should be able to attach a callback to the CompletableFuture which should automatically get called when the Future completes. 
+Using this way, we dont need to wait for the result, we can write the logic chains. For this we have:
 
-3. thenCombine()
+- **thenApply()**:
+   - It processes and transforms the result of a CompletableFuture when it arrives.
+   - It takes a Function<T,R> as an argument. Function<T,R> is a simple functional interface representing a function that accepts an argument of type T and produces a result of type R.
+   - ```java
+     // Non-Blocking workflows
+     CompletableFuture<String> welcomeText = CompletableFuture.supplyAsync(() -> {
+         return "Jalaz Kumar";
+     }).thenApply(name -> {
+         return "This is " + name;
+     }).thenApply(greeting -> {
+         return greeting + ", Welcome to my Tech Blog!";
+     });
 
-`thenApply()` vs `thenApplyAsync()`
-latter is able to carry out the callback compute on the thread (ForkJoinPool.commonPool) in which this completableFuture was executing, former does computation on the main thread.
+     // Blocking execution
+     System.out.println(welcomeText.get());
+     // Prints - This is Jalaz Kumar, Welcome to my Tech Blog!
+     ```
 
-#### Aggregator Methods
+If we don’t want to return anything from the callback function and just want to run some piece of code after the completion of the Future, we use these 2.
+These methods are consumers and are often used as the last callback in the callback chain.
 
-1. combine()
+- **thenRun()**:
+    - It takes a Consumer<T> and returns CompletableFuture<Void>.
+    - It has access to the result of the CompletableFuture on which it is attached.
+    - ```java
+      CompletableFuture.supplyAsync(() -> {
+      	   return ZuluService.getProductDetails(productId);
+      }).thenAccept(product -> {
+      	   System.out.println("Got product detail from zulu service " + product.getName())
+      });
+      ```
 
-2. allOf()
+- **thenAccept()**:
+    - It takes a Runnable and returns CompletableFuture<Void>
+    - doesn’t even have access to the Future’s result.
+    - ```java
+      CompletableFuture.supplyAsync(() -> {
+          // Run some computation  
+      }).thenRun(() -> {
+          // Computation Finished.
+      });
+      ```
 
-3. anyOf()
+```bash
+// thenApply() variants
+<U> CompletableFuture<U> thenApply(Function<? super T,? extends U> fn)
+<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn)
+<U> CompletableFuture<U> thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
+```
+
+These async callback variations help you further parallelize your computations by executing the callback tasks in a separate thread.
+Task inside `thenApply()` is executed in the same thread where the supplyAsync() task is executed, or in the main thread if the supplyAsync() task completes immediately, 
+For thenApplyAsync() callback, then task will be executed in a different thread obtained from ForkJoinPool.commonPool()
+
+### Aggregator Methods
+
+- **thenCombine()**:
+    - Used to combine two Futures where one future is dependent on the other
+    - ```java
+      CompletableFuture<User> getUsersDetail(String userId) {
+        	return CompletableFuture.supplyAsync(() -> {
+        		  return GalactusService.getUserDetails(userId);
+        	});	
+      }
+      
+      CompletableFuture<double> getCreditRating(User user) {
+        	return CompletableFuture.supplyAsync(() -> {
+        		  return CreditRatingService.getCreditRating(user);
+        	});
+      }
+
+      CompletableFuture<double> result = getUserDetail(userId)
+              .thenCompose(user -> getCreditRating(user));
+      ```
+    - If we would have used, thenApply() here, it would have led us to have nested CompletableFuture.  
+
+- **thenCompose()**:
+   - Used when we want two Futures to run independently and do something after both are complete.
+   - callback function passed to thenCombine() will be called when both the Futures are complete.
+   - ```java
+     System.out.println("Getting weight!");
+     CompletableFuture<Double> weightInKgFuture = CompletableFuture.supplyAsync(() -> {
+         TimeUnit.SECONDS.sleep(1);
+         return 65.0;
+     });
+     
+     System.out.println("Getting height!");
+     CompletableFuture<Double> heightInCmFuture = CompletableFuture.supplyAsync(() -> {
+         TimeUnit.SECONDS.sleep(1);
+         return 177.8;
+     });
+     
+     System.out.println("Calculating BMI.");
+     CompletableFuture<Double> combinedFuture = weightInKgFuture
+             .thenCombine(heightInCmFuture, (weightInKg, heightInCm) -> {
+         Double heightInMeter = heightInCm/100;
+         return weightInKg/(heightInMeter*heightInMeter);
+     });
+     ```
+
+- **allOf()**:
+    - 
+
+- **anyOf()**:
+    - Returns a new CompletableFuture which is completed when any of the given CompletableFutures complete, with the same result.
+    - takes a varargs of Futures and returns CompletableFuture<Object>.
+    - Problem with CompletableFuture.anyOf() is that if you have CompletableFutures that return results of different types, then we won’t know the type of the final CompletableFuture.
+    - ```java
+      CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+          TimeUnit.SECONDS.sleep(8);
+          return "Result of Future 1";
+      });
+      
+      CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+          TimeUnit.SECONDS.sleep(3);
+          return "Result of Future 2";
+      });
+
+      CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> {
+          TimeUnit.SECONDS.sleep(11);
+          return "Result of Future 3";
+      });
+
+      CompletableFuture<Object> anyOfFuture = CompletableFuture.anyOf(future1, future2, future3);
+
+      System.out.println(anyOfFuture.get());
+      // prints "Result of Future 3"
+      ```
 
 #### Exception Handling Methods
 
