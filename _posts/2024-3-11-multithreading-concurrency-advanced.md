@@ -383,9 +383,70 @@ For thenApplyAsync() callback, then task will be executed in a different thread 
 
 #### Exception Handling Methods
 
-1. handle()
+```java
+CompletableFuture.supplyAsync(() -> {
+ 	// Code which might throw an exception
+ 	return "Some result";
+}).thenApply(result -> {
+	 return "processed result";
+}).thenApply(result -> {
+	 return "result after further processing";
+}).thenAccept(result -> {
+	 // do something with the final result
+});
+```
 
-2. 
+If an error occurs in the original supplyAsync() task, then none of the thenApply() callbacks will be called and future will be resolved with the exception occurred. If an error occurs in first thenApply() callback then 2nd and 3rd callbacks won’t be called and the future will be resolved with the exception occurred, and so on.
+
+- **exceptionally()**:
+   - Gives us a chance to recover from errors generated from the original Future.
+   - We can log the exception here and return a default value.
+   - Takes a Function — exception which is executed when the stage completes exceptionally. We will only get the error and not the result as before.
+   - ```java
+     CompletableFuture.supplyAsync(() -> {
+         int x = 10;
+         return x / 0;
+     }).exceptionally(error -> {
+         System.out.println("Error occurred!: " + error.getMessage());
+         return 0;
+     }).thenAcceptAsync(x -> {
+         System.out.println(x + 10);
+     });
+     ```
+
+- **handle()**:
+   - It is called whether or not an exception occurs.
+   - Takes a BiFunction — result and exception which is executed when the stage completes either successfully or exceptionally. It does not matter whether program is executed properly or not.
+   - If an exception occurs, then the res argument will be null, otherwise, the ex argument will be null.
+   - ```java
+     CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
+         int x = 10;
+         return x / 2;
+     }).handle((result, error) -> {
+         if (error != null) {
+             System.out.println("Error occurred!: " + error.getMessage());
+             return 5;
+         }
+         return result;
+     }).thenApplyAsync(x -> x + 20);
+     System.out.println(future.join());
+     ```
+
+- **whenComplete()**:
+  - This takes a BiFunction — result and exception which is executed when the stage completes either successfully or exceptionally.
+  - This is mostly the last step of the callback chain.
+  - ```java
+    CompletableFuture.supplyAsync(() -> {
+        int x = 10;
+        return x / 2;
+    }).whenComplete((result, error) -> {
+        if (error != null) {
+            System.out.println("Error occurred!: " + error.getMessage());
+        } else {
+            System.out.println(result);
+        }
+    });
+    ```
 
 #### Completion Methods
 
