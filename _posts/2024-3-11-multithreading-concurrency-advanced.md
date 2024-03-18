@@ -326,7 +326,34 @@ For thenApplyAsync() callback, then task will be executed in a different thread 
      ```
 
 - **allOf()**:
-    - 
+    - Used in scenarios when we have a List of independent futures that you want to run in parallel and do something after all of them are complete.
+    - Let we have to hit 4 shards to get response of any DB call & carry out aggregation/ranking once all are completed.
+    - ```java
+      CompletableFuture<ResponsePojo> getShardResponse(String url) {
+        	return CompletableFuture.supplyAsync(() -> {
+        		  // Code to hit the URL and return the content
+        	});
+      }
+
+      List<String> shardUrls = Arrays.asList(...)	// A list of all shard URLs
+
+      // Download contents of all the web pages asynchronously
+      List<CompletableFuture<ResponsePojo>> shardResponseFutures = shardUrls.stream()
+              .map(url -> getShardResponse(url))
+              .collect(Collectors.toList());
+
+      // Create a combined Future using allOf()
+      CompletableFuture<Void> allFutures = CompletableFuture.allOf(
+              shardResponseFutures.toArray(new CompletableFuture[shardResponseFutures.size()])
+      );
+
+      // When all the Futures are completed, call `future.join()` to get their results and collect the results in a list -
+      CompletableFuture<List<ResponsePojo>> allShardResponsesFuture = allFutures.thenApply(v -> {
+         return shardResponseFutures.stream()
+                 .map(shardResponseFuture -> shardResponseFuture.join())
+                 .collect(Collectors.toList());
+      });
+      ```
 
 - **anyOf()**:
     - Returns a new CompletableFuture which is completed when any of the given CompletableFutures complete, with the same result.
