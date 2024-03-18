@@ -177,6 +177,16 @@ latter is able to carry out the callback compute on the thread (ForkJoinPool.com
 
 3. anyOf()
 
+#### Exception Handling Methods
+
+1. handle()
+
+2. 
+
+#### Completion Methods
+
+1. complete()
+
 CompletableFuture<V> is an implementation of `Future` that provides method for defining & composing asynchronous tasks.
 
 - `thenApply()` -> for chaining multiple tasks
