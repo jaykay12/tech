@@ -135,6 +135,22 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 It’s an extension of Future.
 When we use this, behind the scene it’s delegating the tasks into several threads. It actually uses the global ForkJoinPool => commonPool to execute the tasks in parallel. If we want, we can pass our own thread pool also.
 
+```java
+import java.util.concurrent.*; 
+  
+class CF { 
+    public static void main(String[] args) throws Exception 
+    { 
+        CompletableFuture<String> greetingFuture = CompletableFuture.supplyAsync(() -> { 
+                  // some async computation 
+                  return "Jalaz Kumar's blog"; 
+              }); 
+  
+        System.out.println(greetingFuture.get());
+    } 
+}
+```
+
 It represents a future result of an asynchronous computation. It provides a number of methods to perform various operations on the result of the async computation.
 
 Future and CompletableFuture are both abstractions for representing a result that will be available in the future, but there are some important differences between them:
@@ -150,13 +166,59 @@ Completion|1. With a Future object, there is no way to explicitly complete the f
 
 ### Methods supported
 
-### Usecase with Implementations
+<img src="../assets/images/JM-10.png" width="80%">
 
 #### Caller Methods
 
-1. runAsAsync()
+- **runAsAsync()**:
+   - For running some task asynchronously & we dont want to return anything from the task.
+   - It takes a Runnable object and returns CompletableFuture<Void>
+   - ```java
+     // Using Lambda Expression
+     CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+         // Simulate a long-running Job   
+         try {
+             TimeUnit.SECONDS.sleep(1);
+         } catch (InterruptedException e) {
+             throw new IllegalStateException(e);
+         }
+         System.out.println("Running compute-heavy task");
+     });
+     ```
 
-2. supplyAsAsync()
+- **supplyAsAsync()**:
+   - It takes a Supplier<T> and returns CompletableFuture<T> where T is the type of the value obtained by calling the given supplier.
+   - ```java
+     // Using Lambda Expression
+     CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+         try {
+             TimeUnit.SECONDS.sleep(1);
+         } catch (InterruptedException e) {
+             throw new IllegalStateException(e);
+         }
+         return "Result of the asynchronous computation";
+     });
+     ```
+
+```bash
+// Variations of runAsync() and supplyAsync() methods
+static CompletableFuture<Void>	runAsync(Runnable runnable)
+static CompletableFuture<Void>	runAsync(Runnable runnable, Executor executor)
+static <U> CompletableFuture<U>	supplyAsync(Supplier<U> supplier)
+static <U> CompletableFuture<U>	supplyAsync(Supplier<U> supplier, Executor executor)
+```
+
+```java
+Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+    try {
+        TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+        throw new IllegalStateException(e);
+    }
+    return "Result of the asynchronous computation";
+}, executor);
+```
 
 #### Callback Methods
 
