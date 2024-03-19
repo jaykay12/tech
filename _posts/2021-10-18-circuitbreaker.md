@@ -16,15 +16,11 @@ A design pattern
 
 - that falls under the `sustainable design patterns` category.
 
-- Used in microservices architecture where different services interacting with each other over a network, and circuit breaker protects them from cascading failures to enhance the resiliency and fault tolerance of a distributed system.
+- Used in microservices architecture where multiple services interact with each other over a network, and CB protects them from cascading failures to enhance the resiliency and fault tolerance of a distributed system.
 
-- Protective and safety mechanism that prevents your application from continuously making requests to a service that has problems or is down.
+- Protective and safety mechanism that prevents your application from continuously making requests to a service that has got some problems or is down.
 
-- Prevents a cascade of failures in a distributed system by monitoring the health of external services and breaking the connection if they are unhealthy. 
-
-In a microservices architecture, services have to communicate with each other. Sometimes, there can be service failures, or it takes significant time to respond to requests due to network connectivity issues.
-
-A microservices architecture consists of a large number of interconnected microservices. So, a failure of a single microservice can have a cascading effect on all microservices and can significantly affect system availability.
+In a microservices architecture, services have to communicate with each other. Sometimes, there can be service failures, or it takes significant time to respond to requests due to network connectivity issues. So, a failure of a single microservice can have a cascading effect on all microservices and can significantly affect system availability.
 
 ### Working
 
@@ -54,25 +50,20 @@ To prevent such scenarios, a circuit breaker comes into the picture. It will blo
 
 ### Advantages
 
-- Helps to prevent cascading failures.
-- Handles errors gracefully and provides better User experience.
-- Reduces the application downtimes.
 - Suitable for handling asynchronous communications.
-- State changes of the circuit breaker can be used for error monitoring.
-- improving availability and performance
-- enhancing user experience
-- facilitating recovery and maintenance.
+- Improves availability and performance by reducing the overall application downtime.
+- Enhancing or keeps user experience intact, by handling internal services error gracefully & end-user not witnessing major impact.
+- Facilitates faster recovery and maintenance. Due to the intermediate state of `half-open`, the service gets enough time & buffer to get itself up & become healthy.
 - By avoiding unnecessary requests to failed or slow services and reducing the impact of network latency and congestion, the circuit breaker pattern can help increase system performance.
-- it can provide fallback responses or alternative actions when a service is unavailable or degraded instead of waiting for timeouts or returning errors.
-- makes it easier to isolate failures and allows them to heal without affecting the rest of the system.
-- it provides feedback and metrics on the health of your services.
-- 
+- Provides fallback responses or alternative actions when a service is unavailable or degraded instead of waiting for timeouts or returning errors.
+- Makes it easier to isolate failures and allows them to heal without affecting the rest of the system.
+- Provides feedback and metrics on the health of your services through monitoring dashboards.
 
 ### Challenges
 
-- Need good infrastructure management to maintain circuit breakers.
-- Caused throughput issues in services if not configured properly.
-- Difficult to test.
+- Good infrastructure management is required to maintain circuit breakers.
+- Misconfiguration of circuit breakers can cause throughput issues of the service.
+- High maintainability & testing overheads.
 
 ## Prominent Leaders
 
