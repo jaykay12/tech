@@ -67,34 +67,56 @@ To prevent such scenarios, a circuit breaker comes into the picture. It will blo
 
 ## Prominent Leaders
 
-- <ins>**Hystrix**</ins>
+Technology|Id|Details
+---|---|---
+<ins>**Hystrix**</ins>|<img src="../assets/images/CB-9.png" width="50%" height="20%">|
+<ins>**Resilience4j**</ins>|<img src="../assets/images/CB-7.png" width="25%" height="50%">|
+<ins>**Istio**</ins>|<img src="../assets/images/CB-6.png" width="35%" height="40%">|
+<ins>**Sentinel**</ins>|<img src="../assets/images/CB-8.png" width="40%" height="20%">|
+<ins>**AWS App Mesh**</ins>|<img src="../assets/images/CB-5.png" width="24%" height="10%">
 
-- <ins>**Resilience4j**</ins>
 
-- <ins>**Istio**</ins>
+#### Netflix Hystrix: (Later)
 
-- <ins>**Sentinel**</ins>
-      - Open-source library actively maintained by Alibaba Group
-      - Official part of the Spring Cloud Circuit Breaker.
-      - Offers features like flow control, concurrency limiting, circuit breaking, and adaptive system protection to guarantee the reliability of microservice architecture.
-      - Allows monitoring using dashboard similar to hystrix.
-      - Flow control (Rate-limiting)
-          - Sentinel controls the speed of random incoming requests to avoid the overloading of microservices.
-          - Ensures that our service isn’t killed by a surge in traffic.
-          - Supports a variety of traffic shaping strategies:
-              - Direct Rejection Mode
-              - Slow Start Warm-Up Mode
-      - Circuit breaker
-          - Uses the principle of max concurrency limiting to implement circuit breaking.
-          - Reduces the impact of unstable resources by restricting the number of concurrent threads.
-          - All calls to the affected resource will be rejected in the specified time window. This prevents the cascading effect.
-      - Adaptive System Protection
-          - Sentinel protects our server in case the system load goes too high.
-          - Uses load1 (system load) as the metric to initiate traffic control. The request will be blocked under the following conditions:
-              - Current system load (load1) > threshold (highestSystemLoad);
-              - Current concurrent requests (thread count) > estimated capacity (min response time * max QPS)
+#### Resilience4j: (Later)
+      
+### Istio:
+  - Service mesh platform that helps us manage traffic between microservices.
+  - Provides a number of features:
+     - Load balancing: It can distribute traffic between microservices efficiently.
+     - Circuit breaker: A fault tolerance pattern that can route traffic away from unhealthy microservices and automatically retry failed requests.
+     - Security: Istio can authenticate and authorize microservices, and it can also encrypt traffic between them.
+     - Observability: Istio can collect metrics and telemetry data from microservices, which can be used to monitor and troubleshoot your application.
+
+
+#### Alibaba Sentinel:
+  - Open-source library actively maintained by Alibaba Group
+  - Official part of the Spring Cloud Circuit Breaker.
+  - Offers features like flow control, concurrency limiting, circuit breaking, and adaptive system protection to guarantee the reliability of microservice architecture.
+  - Allows monitoring using dashboard similar to hystrix.
+  - Flow control (Rate-limiting)
+      - Sentinel controls the speed of random incoming requests to avoid the overloading of microservices.
+      - Ensures that our service isn’t killed by a surge in traffic.
+      - Supports a variety of traffic shaping strategies:
+        - Direct Rejection Mode
+        - Slow Start Warm-Up Mode
+  - Circuit breaker
+      - Uses the principle of max concurrency limiting to implement circuit breaking.
+      - Reduces the impact of unstable resources by restricting the number of concurrent threads.
+      - All calls to the affected resource will be rejected in the specified time window. This prevents the cascading effect.
+  - Adaptive System Protection
+      - Sentinel protects our server in case the system load goes too high.
+      - Uses load1 (system load) as the metric to initiate traffic control. The request will be blocked under the following conditions:
+         - Current system load (load1) > threshold (highestSystemLoad);
+         - Current concurrent requests (thread count) > estimated capacity (min response time * max QPS)
   
 
+#### AWS App Mesh:
+   - Developed by Amazon for monitoring and controlling services running on AWS.
+   - Service mesh based on the Envoy proxy.
+   - App Mesh standardizes how your microservices communicate, giving us end-to-end visibility and helping to ensure high availability for your applications.
+   - App Mesh gives us consistent visibility and network traffic controls for every microservice in an application.
+   - This can be integrated with AWS Fargate, Amazon ECS, Amazon EKS, Kubernetes on AWS, and Amazon EC2.
 
-- <ins>**Amazon Mesh**</ins>
+
 
