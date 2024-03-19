@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Java - V - CompletableFuture & Executor Services
+title: Java 8 - CompletableFuture & Executor Services
 categories: [Java]
 ---
 
@@ -23,7 +23,7 @@ CompletableFuture.get(),CompletableFuture.join()|CompletableFuture.thenApply(),C
 
 
 
-## Concepts related to Asychronous Programming
+## Concepts - Async
 
 We can create threads using 2 methods in Java:
  - Extending `Thread class` which implements `Runnable interface`
