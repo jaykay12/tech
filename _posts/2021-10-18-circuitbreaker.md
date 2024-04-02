@@ -6,9 +6,33 @@ categories: [Miscellaneous]
 
 # Fault Tolerance & Resiliency
 
-1. Timeouts
-2. Circuit Breaker Pattern
-3. <> Pattern
+<ins>Fault Tolerance:</ins>
+Upto what extent the system can tolerate a SINGLE fault. How much impact does it create?
+Suppose we have an application comprising of multiple microservices. If one service/component goes down, how does it impact the overall system, does the entire system goes down or does it impact stays confined to a set of services/components. More the impact confined, higher is the fault tolerance.
+
+
+<ins>Resilience:</ins>
+How many faults can the system tolerate before it is brought down to the knees. This is measured in terms of availability (99.9%)
+This also covers how well the system can bounce back & how good is the system in recovering from those faults.
+
+Most of the time, these 2 go-together. Our aim is to have a `high fault tolerant & highly resilent systems`.
+
+Issues which can happen in Microservies|Impact|Solutions
+---|---|---
+Instance on which service is hosted goes down|All calls from callin service fails|Spawn multiple instances(Replication)
+Instance on which service is hosted goes slow|Other services are impacted due to hung threads (which lead to system resources getting used up)|Timeouts
+Service having timeouts goes slow|If the rate at which service timeouts < service-qps, then this will still lead to hung threads|Circuit-breaker
+
+<img src="../assets/images/CB-4.png" width="50%">
+
+1. Cicuit Breaker pattern
+Provides these 3 benefits:
+  - Fail fast
+  - Fallback functionality
+  - Automatic recovery
+
+2. Bulk Head Pattern is just having separate threadpools for the all the dependent services. It's with analogy to the ship building where we have separate water tight compartments which can get flooded in case of holes/wrekkage.
+
 
 # Circuit Breaker Pattern
 
