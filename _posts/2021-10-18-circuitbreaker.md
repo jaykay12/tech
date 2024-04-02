@@ -23,7 +23,7 @@ Instance on which service is hosted goes down|All calls from callin service fail
 Instance on which service is hosted goes slow|Other services are impacted due to hung threads (which lead to system resources getting used up)|Timeouts
 Service having timeouts goes slow|If the rate at which service timeouts < service-qps, then this will still lead to hung threads|Circuit-breaker
 
-<img src="../assets/images/CB-4.png" width="50%">
+<img src="../assets/images/CB-10.png" width="50%">
 
 1. Cicuit Breaker pattern
 Provides these 3 benefits:
@@ -94,7 +94,7 @@ To prevent such scenarios, a circuit breaker comes into the picture. It will blo
 Technology|Id|Details
 ---|---|---
 <ins>**Hystrix**</ins>|<img src="../assets/images/CB-9.png" width="50%" height="20%">|
-<ins>**Resilience4j**</ins>|<img src="../assets/images/CB-7.png" width="25%" height="50%">|
+<ins>**Resilience4j**</ins>|<img src="../assets/images/CB-7.png" width="25%" height="45%">|
 <ins>**Istio**</ins>|<img src="../assets/images/CB-6.png" width="35%" height="40%">|
 <ins>**Sentinel**</ins>|<img src="../assets/images/CB-8.png" width="40%" height="20%">|
 <ins>**AWS App Mesh**</ins>|<img src="../assets/images/CB-5.png" width="24%" height="10%">
