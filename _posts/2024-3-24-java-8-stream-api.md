@@ -187,4 +187,4 @@ There are other stream APIs like Apache Kafka Stream API, RxJava etc. Comparing 
 
 3. Internal, Not External Iteration
 
-
+Ref: https://jenkov.com/tutorials/java-functional-programming/streams.html (for critques)
