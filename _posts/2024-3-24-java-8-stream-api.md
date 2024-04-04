@@ -167,6 +167,15 @@ IntStream intStreamSequential = intStreamParallel.sequential();
 boolean isParallel = intStreamSequential.isParallel();
 ```
 
+### Benefits and Caveats of ParallelStream
+
+While parallel processing can provide significant speedups, some considerations to keep in mind:
+
+1. **Overhead:** Parallelism introduces overhead due to tasks’ decomposition, threads management, and results’ combination. For small datasets or tasks, this overhead might outweigh the benefits, making the parallel version slower than the sequential one.
+2. **Stateful Operations:** Stateful lambda expressions (those that maintain state across invocations) can lead to unpredictable results when used in parallel streams. It’s best to ensure that operations are stateless and free of side-effects.
+3. **Ordering:** Parallel processing might not maintain the order of the original data, especially during operations like map or filter. If order is essential, it can reduce the effectiveness of parallelism since additional steps are required to maintain it.
+4. **Shared Data Structures:** Using shared mutable data structures can lead to data corruption or concurrency issues. It’s recommended to use concurrent data structures or avoid shared mutable data altogether.
+
 
 ## Points against Java Stream API
 
