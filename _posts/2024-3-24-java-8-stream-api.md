@@ -49,6 +49,8 @@ Different operations on Stream API:
 Intermediate Operations are the types of operations in which multiple methods are chained in a row. They take Stream as argument & returns Stream. Eg: map(), filter(), sorted()
 Terminal Operations are the type of Operations that return the result. These Operations are not processed further just return a final result value. eg: collect(), reduce(), forEach()
 
+Intermediate operations are lazy. This means that they will be invoked only if it is necessary for the terminal operation execution.
+
 Important Points:
 1. A stream comprises of a source followed by pipeline of zero or more intermediate methods and a final terminal method which obtains the results as per the pipeline.
 2. Streams don’t change the original data structure, they only provide the result as per the pipelined methods.
@@ -107,11 +109,9 @@ Optional<T> findAny()|returns any element from the stream
 Optional<T> findFirst()|used for ordered stream, for unordered stream, acts as same as findAny
 void forEach(Consumer<? super T> action)|
 Stream<T> limit(long maxSize)|
-<R> Stream<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper)|-to-check-
-<R> Stream<R> map(Function<? super T,? extends R> mapper)|-to-check-
 Optional<T> max(Comparator<? super T> comparator)|
 Optional<T> min(Comparator<? super T> comparator)|
-Stream<T> peek(Consumer<? super T> action)|-to-check-
+Stream<T> peek(Consumer<? super T> action)|performs the specified operation on each element of the stream and returns a new stream which can be used further. peek() is an intermediate operation
 Optional<T> reduce(BinaryOperator<T> accumulator)|
 T reduce(T identity, BinaryOperator<T> accumulator)|
 Stream<T> skip(long n)|
@@ -119,7 +119,39 @@ Stream<T> sorted()|
 Stream<T> sorted(Comparator<? super T> comparator)|
 Object[] toArray()|converts a stream to an array
 
+map()|flatMap()
+---|---
+<R> Stream<R> map(Function<? super T,? extends R> mapper)|<R> Stream<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper)
+produces a new stream after applying a function to each element of the original stream. The new stream could be of different type.|stream can hold complex data structures like Stream<List<String>>. this helps us to flatten the data structure to simplify further operations
+
+
+
+
 # ParallelStream
 
+The API allows us to create parallel streams, which perform operations in a parallel mode. 
+
+When the source of a stream is a Collection or an array, it can be achieved with the help of the parallelStream() method:
+```java
+Stream<Product> streamOfCollection = productList.parallelStream();
+boolean isParallel = streamOfCollection.isParallel();
+boolean bigPrice = streamOfCollection
+  .map(product -> product.getPrice() * 12)
+  .anyMatch(price -> price > 200);
+```
+
+If the source of a stream is something other than a Collection or an array, the parallel() method should be used:
+```java
+IntStream intStreamParallel = IntStream.range(1, 150).parallel();
+boolean isParallel = intStreamParallel.isParallel();
+```
+
+Under the hood, Stream API automatically uses the ForkJoin framework to execute operations in parallel. By default, the common thread pool will be used and there is no way (at least for now) to assign some custom thread pool to it.
+
+The stream in parallel mode can be converted back to the sequential mode by using the sequential() method:
+```java
+IntStream intStreamSequential = intStreamParallel.sequential();
+boolean isParallel = intStreamSequential.isParallel();
+```
 
 
