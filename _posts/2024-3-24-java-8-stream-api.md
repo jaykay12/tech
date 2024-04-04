@@ -16,18 +16,12 @@ Introduced in Java 8 (JDK 1.8), Stream API is used to
 - perform bulk operations
 - process collections of objects.
 
+```bash
+import java.util.stream.*;
 
-
-Different operations on Stream API:
-1. Intermediate Operations
-2. Terminal Operations
-
-Intermediate Operations are the types of operations in which multiple methods are chained in a row. They take Stream as argument & returns Stream. Eg: map(), filter(), sorted()
-Terminal Operations are the type of Operations that return the result. These Operations are not processed further just return a final result value. eg: collect(), reduce(), forEach()
-
-Important Points:
-1. A stream comprises of a source followed by pipeline of zero or more intermediate methods and a final terminal method which obtains the results as per the pipeline.
-2. Stream is used to compute elements as per the pipelined methods without altering the original value of the input object.
+Stream<T> stream;
+Here T is either a class, object, or data type. Collections API is closely related to Stream API.
+```
 
 Stream once used, can't be reused.
 
@@ -46,6 +40,84 @@ Exception in thread "main" java.lang.IllegalStateException: stream has already b
 ```
 
 
+<img src="../assets/images/JS-1.png" width="50%">
+
+Different operations on Stream API:
+1. Intermediate Operations
+2. Terminal Operations
+
+Intermediate Operations are the types of operations in which multiple methods are chained in a row. They take Stream as argument & returns Stream. Eg: map(), filter(), sorted()
+Terminal Operations are the type of Operations that return the result. These Operations are not processed further just return a final result value. eg: collect(), reduce(), forEach()
+
+Important Points:
+1. A stream comprises of a source followed by pipeline of zero or more intermediate methods and a final terminal method which obtains the results as per the pipeline.
+2. Streams don’t change the original data structure, they only provide the result as per the pipelined methods.
+
+```java
+import java.util.*;
+import java.util.stream.*;
+ 
+class Demo {
+    public static void main(String args[])
+    {
+
+         List<Integer> number = Arrays.asList(5, 2, 1, 4);
+         List<String> names = Arrays.asList("Jalaz", "Sukhbir", "Saurabh", "Narendra");
+
+        List<Integer> square = number.stream().map(x -> x * x).collect(Collectors.toList());
+        System.out.println(square);
+
+        List<String> result = names.stream().filter(s -> s.startsWith("S")).collect(Collectors.toList());
+        System.out.println(result);
+ 
+        List<String> show = names.stream().sorted().collect(Collectors.toList());
+        System.out.println(show);
+ 
+        number.stream().map(x -> x * x).forEach(y -> System.out.println(y));
+ 
+        int even = number.stream().filter(x -> x % 2 == 0).reduce(0, (ans, i) -> ans + i);
+        System.out.println(even);
+    }
+}
+```
+```bash
+[25, 4, 1, 16]
+[Sukhbir, Saurabh]
+[Jalaz, Narendra, Saurabh, Sukhbir]
+25
+4
+1
+16
+6
+```
+
+Other important methods part of Stream APIs:
+
+function|little-info
+---|---
+boolean allMatch(Predicate<? super T> predicate)|checks if all elements of the stream matches with the predicate
+boolean anyMatch(Predicate<? super T> predicate)|checks if any element of the stream matches with the predictate & breaks
+<R,A> R collect(Collector<? super T,A,R> collector)|
+static <T> Stream<T> concat(Stream<? extends T> a, Stream<? extends T> b)|
+long count()|
+Stream<T> distinct()|
+static <T> Stream<T> empty()|
+Stream<T> filter(Predicate<? super T> predicate)|returns a stream comprising of all elements which matches with the predicate
+Optional<T> findAny()|returns any element from the stream
+Optional<T> findFirst()|used for ordered stream, for unordered stream, acts as same as findAny
+void forEach(Consumer<? super T> action)|
+Stream<T> limit(long maxSize)|
+<R> Stream<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper)|-to-check-
+<R> Stream<R> map(Function<? super T,? extends R> mapper)|-to-check-
+Optional<T> max(Comparator<? super T> comparator)|
+Optional<T> min(Comparator<? super T> comparator)|
+Stream<T> peek(Consumer<? super T> action)|-to-check-
+Optional<T> reduce(BinaryOperator<T> accumulator)|
+T reduce(T identity, BinaryOperator<T> accumulator)|
+Stream<T> skip(long n)|
+Stream<T> sorted()|
+Stream<T> sorted(Comparator<? super T> comparator)|
+Object[] toArray()|converts a stream to an array
 
 # ParallelStream
 
