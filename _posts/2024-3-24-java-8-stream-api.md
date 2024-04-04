@@ -16,6 +16,16 @@ Introduced in Java 8 (JDK 1.8), Stream API is used to
 - perform bulk operations
 - process collections of objects.
 
+Saliant Features:
+1. Functional-style operations
+2. Pipelining
+3. Lazy evaluation
+4. Parallel Processing
+
+Stream is
+- not a data structure to store objects
+- not supporting indexed access
+
 ```bash
 import java.util.stream.*;
 
@@ -46,10 +56,13 @@ Different operations on Stream API:
 1. Intermediate Operations
 2. Terminal Operations
 
-Intermediate Operations are the types of operations in which multiple methods are chained in a row. They take Stream as argument & returns Stream. Eg: map(), filter(), sorted()
-Terminal Operations are the type of Operations that return the result. These Operations are not processed further just return a final result value. eg: collect(), reduce(), forEach()
+**Intermediate Operations** are the types of operations in which multiple methods are chained in a row. They take Stream as argument & returns Stream. Eg: map(), filter(), sorted()
+**Terminal Operations** are the type of Operations that return the result. These Operations are not processed further just return a final result value. eg: collect(), reduce(), forEach()
 
 Intermediate operations are lazy. This means that they will be invoked only if it is necessary for the terminal operation execution.
+
+Short circuiting intermediate operations -> produces finite stream for an infinite stream. Eg, limit() and skip()
+Short circuiting terminal operations -> if it may terminate in finite time for infinite stream. Eg, anyMatch, allMatch, noneMatch, findFirst and findAny.
 
 Important Points:
 1. A stream comprises of a source followed by pipeline of zero or more intermediate methods and a final terminal method which obtains the results as per the pipeline.
@@ -153,5 +166,16 @@ The stream in parallel mode can be converted back to the sequential mode by usin
 IntStream intStreamSequential = intStreamParallel.sequential();
 boolean isParallel = intStreamSequential.isParallel();
 ```
+
+
+## Points against Java Stream API
+
+There are other stream APIs like Apache Kafka Stream API, RxJava etc. Comparing to them, these are the pitfalls:
+
+1. Batch, Not Streaming
+
+2. Chain, Not Graph
+
+3. Internal, Not External Iteration
 
 
