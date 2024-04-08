@@ -5,6 +5,15 @@ categories: [Design Patterns]
 ---
 
 Java Launched multiple features with JDK 1.8, facilitating & making Java more closer to user as compared with languages like python etc.
+Few of them are covered as separate blog posts:
+
+1. CompletableFuture & Executor Service:
+2. Stream API
+3. Covering in this post:
+    1. Lambda Expressions
+    2. Optional
+    3. Functional Interfaces
+    4. Generics
 
 ## Lambda Expressions
 
@@ -83,46 +92,81 @@ Hello, User: Jalaz
 Hello, User: Guest
 ```
 
-Benefits:
+<ins>Benefits:</ins>
 - provides the implementation of Functional interface.
 - less coding.
 - can be passed around as if it was an object and executed on demand.
 
-Drawbacks:
+<ins>Drawbacks:</ins>
 - Java lambda functions can be only used with functional interfaces.
 - they lack names and documentation, meaning that the only way to know what they do is to read the code.
 
 `Be aware of the scope of variable you are using in the lambda expression`
 
-Inner class -> creates a new scope. We can hide local variables from the enclosing scope by instantiating new local variables with the same names. We can also use the keyword this inside our inner class as a reference to its instance.
+Inner class|Lambda Expression
+---|---
+creates a new scope|work with enclosing scope
+We can hide local variables from the enclosing scope by instantiating new local variables with the same names.|We can’t hide variables from the enclosing scope inside the lambda’s body
+We can also use the keyword this inside our inner class as a reference to its instance|In this case, the keyword this is a reference to an enclosing instance.
 
-Lambda expressions -> however, work with enclosing scope. We can’t hide variables from the enclosing scope inside the lambda’s body. In this case, the keyword this is a reference to an enclosing instance.
 
 ## Optional
 
-Optional class in Java 8 is a container object which is used to contain a value that might or might not be present. It was introduced as a way to help reduce the number of NullPointerExceptions that occur in Java code.
+Optional class in Java 8 is a container object which is used to contain a value that might or might not be present. It was introduced as a way to help reduce the number of NullPointerExceptions & try-catch checks that occur in Java code.
 
-One of the key benefits of using `Optional` is that it forces us to handle the case where the value is absent. This means that we are less likely to miss important checks in the code and reduces the risk of NullPointerException. If a value is not present, we can either provide a default value or throw an exception.
+One of the key benefits of using `Optional` is that it forces us to handle the case where the value is absent. This means that we are less likely to miss important checks in the code and reduces the risk of NPE. If a value is not present, we can either provide a default value or throw an exception.
 
 Optional comes along with a strong move towards `functional programming` in Java.
 
+`null checks`|`Optional`
+---|---
+<img src="../assets/images/J8-2.png">|<img src="../assets/images/J8-1.png">
+sometimes necessary, but not mandatory due to which system produce unexpected runtime errors like NullPointerExceptions.|should always be treated properly at compile time to get the value inside of it. This obligation to handle an Optional at compile time results in fewer unexpected NullPointerExceptions.
+
 ### Optional class methods
 
-Creation Methods|Params
----|---
-Optional.ofNullable()|
-Optional.of()|
-Optional.empty()|
+Creation Methods|Working|Signature
+---|---|---
+Optional.ofNullable()|returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.|`public static <T> Optional<T> ofNullable(T value)`	
+Optional.of()|returns an Optional with the specified present non-null value|`public static <T> Optional<T> of(T value)`
+Optional.empty()|returns an empty Optional object|`public static <T> Optional<T> empty()`
 
 Usage Methods|Params
 ---|---
-Optional.get()|
-Optional.isEmpty()|
-Optional.isPresent()|
-Optional.orElse()|
-Optional.orElseGet()|
-Optional.orElseThrow()|
+Optional.get()|If a value is present in this Optional, returns the value, otherwise throws NoSuchElementException.|`public T get()`
+Optional.isEmpty()|returns true if the wrapped value is null. Introduced in Java 11|
+Optional.isPresent()|returns true if the wrapped value is not null|`public boolean isPresent()`
+Optional.orElse()|returns the value if present, otherwise returns the default value specified|`public T orElse(T default)`
+Optional.orElseGet()||`public T orElseGet(Supplier<? extends T> other)`
+Optional.orElseThrow()|returns the contained value, if present, otherwise throw an exception to be created by the provided supplier. It works exactly the same as Optional.get()|
 
+```java
+public String getMyDefault() {
+    System.out.println("Some API call to get default Value...");
+    return "Default Value";
+}
+
+@Test
+public void whenOrElseGetAndOrElseDiffer_thenCorrect() {
+    String text = "Text present";
+
+    System.out.println("Using orElseGet:");
+    String defaultText 
+      = Optional.ofNullable(text).orElseGet(this::getMyDefault);
+    assertEquals("Text present", defaultText);
+
+    System.out.println("Using orElse:");
+    defaultText = Optional.ofNullable(text).orElse(getMyDefault());
+    assertEquals("Text present", defaultText);
+}
+```
+```bash
+Using orElseGet:
+Using orElse:
+Some API call to get default Value...
+```
+
+Cost is obvious when using orElse(), instead of orElseGet().
 
 #### Misuse of Optionals
 
