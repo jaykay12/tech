@@ -15,7 +15,7 @@ Few of them are covered as separate blog posts:
     3. Functional Interfaces
     4. Generics
 
-## Lambda Expressions
+# Lambda Expressions
 
 `Inteface` basically defines the contracts. Any class which implements that interface needs to override those abstract methods with proper implementations.
 
@@ -110,7 +110,7 @@ We can hide local variables from the enclosing scope by instantiating new local 
 We can also use the keyword this inside our inner class as a reference to its instance|In this case, the keyword this is a reference to an enclosing instance.
 
 
-## Optional
+# Optional
 
 Optional class in Java 8 is a container object which is used to contain a value that might or might not be present. It was introduced as a way to help reduce the number of NullPointerExceptions & try-catch checks that occur in Java code.
 
@@ -168,10 +168,28 @@ Some API call to get default Value...
 
 Cost is obvious when using orElse(), instead of orElseGet().
 
+Extra Methods|Working|Signature
+---|---|---
+Optional.filter()|normally used this way to reject wrapped values based on a predefined rule.|`yearOptional.filter(y -> y % 4).isPresent();`
+Optional.map()|used to transform a value to some other value. Keep in mind that this operation does not modify the original value.|`nameOptional.map(String::length).orElse(0);`
+Optional.empty()||
+
+#### Benefits of Optionals
+- Better than null checks
+- Helps to Design Clear Intention APIs
+- Supports Declarative Programming Paradigm
+
 #### Misuse of Optionals
 
+Using Optional abusively can lead to a drop in performance and code cluttering. Some bad practices around usage are:
 
-## Functional Interfaces
+- passing an Optional parameter to a method.
+- Optional is not Serializable. For that reason, it’s not intended to be used as a field in a class.
+- practice of using Optional as a method parameter is even discouraged by some code inspectors.
+
+`The intent of Java when releasing Optional was to use it only as a return type`
+
+# Functional Interfaces
 
 An interface which has only one abstract method is called functional interface. 
 Java provides an anotation `@FunctionalInterface`, which is used to declare an interface as functional interface.
