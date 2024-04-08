@@ -11,7 +11,7 @@ Java Launched multiple features with JDK 1.8, facilitating & making Java more cl
 `Inteface` basically defines the contracts. Any class which implements that interface needs to override those abstract methods with proper implementations.
 
 ```java
-// Before Java 8
+// Before Java 8: (Using Inner Classes)
 PersonInterface person = new PersonInterface() {  
     @Override 
     public void how() {
@@ -19,7 +19,7 @@ PersonInterface person = new PersonInterface() {
     }  
 };
 
-// Java 8: Using lambda expression
+// Java 8: (Using lambda expression)
 PersonInterface p2 = () -> { System.out.println("Lambda implemented"); };
 ```
 
@@ -91,7 +91,12 @@ Benefits:
 Drawbacks:
 - Java lambda functions can be only used with functional interfaces.
 - they lack names and documentation, meaning that the only way to know what they do is to read the code.
-- Be aware of the scope of variable you are using in the lambda expression.
+
+`Be aware of the scope of variable you are using in the lambda expression`
+
+Inner class -> creates a new scope. We can hide local variables from the enclosing scope by instantiating new local variables with the same names. We can also use the keyword this inside our inner class as a reference to its instance.
+
+Lambda expressions -> however, work with enclosing scope. We can’t hide variables from the enclosing scope inside the lambda’s body. In this case, the keyword this is a reference to an enclosing instance.
 
 ## Optional
 
