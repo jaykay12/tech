@@ -100,6 +100,32 @@ Lambda expressions -> however, work with enclosing scope. We can’t hide variab
 
 ## Optional
 
+Optional class in Java 8 is a container object which is used to contain a value that might or might not be present. It was introduced as a way to help reduce the number of NullPointerExceptions that occur in Java code.
+
+One of the key benefits of using `Optional` is that it forces us to handle the case where the value is absent. This means that we are less likely to miss important checks in the code and reduces the risk of NullPointerException. If a value is not present, we can either provide a default value or throw an exception.
+
+Optional comes along with a strong move towards `functional programming` in Java.
+
+### Optional class methods
+
+Creation Methods|Params
+---|---
+Optional.ofNullable()|
+Optional.of()|
+Optional.empty()|
+
+Usage Methods|Params
+---|---
+Optional.get()|
+Optional.isEmpty()|
+Optional.isPresent()|
+Optional.orElse()|
+Optional.orElseGet()|
+Optional.orElseThrow()|
+
+
+#### Misuse of Optionals
+
 
 ## Functional Interfaces
 
