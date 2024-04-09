@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Java 8 - CompletableFuture & Executor Services
+title: Advanced Java - V - CompletableFuture & Executor Services
 categories: [Java]
 ---
 
