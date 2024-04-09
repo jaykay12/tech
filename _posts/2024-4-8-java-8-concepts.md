@@ -387,16 +387,49 @@ public <T> List<T> fromArrayToList(T[] a) {
 
 ## Generic Conventions
 
-The type parameters naming conventions are important to learn generics thoroughly. The common type parameters are as follows:
-T – Type
-E – Element
-K – Key
-N – Number
-V – Value
+The type parameters naming conventions are important to learn generics thoroughly. 
+
+The common type parameters are as follows:
+
+Generic|Usage
+---|---
+T|Type
+E|Element
+K|Key
+N|Number
+V|Value
 
 ## Wildcards in Generics
 
+Wildcards are represented by the question mark ? in Java, and we use them to refer to an unknown type
+We know that Object is the supertype of all Java classes. However, a collection of Object is not the supertype of any collection.
 
+For example, a List<Object> is not the supertype of List<String>, and assigning a variable of type List<Object> to a variable of type List<String> will cause a compiler error.
+
+```java
+import java.util.*; 
+
+class Runner {
+    public static void main(String[] args) {
+        
+        List<Integer> intList = new ArrayList<>();
+        intList.add(5);
+        print(intList);
+        
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Jalaz");
+        print(stringList);
+    }
+    
+    private static void print(List<?> anyListToPrint) {
+        System.out.println(anyListToPrint);
+    }
+}
+```
+```bash
+[5]
+[Jalaz]
+```
 
 # Functional Interfaces
 
