@@ -189,8 +189,227 @@ Using Optional abusively can lead to a drop in performance and code cluttering. 
 
 `The intent of Java when releasing Optional was to use it only as a return type`
 
+# Generics in Java
+
+Introduced in Java 5, Generics help alot in code reusability & extensibility.
+Code Reuse & Type Safety are 2 prime advantages of Generics.
+
+- makes the programmer’s job easier and less error-prone.
+- enforces type correctness at compile time. errors like ClassCastException are avoided at runtime.
+- most importantly, enable the implementation of generic algorithms without causing any extra overhead to our applications.
+
+`Generics don't work with primitive data-types` like int, double. We require Wrapper classes for them like Integer, Double etc.
+  - generics are a compile-time feature, meaning the type parameter is erased and all generic types are implemented as type Object.
+  - type parameters must be convertible to Object. Since primitive types don’t extend Object, we can’t use them as type parameters.
+
+## Generic Class
+
+#### Without Generics
+```java
+class Runner {
+    public static void main(String[] args) {
+        IntegerPrinter intPrinter = new IntegerPrinter(10);
+        intPrinter.print();
+        
+        StringPrinter stringPrinter = new StringPrinter("Jalaz");
+        stringPrinter.print();
+    }
+}
+
+class IntegerPrinter {
+    Integer thingToPrint;
+    
+    public IntegerPrinter(Integer thingToPrint) {
+        this.thingToPrint = thingToPrint;
+    }
+    
+    public void print() {
+        System.out.println(thingToPrint);
+    }
+}
+
+class StringPrinter {
+    String thingToPrint;
+    
+    public StringPrinter(String thingToPrint) {
+        this.thingToPrint = thingToPrint;
+    }
+    
+    public void print() {
+        System.out.println(thingToPrint);
+    }
+}
+```
+```bash
+10
+Jalaz
+```
+
+#### With Generics
+
+```java
+class Runner {
+    public static void main(String[] args) {
+        Printer<Integer> intPrinter = new Printer<>(10);
+        intPrinter.print();
+        
+        Printer<String> stringPrinter = new Printer<>("Jalaz");
+        stringPrinter.print();
+    }
+}
+
+class Printer <T> {
+    T thingToPrint;
+    
+    public Printer(T thingToPrint) {
+        this.thingToPrint = thingToPrint;
+    }
+    
+    public void print() {
+        System.out.println(thingToPrint);
+    }
+}
+```
+```bash
+10
+Jalaz
+```
+
+## Bounded Generics
+
+Bounded means “restricted,” and we can restrict the types that a method accepts.
+
+```java
+ArrayList<Object> cats = new List<>();
+cats.add(new Cat("Bubly",3));
+cats.add(new Dog("Bruno",6));
+
+Cat myCat = (Cat)cats.get(0);
+Cat myCat = (Cat)cats.get(1);    //Classcast Exception
+```
+
+These kind of issue do come with generics, due to which there is a way in which we can have bounded generics, which restrict which kind of objects can be held.
+
+```java
+class Runner {
+    public static void main(String[] args) {
+        Printer<Dog> dogPrinter = new Printer<>(new Dog());
+        dogPrinter.print();
+        
+        Printer<Cat> catPrinter = new Printer<>(new Cat());
+        catPrinter.print();
+    }
+}
+
+class Printer <T extends Animal> {
+    T thingToPrint;
+    
+    public Printer(T thingToPrint) {
+        this.thingToPrint = thingToPrint;
+    }
+    
+    public void print() {
+        System.out.println(thingToPrint.sound());
+    }
+}
+
+interface Animal {
+    public String sound();
+}
+
+class Dog implements Animal {
+    public String sound() {
+        return "bark!";
+    }
+}
+
+class Cat implements Animal {
+    public String sound() {
+        return "meow!";
+    }
+}
+```
+```bash
+bark!
+meow!
+```
+
+We can have multiple constructs within bounded generics.
+
+`class Printer <T extends Animal & Serializable>`
+
+- Only 1 class & it always come first within bounded list, as java doesnt support multiple inheritance
+- Multiple bounds will be separated by &
+
+## Generic Methods
+
+```java
+class Runner {
+    public static void main(String[] args) {
+        print("Jalaz");
+        print(2311);
+    }
+    
+    private static <T> void print(T anythingToPrint) {
+        System.out.println(anythingToPrint + "...!!");
+    }
+}
+```
+```bash
+Jalaz...!!
+2311...!!
+```
+
+this can be extended to multiple function arguments as well.
+```java
+class Runner {
+    public static void main(String[] args) {
+        print("Jalaz", "Kumar");
+        print(2311, "Flipkart");
+    }
+    
+    private static <T, V> void print(T firstPrint, V secondPrint) {
+        System.out.println(firstPrint + " <> " + secondPrint + "...!!");
+    }
+}
+```
+```bash
+Jalaz <> Kumar...!!
+2311 <> Flipkart...!!
+```
+
+We can also have generic return types.
+```java
+public <T> List<T> fromArrayToList(T[] a) {   
+    return Arrays.stream(a).collect(Collectors.toList());
+}
+```
+
+## Generic Conventions
+
+The type parameters naming conventions are important to learn generics thoroughly. The common type parameters are as follows:
+T – Type
+E – Element
+K – Key
+N – Number
+V – Value
+
+## Wildcards in Generics
+
+
+
 # Functional Interfaces
 
 An interface which has only one abstract method is called functional interface. 
 Java provides an anotation `@FunctionalInterface`, which is used to declare an interface as functional interface.
 
+
+1. Consumer
+
+2. Predicate
+
+3. Supplier
+
+4. Function
+
+5. Operator
