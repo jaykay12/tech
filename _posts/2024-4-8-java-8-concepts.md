@@ -436,13 +436,56 @@ class Runner {
 An interface which has only one abstract method is called functional interface. 
 Java provides an anotation `@FunctionalInterface`, which is used to declare an interface as functional interface.
 
+Any interface with a SAM(Single Abstract Method) is a functional interface, and its implementation may be treated as lambda expressions.
 
-1. Consumer
+A functional interface can contain only one abstract method, but it can also contain any number of static and default (non-abstract) methods. Abstract methods are those that do not require implementation during their declaration and must be overridden by the class implementing the interface.
 
-2. Predicate
+- <ins>**Function**</ins>
+    - public interface Function<T,R>
+    - Represents a function that accepts one argument and produces a result.
+    - functional method is apply(Object).
+    - ```java
+      Function<Integer, Integer> square = x -> x * x;
+      int result = square.apply(5);
+      ```
+ 
+- <ins>**Supplier**</ins>
+    - public interface Supplier<T>
+    - Represents a supplier of results.
+    - functional method is get().
+    - ```java
+      Supplier<Double> randomValue = () -> Math.random();
+      double value = randomValue.get();
+      ```
 
-3. Supplier
+- <ins>**Consumer**</ins>
+    - public interface Consumer<T>
+    - Represents an operation that accepts a single input argument and returns no result
+    - functional method is accept(Object).
+    - ```java
+      Consumer<String> printMessage = message -> System.out.println(message);
+      printMessage.accept("Hello, world!");
+      ```
+ 
+- <ins>**Predicate**</ins>
+    - public interface Predicate<T>
+    - Represents a predicate (boolean-valued function) of one argument.
+    - functional method is test(Object).
+    - ```java
+      Predicate<Integer> isEven = x -> x % 2 == 0;
+      boolean even = isEven.test(6);
+      ```
 
-4. Function
+Since Java8 onwards, many interfaces were converted into functional interfaces. 
+All these interfaces are annotated with @FunctionalInterface. These interfaces are as follows – 
 
-5. Operator
+1. Runnable –> This interface only contains the run() method.
+2. Comparable –> This interface only contains the compareTo() method.
+3. ActionListener –> This interface only contains the actionPerformed() method.
+4. Callable –> This interface only contains the call() method.
+
+Other variations are also there:
+
+- Consumer -> Bi-Consumer
+- Predicate -> Bi-Predicate
+- Function -> Bi-Function, Unary Operator, Binary Operator 
