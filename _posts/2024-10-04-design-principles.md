@@ -5,14 +5,14 @@ categories: [Software Engineering, System Design]
 ---
 
 SOLID is an acronym for 5 design principles that help software developers create object-oriented software that is maintainable, scalable, and flexible: 
-- Single responsibility principle: A class should have only one reason to change. 
-- Open-closed principle: Software entities should be open for extension but closed for modification. (Using Inheritance)
-- Liskov substitution principle: Functions that use pointers or references to base classes must be able to use objects of derived classes. 
+- Single responsibility principle: A class should have one & only one reason to change. 
+- Open-closed principle: Software entities should be open for extension but closed for modification. (Using Inheritance helps)
+- Liskov substitution principle: Ensure that derived classes extend the base class without changing behavior.
 - Interface segregation principle: Clients should not be forced to depend upon interfaces that they do not use. 
 - Dependency inversion principle: Depend upon abstractions, not concretes. It states that the high-level module must not depend on the low-level module, but they should depend on abstractions. (Allows for decoupling).
 
 
-Robert C. Martin introduced SOLID principles in the early 2000s.
+Robert C. Martin introduced SOLID principles in the early 2000s & is now well adapted in th Engineering Fraternity.
 
 The SOLID principle helps in reducing tight coupling. Tight coupling means a group of classes are highly dependent on one another which should be avoided. Code is considered as a good code when it has loosely-coupled classes.
 Loosely coupled classes minimize changes in your code, helps in making code more reusable, maintainable, flexible and stable.
@@ -35,37 +35,27 @@ However, if the baker is also responsible for managing the inventory, ordering s
 
 ```java
 public class Book {
-
     private String name;
     private String author;
     private String text;
 
     //constructor, getters and setters
 
-    // methods that directly relate to the book properties
+    // method that directly relate to the book properties
     public String replaceWordInText(String word, String replacementWord){
         return text.replaceAll(word, replacementWord);
-    }
-
-    public boolean isWordInText(String word){
-        return text.contains(word);
     }
 }
 
 public class BookPrinter {
-
     // methods for outputting text
-    void printTextToConsole(String text){
-        //our code for formatting and printing the text
-    }
-
-    void printTextToAnotherMedium(String text){
-        // code for writing to any other location..
+    void printText(String text, Media media){
+        //our code for formatting and printing the text on any media
     }
 }
 ```
 
-Here we developed a class that relieves the Book of its printing duties, but we can also leverage our BookPrinter class to send our text to other media.
+Here we developed a class that relieves the Book of its printing duties, but we can also leverage our BookPrinter class to send our text to any media.
 Whether it’s email, logging, or anything else, we have a separate class dedicated to this one concern.
 
 
@@ -108,7 +98,7 @@ If class A is a subtype of class B, we should be able to replace B with A withou
 Rectangle have four sides. A rectangle’s height can be any value and width can be any value. A square is a rectangle with equal width and height. so, all properties of Rectangle class can be extended into the Square class.
 
 **Practical Example:**
-<Pending>
+---- Pending-----
 
 ## Interface Segregation Principle
 
@@ -118,8 +108,8 @@ Focus on avoiding fat interface and give preference to many small client-specifi
 
 **General Example:**
 
-Suppose if you enter a restaurant and you are pure vegetarian. The waiter in that restaurant gave you the menu card which includes vegetarian items, non-vegetarian items, drinks, and sweets. 
-In this case, as a customer, you should have a menu card which includes only vegetarian items, not everything which you don’t eat in your food. Here the menu should be different for different types of customers.
+Suppose we enter a restaurant and we are pure vegetarian. The waiter in that restaurant gives us the menu card which includes vegetarian items, non-vegetarian items, drinks, and sweets. 
+In this case, as a customer, we should be having menu card which includes only vegetarian items, not everything which you don’t eat in your food. Here the menu should be different for different types of customers.
 
 **Practical Example:**
 
@@ -165,6 +155,27 @@ public class CrazyPerson implements BearPetter {
 
 ## Dependency Inversion Principle
 
+“High-level modules should not depend on low-level modules. Both should depend on abstractions“. Additionally, abstractions should not depend on details. Details should depend on abstractions.
+
+This refers to the decoupling of software modules. This way, instead of high-level modules depending on low-level modules, both will depend on abstractions.
+
 **General Example:**
+------Pending-----
 
 **Practical Example:**
+```java
+public interface Keyboard { }
+public interface Monitor { }
+
+public class StandardKeyboard implements Keyboard { }
+
+public class Windows98Machine{
+    private final Keyboard keyboard;
+    private final Monitor monitor;
+
+    public Windows98Machine(Keyboard keyboard, Monitor monitor) {
+        this.keyboard = keyboard;
+        this.monitor = monitor;
+    }
+}
+```
