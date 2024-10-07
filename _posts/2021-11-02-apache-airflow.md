@@ -22,7 +22,7 @@ Airflow is not a data processing tool by itself but rather an instrument to mana
 
 ## Concepts of Airflow
 
-The simplest unit of the Airflow framework are tasks. Tasks can be thought of as operations or, for most data teams, operations in a data pipeline.
+The simplest unit of the Airflow framework are tasks. Tasks can be thought of as operations like reading/writing data or any transformations on that data.
 
 A traditional ETL workflow has three tasks; extracting, transforming, and loading data. 
 
@@ -64,6 +64,22 @@ No matter the type, the executor eventually assigns tasks to workers — separat
 
 Airflow webserver runs a user interface that simplifies monitoring and troubleshooting data pipelines.
 It lets you visualize DAG dependencies, see the entire DAG history over months or even years in the calendar view, analyze task durations and overlaps using charts, track task completion, and configure settings, to name just a few possibilities.
+
+## Pros & Cons of Airflow
+
+Pros:
+1. Use of Python
+2. Everything as code & total control on the logic
+3. Highly scalable, multiple DAGs can run in parallel
+4. Large number of hooks to interact with data providers & visualisation tools
+5. Open Source & continuously growing community
+
+Cons:
+1. No versioning of workflows
+2. Documentation & high learning curve
+3. Complex production setup & maintenance
+
+Prefect, dagster & Mage.ai are few competitors of Airflow.
 
 # Usage & Tricks
 
