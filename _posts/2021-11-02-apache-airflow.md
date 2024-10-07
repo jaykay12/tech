@@ -8,17 +8,23 @@ categories: [Data Engineering]
 
 Airflow is an open-source tool and framework for running your data pipelines in production. As an industry-leading data workflow management tool, Apache Airflow leverages Python to allow data practitioners to define their data pipelines as code. 
 
+![airflow](../assets/images/AIRFLOW-1.png)
+
 It's a workflow orchestrator that enables us to design, schedule, and monitor data pipelines. The tool represents processes in the form of directed acyclic graphs(DAGs) that visualize casual relationships between tasks and the order of their execution.
 
 Airflow works with batch pipelines which are sequences of finite jobs, with clear start and end, launched at certain intervals or by triggers.
 
 Airflow is not a data processing tool by itself but rather an instrument to manage multiple components of data processing. It’s also not intended for continuous streaming workflows.
 
+`Workflows as a code`
+
+- Dynamic: Airflow pipelines are configured as Python code, allowing for dynamic pipeline generation.
+- Extensible: The Airflow® framework contains operators to connect with numerous technologies. All Airflow components are extensible to easily adjust to your environment.
+- Flexible: Workflow parameterization is built-in leveraging the Jinja templating engine.
+
 ## Airflow Architecture
 
----INSERT Image here---
-
-
+![airflow](../assets/images/AIRFLOW-2.png)
 
 ## Concepts of Airflow
 
