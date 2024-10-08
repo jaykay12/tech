@@ -8,7 +8,7 @@ categories: [Web Development]
 
 Caching has a significant impact on system design, particularly in systems that take excessive user requests. Improved performances & Scalability are 2 main key motives for using caching in designing of system alongside the cost factor.
 
----INSERT IMAGE HERE---
+![caching](../assets/images/CACHE-1.png)
 
 
 When system stores the data in a RAM, it is called in-memory caching. It is the simplest cache as compared to the other cache forms. It sits between applications and databases to deliver responses at high speeds by storing data from earlier requests or by copying directly from databases.
@@ -38,6 +38,8 @@ Types of Cache:
 6. In-Memory Data Grid (IMDG)
 
 ### Caching Strategies
+
+![caching-strategy](../assets/images/CACHE-4.png)
 
 1. Cache Pre-loading
 - Proactive caching technique where cache is populated with data even before the actual request comes either during app startup or during low business hours
@@ -77,26 +79,16 @@ Types of Cache:
 
 ## Java In-Memory Caching
 
+![caching-benefits](../assets/images/CACHE-5.png)
 
+![caching-pitfalls](../assets/images/CACHE-6.png)
+
+![caching-types](../assets/images/CACHE-7.png)
 
 # Prominent Libraries
 
-### JCS (Java Caching System)
+![caching-library](../assets/images/CACHE-2.png)
 
-### Guava
-
-### Caffeine
-
-### EhCache
-
-### InfiniSpan
-
-### Coherence
-
-### Ignite
-
-### Geode
-
-### Hazelcast
+![caching-perf](../assets/images/CACHE-3.png)
 
 # Sample Project
