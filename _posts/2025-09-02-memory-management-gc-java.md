@@ -49,7 +49,7 @@ Pending: Add table for all 4 reference types & their details
 
 ### Stack Memory
 
-In the JVM, stack memory plays a crucial role in method execution. Unlike heap memory, which stores objects for longer-term use and is shared across threads, the stack is thread-local and exists independently for each thread.
+In JVM, stack memory plays a crucial role in method execution. Unlike heap memory, which stores objects for longer-term use and is shared across threads, the stack is thread-local and exists independently for each thread.
 
 When a thread is created, the JVM allocates a new Java stack for that thread. This stack consists of a series of stack frames, each representing a single method invocation. As methods are called and return, frames are pushed to and popped from the top of the stack in a strict last-in, first-out (LIFO) order.
 
@@ -68,12 +68,37 @@ Each thread’s stack is limited in size, which can be configured using the `-Xs
 If a thread calls too many nested methods or recurses too deeply, the stack may exceed this limit and trigger a `StackOverflowError`.
 
 
-### MetaSpace or Method Area
+### Method Area (MetaSpace in Java8+)
 
-- Introduced in Java 8, Metaspace is a non-heap memory area that replaced the PermGen.
+Critical part of the JMM which stores per-class metadata necessary for the JVM to execute Java applications. Unlike the heap, which holds individual object instances, the method area is used to store class-level information that is shared across all instances of a class and all threads within the application.
+
+It's actual implementation has evolved over different versions of the JVM, most notably with the transition from Permanent Generation (PermGen) to Metaspace in Java 8.
+
 - It stores class metadata, such as the class structure, method information, and the constant pool.
-- Static variables are stored in the heap. This is a change from older Java versions (pre-Java 8), where they were stored in a special area of the heap called the Permanent Generation (PermGen).
+- Static variables are now stored in the heap. This is a change from older Java versions (pre-Java 8), where they were stored in a special area of the heap called the Permanent Generation (PermGen).
 - In Java 8 and later, the actual data for static variables is allocated on the heap, even though the class metadata (which includes a reference to the static variable) is in Metaspace
+
+#### PermGen (Prior to Java 8)
+
+Method area was physically implemented in a fixed-size memory region called the Permanent Generation (PermGen). PermGen resided in the heap and had to be explicitly sized using JVM flags like, `-XX:PermSize` & `-XX:MaxPermSize`
+
+Challenges with fixed nature of PermGen:
+- Class metadata exceeding PermGen space, leading to `java.lang.OutOfMemoryError: PermGen space`, especially in applications that dynamically load many classes.
+- Since PermGen was part of heap, its memory management was limited and difficult to tune correctly.
+
+#### MetaSpace (Post Java 8)
+
+JVM replaced PermGen with a new memory region called Metaspace. Unlike PermGen, Metaspace is not part of the Java heap; it is allocated from native memory, which allows it to grow dynamically as needed (limited by system capability)
+
+Improvements:
+- No longer need to worry about sizing PermGen manually.
+- Reduced risk of OutOfMemoryError: PermGen space
+- Class metadata is handled more flexibly and efficiently.
+
+While Metaspace can grow automatically, it is still constrained by available system memory. If too many classes are loaded (or not properly unloaded), Metaspace can still overflow, leading to a new error: `java.lang.OutOfMemoryError: Metaspace`
+
+To control Metaspace usage, the JVM provides the following flags: `-XX:MetaspaceSize` & `-XX:MaxMetaspaceSize`
+
 
 ### Program Counter
 
