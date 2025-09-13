@@ -8,6 +8,8 @@ categories: [Java]
 
 This refers to how the JVM allocates, manages, and releases memory during the execution of Java applications. JVM uses GC to reclaim memory by removing unused objects, eliminating the need for manual memory management, thus relieving developers work & headache.
 
+![jvm-jmm-overview](../assets/images/GC-1.png)
+
 Efficient memory management is very critical to building reliable, high-performance Java applications. JVM handles memory allocation and garbage collection automatically, but deeper understanding of how the memory is structured and managed under the hood is essential for diagnosing issues, tuning performance, and writing optimized code.
 
 ## Java Memory Model
@@ -153,6 +155,8 @@ Garbage collection:
 
 Heap memory is automatically managed by GC, which reclaims memory occupied by objects that are no longer in use. To optimize this process and reduce application pause times, the JVM divides the heap into two regions: the Young Generation and the Old Generation. This layout, known as the **Generational Heap Model**, is based on the principle that most objects in Java applications are short-lived, and those that survive are likely to live much longer.
 
+![jvm-jmm-overview](../assets/images/GC-4.png)
+
 #### Young Generation
 
 Here all newly created objects begin their lifecycle. It is optimized for fast allocation and frequent GC. Because the majority of objects are short-lived (e.g., method-local objects, temporary buffers), this region is collected often using **Minor GCs**, which are typically fast and efficient. Internally, the Young Generation is divided into three spaces:
@@ -197,6 +201,15 @@ To control the size and behavior of the Old Generation, you can adjust:
 ### Types of GC Algorithms
 
 ![heap-stack](../assets/images/GC-2.png)
+
+![serial-gc](../assets/images/GC-5.png)
+
+![parallel-gc](../assets/images/GC-6.png)
+
+![cms-gc](../assets/images/GC-7.png)
+
+![g1-gc](../assets/images/GC-8.png)
+
 
 ### Garbage Collection Phases
 
