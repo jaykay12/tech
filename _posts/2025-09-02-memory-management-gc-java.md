@@ -6,7 +6,7 @@ categories: [Java]
 
 # Java Memory Management
 
-This refers to how the JVM allocates, manages, and releases memory during the execution of Java applications. JVM uses GC to reclaim memory by removing unused objects, eliminating the need for manual memory management, thus relieving developers work.
+This refers to how the JVM allocates, manages, and releases memory during the execution of Java applications. JVM uses GC to reclaim memory by removing unused objects, eliminating the need for manual memory management, thus relieving developers work & headache.
 
 Efficient memory management is very critical to building reliable, high-performance Java applications. JVM handles memory allocation and garbage collection automatically, but deeper understanding of how the memory is structured and managed under the hood is essential for diagnosing issues, tuning performance, and writing optimized code.
 
@@ -99,12 +99,44 @@ While Metaspace can grow automatically, it is still constrained by available sys
 
 To control Metaspace usage, the JVM provides the following flags: `-XX:MetaspaceSize` & `-XX:MaxMetaspaceSize`
 
+![heap-stack](../assets/images/JMM-2.png)
 
-### Program Counter
+### Program Counter (PC Register)
+
+Very small but essential component of the JMM. While other memory areas like the heap and stack handle data and objects, the PC register is concerned with instruction-level control: keeping track of which bytecode instruction a thread should execute next.
+
+Each thread in the JVM has its own private Program Counter register. This isolation is necessary because the JVM supports multithreaded execution, where multiple threads can run independently and simultaneously. By maintaining a separate PC for each thread, the JVM ensures that threads do not interfere with each other’s execution flow.
+
+This allows the JVM to resume execution from the correct point after:
+ - A method call
+ - A branch (e.g., if/else, loop)
+ - An exception handler
+ - A thread context switch
+
+Internally, the PC register helps drive the **JVM execution engine**, which fetches the bytecode instruction pointed to by the PC, decodes it, and then executes it.
+
+PC register is not something developers interact with directly, but it becomes visible in several situations:
+- Stacktraces during Exception Handling logs
+- Debugging tools, profiler & breakpoints
+
+PC Register is so low-level and lightweight, so does not require GC or tuning, and it has no configurable size or visibility at the language level. However, it is essential for:
+- enabling Java’s method execution model
+- thread isolation
+- exception reporting.
 
 ### Native Method Stack
 
-![heap-stack](../assets/images/JMM-2.png)
+Dedicated memory region in the JVM that supports the execution of native methods, methods written in languages other than Java, such as C or C++. These methods are typically called through the **Java Native Interface (JNI)**, which acts as a bridge between the JVM and native libraries.
+
+When a native method is invoked, the JVM hands control over to the host operating system, which executes the method using the machine’s native call stack rather than the Java call stack. 
+
+Each thread in the JVM has its own native method stack, separate from the standard Java stack used for executing bytecode. The JVM doesn’t manage the internals of this stack in the same way it manages Java method execution. Instead, it delegates the execution entirely to the native system runtime, allowing native code to execute as if it were part of a regular C/C++ program.
+
+While Java handles heap and stack memory automatically, native methods executed via JNI operate in native memory, which is outside the JVM’s control. Although often overlooked, native memory leaks are one of the hardest issues to detect in Java applications.
+
+These risks make it essential to use JNI and native code sparingly, and only when absolutely necessary.
+
+
 
 
 # Garbage Collection
