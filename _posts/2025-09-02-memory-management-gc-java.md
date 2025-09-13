@@ -236,12 +236,14 @@ Good Reference Blogs for JMM:
 - https://www.digitalocean.com/community/tutorials/java-jvm-memory-model-memory-management-in-java
 - https://medium.com/@amitvsolutions/jvm-part-3-memory-management-89acca050442
 - https://www.linkedin.com/pulse/memory-management-java-softyoi-llp-wxrsf
+- https://www.freecodecamp.org/news/jvm-tutorial-java-virtual-machine-architecture-explained-for-beginners/
 
 
 Good Reference Blogs for GC:
-- https://www.digitalocean.com/community/tutorials/java-jvm-memory-model-memory-management-in-java
+- https://www.oracle.com/java/technologies/javase/gc-tuning-6.html
 - https://dzone.com/articles/java-memory-management
 - https://medium.com/@RamLakshmanan/how-to-achieve-high-gc-throughput-2a5405417d95
+- https://www.freecodecamp.org/news/garbage-collection-in-java-what-is-gc-and-how-it-works-in-the-jvm/
 
 
 Interview Questions:
