@@ -137,17 +137,87 @@ While Java handles heap and stack memory automatically, native methods executed 
 These risks make it essential to use JNI and native code sparingly, and only when absolutely necessary.
 
 
-
-
 # Garbage Collection
+
+This is a cornerstone of Java’s automatic memory management system. It eliminates the need for developers to manually free memory, which reduces the risk of memory leaks, dangling pointers, and other low-level memory errors common in languages like C or C++.
+
+This process enables Java applications to manage memory more safely and efficiently, but it doesn’t come without trade-offs. Garbage collection is a background process that periodically pauses application threads, and its efficiency has a direct impact on application performance, latency, and scalability.
+
+Garbage collection:
+- Frees up memory occupied by unreachable objects
+- Prevents memory leaks and heap exhaustion
+- Ensures long-running applications continue to operate without manual intervention
 
 
 ### Details of Heap Memory Management
 
+Heap memory is automatically managed by GC, which reclaims memory occupied by objects that are no longer in use. To optimize this process and reduce application pause times, the JVM divides the heap into two regions: the Young Generation and the Old Generation. This layout, known as the **Generational Heap Model**, is based on the principle that most objects in Java applications are short-lived, and those that survive are likely to live much longer.
+
 #### Young Generation
+
+Here all newly created objects begin their lifecycle. It is optimized for fast allocation and frequent GC. Because the majority of objects are short-lived (e.g., method-local objects, temporary buffers), this region is collected often using **Minor GCs**, which are typically fast and efficient. Internally, the Young Generation is divided into three spaces:
+
+ - **Eden Space**: This is the starting point for new object allocations. As soon as an object is created, the JVM attempts to place it in Eden. When Eden fills up, a Minor GC is triggered.
+- **Survivor Spaces**: The two survivor spaces, commonly referred to as S0 and S1, act as staging areas for objects that survive a garbage collection. After each Minor GC, reachable objects from Eden are moved into one of the survivor spaces. Objects that continue to survive are moved between the two survivor spaces across collection cycles.
+
+As objects survive more garbage collection cycles, their age increases. Once an object’s age exceeds a threshold (controlled by the JVM flag `-XX:MaxTenuringThreshold`), it is promoted to the Old Generation. Promotion is also forced when the survivor spaces do not have enough room to hold surviving objects.
+
+Proper tuning of the Young Generation can help reduce promotion rates and delay costly collections in the Old Generation:
+ - The size of the Young Generation with `-Xmn`
+ - The Eden-to-Survivor space ratio using `-XX:SurvivorRatio`
+ - The promotion age threshold with `-XX:MaxTenuringThreshold`
+
+![heap-stack](../assets/images/GC-3.png)
 
 #### Old Generation
 
+This is also known as the Tenured Generation, is designed to hold long-lived objects, those that have survived multiple Minor GCs. 
+While the Young Generation handles the frequent allocation and disposal of short-lived data, the Old Generation is where objects that remain in use for extended periods are eventually stored. 
+Examples include:
+ - Persistent application-level caches
+ - Static or shared data structures that are retained across requests
+
+Since the Old Generation contains objects that are more likely to still be in use, it is collected less frequently than the Young Generation. Garbage collection in this region is referred to as a **Major GC**, and when both generations are collected together, the process is known as a **Full GC**.
+
+Collections in the Old Generation are more expensive and typically involve:
+- A full stop-the-world pause
+- Tracing all reachable objects starting from the GC roots
+- Compacting memory to eliminate fragmentation
+
+If the Old Generation becomes full and GC is unable to reclaim sufficient memory, the JVM will throw a `java.lang.OutOfMemoryError: Java heap space`. This is often a sign of excessive object retention, memory leaks, or incorrect heap sizing.
+
+To control the size and behavior of the Old Generation, you can adjust:
+ - The total heap size using -Xmx (maximum) and -Xms (initial)
+ - The size of the Young Generation using -Xmn, which affects how much memory is left for the Old Generation
+ - The ratio between the two using -XX:NewRatio
+
+
+
+
+### Types of GC Algorithms
+
+![heap-stack](../assets/images/GC-2.png)
+
+### Garbage Collection Phases
+
+ - **Mark**: The collector scans through live references and marks all reachable objects by tracing from the GC roots.
+ - **Sweep**: Once marking is complete, the collector reclaims memory occupied by objects that were not marked (i.e., unreachable).
+ - **Compact** (optional): To reduce fragmentation, some collectors move live objects into contiguous memory regions and update references.
+
+This process ensures that memory is efficiently reused, and fragmentation is minimized (especially important in long-running applications).
+
+
+# Best Practices fo JMM:
+
+- Minimize Unnecessary Object Creation
+- Avoid Memory Leaks
+- Choose the Right Data Structures
+- Be Mindful of Object Retention in Collections
+- Tune the JVM for Your Workload
+- Monitor and Profile Regularly
+- Understand Application-Specific Memory Patterns
+
+# References (Good ones for reading)
 
 Good Reference Blogs for JMM:
 - https://www.digitalocean.com/community/tutorials/java-jvm-memory-model-memory-management-in-java
