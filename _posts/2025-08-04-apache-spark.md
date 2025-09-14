@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Apache Spark
-categories: [Data Engineering]
+categories: [Data Engineering, BigData]
 ---
 
 > Unified analytics engine for large-scale real-time & batch data processing.

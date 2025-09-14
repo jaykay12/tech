@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Apache Hadoop & HDFS
-categories: [Data Engineering]
+title: Apache Hadoop - Map Reduce & HDFS
+categories: [Data Engineering, BigData]
 ---
 
 # Introduction
