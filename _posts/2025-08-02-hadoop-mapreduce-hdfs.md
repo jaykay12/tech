@@ -4,16 +4,18 @@ title: Apache Hadoop - Map Reduce & HDFS
 categories: [Data Engineering, BigData]
 ---
 
+![hadoop-version](../assets/images/HADOOP-7.png)
 
 # Introduction
 
-An open-source framework developed by Apache for storing, processing, and analysing large amounts of data.
-- Java-based
+A highly scalable, open-source and distributed computing platform developed by Apache for storing, processing, and analysing large amounts of data.
+- Big Data technology
+- primarily Java-based
 - batch/offline processing system
 
-![hadoop-version](../assets/images/HADOOP-7.png)
+Its core components — HDFS for storage, MapReduce for processing, YARN for resource management, and Hadoop Common for essential utilities — continue to shape how data workflows are designed and scaled.
 
-## Evolution of Hadoop
+![hadoop-evolution](../assets/images/HADOOP-9.png)
 
 ![hadoop-version](../assets/images/HADOOP-5.png)
 
@@ -99,7 +101,18 @@ HDFS is built with failure in mind. HDFS ensures data availability through its r
 - **NameNode Failures**
   To Be Researched and Added
 
+### Important HDFS Commands
 
+Purpose|Command
+---|---
+Checking a file content|hadoop fs -text <FILE_PATH> | head -n 1
+Listing files|hdfs dfs -ls <FILE_PATH>
+Creating Directory|hadoop fs -mkdir -p <PATH>
+Checking storage|hdfs dfs -du -h -s <FILE_PATH>
+Merging files|hdfs dfs -getmerge <HDFS_FILE_PATH> <LOCAL_FILE_NAME>
+Moving data|hdfs dfs -mv <HDFS_SOURCE>/* <HDFS_DESTINATION>
+Copying data|hadoop fs -cp <HDFS_SOURCE>/* <HDFS_DESTINATION>
+Copying data to local|hdfs dfs -copyToLocal <HDFS_FILE_PATH> <LOCAL_FILE_NAME>
 
 # MapReduce
 
@@ -132,41 +145,54 @@ Cascading is a very popular java framework for writing MR Jobs. In recent times,
 
 ![mr-developer-interaction](../assets/images/MR-13.png)
 
-# YARN
+# Yet Another Resource Negotiator (YARN)
 
-![](../assets/images/YARN-1.png)
+YARN serves as Hadoop’s resource management layer. It separates job scheduling and resource allocation from the processing model, helping Hadoop support multiple data processing engines beyond MapReduce like Apache Spark, Hive, and Tez.
 
----
-![](../assets/images/YARN-2.png)
+There are 2 primary tasks for YARN:
+- Job Scheduling
+  - Breaking down a large work into smaller jobs so that each one may be assigned to different slaves in a Hadoop cluster and processing is optimized.
+  - It also maintains track of which jobs are more vital, which jobs have higher priority, job dependencies, and other information such as job timing.
+- Resource Management
+  - Managing all of the resources that are made available for a Hadoop cluster to run.
 
----
-![](../assets/images/YARN-3.png)
+## Components of YARN
 
----
-![](../assets/images/YARN-4.png)
+![yarn-entities](../assets/images/YARN-11.png)
 
----
-![](../assets/images/YARN-5.png)
+Component|Work|Details
+---|---|---
+ResourceManager|The master daemon that manages all resources and schedules applications|![r-m](../assets/images/YARN-6.png)
+NodeManager|per-node agent that monitors resource usage and reports back to the RM|![n-m](../assets/images/YARN-7.png)
+ApplicationMaster| A job-specific operation that uses resources from the RM and coordinates execution with NMs|![a-m](../assets/images/YARN-8.png)
 
----
-![](../assets/images/YARN-6.png)
+Job Scheduling is done by RM & Task Monitoring is done by AM.
 
----
-![](../assets/images/YARN-7.png)
+![workflow-management](../assets/images/YARN-1.png)
 
----
-![](../assets/images/YARN-8.png)
+![application-processing](../assets/images/YARN-2.png)
 
----
-![](../assets/images/YARN-9.png)
 
----
-![](../assets/images/YARN-10.png)
+## Internals of NameNode
 
----
+Containers are also called as Executors in normal tech language.
 
-# HDFS
+![namenode-container](../assets/images/YARN-9.png)
 
-https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html
+![container-clc](../assets/images/YARN-10.png)
 
+## Benefit of YARN
+
+![yarn-benefits](../assets/images/YARN-5.png)
+
+# Hadoop Common
+
+The glue that pulls all Hadoop’s components together is Hadoop Common. It’s a collection of java libraries, configuration files, and utilities required by all the Hadoop cluster components. HDFS, YARN, and MapReduce
+
+- Provides the foundational code and tools that allow HDFS, YARN, and MapReduce to communicate and coordinate.
+- This includes Java libraries, file system clients, and APIs used across the ecosystem.
+- Ensures consistency and compatibility between modules, allowing developers to build on a shared set of primitives.
+
+- Proper configuration of Hadoop is critical. Contains configuration files like core-site.xml, which define default behaviors such as filesystem URIs and I/O settings.
+- Contains CLI tools and scripts for tasks like starting services, checking node health, and managing jobs.
 
