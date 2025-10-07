@@ -4,9 +4,9 @@ title: Apache Spark
 categories: [Data Engineering, BigData]
 ---
 
-> Unified analytics engine for large-scale real-time & batch data processing.
-
 ![spark](../assets/images/SPARK-1.png)
+
+> Unified analytics engine for large-scale real-time & batch data processing.
 
 Main strengths of Apache Spark:
 - **Speed**:
@@ -23,11 +23,9 @@ Main strengths of Apache Spark:
   - It can access diverse data sources like HDFS, Alluxio, Apache Cassandra, Apache HBase, Apache Hive etc.
 
 
-# Introduction to Apache Spark
+# Introduction
 
 Apache Spark is an Open-Source, distributed processing system suitable for big data workloads. It utilizes in-memory caching, and optimized query execution for fast analytic queries of any size.
-
-This data processing framework can quickly perform processing tasks on very large data sets, and can also distribute tasks across multiple computers, either on its own or in tandem with other distributed computing tools.
 
 Apache Spark started off in 2009, at the University of California, Berkley Lab. In 2013, it became one of the top projects under Apache Foundation.
 
@@ -54,25 +52,20 @@ The goal of Spark was to create a new framework, which is optimized for real-tim
     - by reusing data across multiple parallel operations.
 - With Spark, only one-step is needed where data is read into memory, operations are performed, and the results are written back — resulting in a much faster execution.
 - Spark also reuses data by using an in-memory cache to greatly speed up machine learning algorithms that repeatedly call a function on the same dataset.
-- Data re-use is accomplished through Resilient Distributed Dataset (RDD). This lowers the overall latency making Spark 100X times faster than MapReduce, especially when doing machine learning, and interactive analytics.
+- Data re-use is accomplished through **Resilient Distributed Dataset** (RDD). This lowers the overall latency making Spark 100X times faster than MapReduce, especially when doing machine learning, and interactive analytics.
 
 ![spark-hadoop-1](../assets/images/SPARK-3.png)
 
-In Hadoop, it was not possible to process data in real-time. There is a time-lag associated after which batches of data can be processed. Apache Spark extended this batch-processing capability to real-time stream processing.
+In Hadoop, real-time data processing was not possible. There is a time-lag associated after which batches of data can be processed. Apache Spark extended this batch-processing capability to provide support for real-time stream processing.
 
-![hadoop](../assets/images/SPARK-15.png)
-![spark](../assets/images/SPARK-16.png)
+<ins>Apache Hadoop</ins>|<ins>Apache Spark</ins>
+---|---
+An open source framework|An open source framework
+HDFS as storage|Does not have its own storage system
+YARN as a way of managing computing resources used by different applications|Spark on Hadoop leverages YARN to share a common cluster and dataset
+MapReduce programming model's implemented as an execution engine|Focused on interactive query, machine learning, and real-time workloads, Runs analytics on other storage systems like HDFS, Amazon Redshift, Amazon S3, Couchbase, Cassandra, etc.
+![hadoop](../assets/images/SPARK-15.png)|![spark](../assets/images/SPARK-16.png)
 
-<ins>Apache Hadoop:</ins> An open source framework that has
-- HDFS as storage
-- YARN as a way of managing computing resources used by different applications
-- MapReduce programming model's implemented as an execution engine.
-
-<ins>Apache Spark:</ins> An open source framework
-- Focused on interactive query, machine learning, and real-time workloads.
-- Does not have its own storage system
-- Runs analytics on other storage systems like HDFS, Amazon Redshift, Amazon S3, Couchbase, Cassandra, etc.
-- Spark on Hadoop leverages YARN to share a common cluster and dataset.
 
 ![spark-hadoop-2](../assets/images/SPARK-17.png)
 
@@ -81,9 +74,9 @@ In Hadoop, it was not possible to process data in real-time. There is a time-lag
 The Spark framework includes:
 - Spark Core as the foundation for the platform.
 - Spark SQL for interactive queries.
-- Spark Streaming for real-time analytics in orgs like Amazon, Flipkart etc.
+- Spark Streaming for real-time analytics in organisations like Amazon, Flipkart etc.
 - Spark MLlib for machine learning.
-- Spark GraphX for graph processing in orgs like LinkedIn, Facebook etc.
+- Spark GraphX for graph processing in organisations like LinkedIn, Facebook etc.
 
 ![spark-components](../assets/images/SPARK-5.png)
 
@@ -137,15 +130,17 @@ Spark Core is exposed through an application programming interface (APIs) built 
 Immutable, fault-tolerant and distributed collection of objects that can be operated on in parallel.
 
 RDDs are the building blocks of any Spark application. RDDs Stands for:
-- Resilient: Fault tolerant and is capable of rebuilding data on failure
-- Distributed: Data present in the multiple nodes of a cluster
-- Dataset: Collection of partitioned data and values
+- **Resilient**: Fault tolerant and is capable of rebuilding data on failure
+- **Distributed**: Data present in the multiple nodes of a cluster
+- **Dataset**: Collection of partitioned data and values
 
 ![rdd-1](../assets/images/SPARK-7.png)
 
-Once an RDD is created, it becomes immutable. Immutable object - whose state cannot be modified after it is created, but they can surely be transformed.
-There are 2 ways to create RDDs
-− Parallelizing an existing collection in your driver program
+Once an RDD is created, it becomes immutable. 
+`Immutable object - whose state cannot be modified after it is created, but they can surely be transformed.`
+
+There are 2 ways to create RDDs:
+- Parallelizing an existing collection in your driver program
 - Referencing a dataset in an external storage system, such as a shared file system, HDFS, HBase, etc.
 
 ![rdd-2](../assets/images/SPARK-19.png)
@@ -154,15 +149,15 @@ Each dataset in RDD is divided into logical partitions, which may be computed on
 
 ### Directed Acyclic Graph (DAG)
 
-Direct - Transformation is an action which transitions data partition state from A to B.
-Acyclic - Transformation cannot return to the older partition
+**Direct** - Transformation is an action which transitions data partition state from A to B.
+**Acyclic** - Transformation cannot return to the older partition
 
 DAG is a sequence of computations performed on the data. Each node is an RDD partition and edge is a transformation on top of data. The DAG abstraction helps eliminate the Hadoop MapReduce multi-stage execution model and provides performance enhancements over Hadoop MapReduce.
 
 Using these 2 abstractions, Spark overruled the Hadoop MapReduce:
 The advantage of having DAG and RDD is that they replace the disk IO with in-memory operations and support in-memory data sharing across DAGs, so that different jobs can be performed with the same data allowing complicated workflows.
 
-## Components of Architecture
+## Important Components
 
 ![spark-architecture-1](../assets/images/SPARK-12.png)
 
@@ -211,7 +206,7 @@ Driver talks to the cluster manager and negotiates the resources. Cluster manage
 
 Spark Context takes the job, breaks the job in tasks and distribute them to the worker nodes. These tasks work on the partitioned RDD, perform operations, collect the results and return to the main Spark Context.
 
-![spark-workflow](../assets/images/SPARK-21.png)
+![spark-workflow](../assets/images/SPARK-21.jpg)
 
 <ins>Step 1 - Spark application code Submission:</ins>
 - Driver implicitly converts the code containing transformations and actions into a logical DAG.
@@ -237,7 +232,3 @@ Spark Context takes the job, breaks the job in tasks and distribute them to the 
 
 ### Practical Visualisation on Spark UI
 
-# Spark Development
-
-
-# Spark Developmet
