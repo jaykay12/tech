@@ -175,11 +175,25 @@ There are 2 primary tasks for YARN:
 
 ![yarn-entities](../assets/images/YARN-11.png)
 
-Component|Work|Details
----|---|---
-ResourceManager|The master daemon that manages all resources and schedules applications|![r-m](../assets/images/YARN-6.png)
-NodeManager|per-node agent that monitors resource usage and reports back to the RM|![n-m](../assets/images/YARN-7.png)
-ApplicationMaster|A job-specific operation that uses resources from the RM and coordinates execution with NMs|![a-m](../assets/images/YARN-8.png)
+### Component Details
+
+#### ResourceManager
+
+The master daemon that manages all resources and schedules applications
+
+![r-m](../assets/images/YARN-6.png)
+
+#### NodeManager
+
+per-node agent that monitors resource usage and reports back to the RM
+
+![n-m](../assets/images/YARN-7.png)
+
+#### ApplicationMaster
+
+A job-specific operation that uses resources from the RM and coordinates execution with NMs
+
+![a-m](../assets/images/YARN-8.png)
 
 Job Scheduling is done by RM & Task Monitoring is done by AM.
 
