@@ -14,10 +14,10 @@ A highly scalable, open-source and distributed computing platform developed by A
 - batch/offline processing system
 
 Its core components: 
-— HDFS for storage
-— MapReduce for processing
-— YARN for resource management, and 
-— Hadoop Common for essential utilities 
+- HDFS for storage
+- MapReduce for processing
+- YARN for resource management, and
+- Hadoop Common for essential utilities 
 
 continue to shape how data workflows are designed and scaled.
 
@@ -112,13 +112,13 @@ HDFS is built with failure in mind. HDFS ensures data availability through its r
   NameNode detects the failure via missed heartbeats and schedules the replication of lost blocks to healthy nodes.
 
 - **NameNode Failures**
-  To Be Researched and Added
+  HDFS handles NameNode failure through the High Availability (HA) feature, which provides a redundant pair of NameNodes in an Active/Standby configuration, preventing the NameNode from being a single point of failure (SPOF).
 
 ### Important HDFS Commands
 
 Purpose|Command
 ---|---
-Checking a file content|`hadoop fs -text <FILE_PATH> \| head -n 1`
+Checking a file content | `hadoop fs -text <FILE_PATH> \| head -n 1`
 Listing files|`hdfs dfs -ls <FILE_PATH>`
 Creating Directory|`hadoop fs -mkdir -p <PATH>`
 Checking storage|`hdfs dfs -du -h -s <FILE_PATH>`
@@ -129,7 +129,9 @@ Copying data to local|`hdfs dfs -copyToLocal <HDFS_FILE_PATH> <LOCAL_FILE_NAME>`
 
 # MapReduce
 
-MapReduce is the Hadoop’s processing engine. It allows for distributed computation across large datasets by breaking down tasks into smaller, independent operations that can be executed in parallel, which is what makes Hadoop so fast.
+MapReduce is the Hadoop’s processing engine. 
+
+It allows for distributed computation across large datasets by breaking down tasks into smaller, independent operations that can be executed in parallel.
 
 ## Stages and Components of MapReduce
 
@@ -158,7 +160,9 @@ Cascading is a very popular java framework for writing MR Jobs. In recent times,
 
 # Yet Another Resource Negotiator (YARN)
 
-YARN serves as Hadoop’s resource management layer. It separates job scheduling and resource allocation from the processing model, helping Hadoop support multiple data processing engines beyond MapReduce like Apache Spark, Hive, and Tez.
+YARN serves as Hadoop’s resource management layer. 
+
+It separates job scheduling and resource allocation from the processing model, helping Hadoop support multiple data processing engines beyond MapReduce like Apache Spark, Hive, and Tez.
 
 There are 2 primary tasks for YARN:
 - **Job Scheduling**
@@ -173,9 +177,9 @@ There are 2 primary tasks for YARN:
 
 Component|Work|Details
 ---|---|---
-ResourceManager|`The master daemon that manages all resources and schedules applications`|![r-m](../assets/images/YARN-6.png)
-NodeManager|`per-node agent that monitors resource usage and reports back to the RM`|![n-m](../assets/images/YARN-7.png)
-ApplicationMaster|`A job-specific operation that uses resources from the RM and coordinates execution with NMs`|![a-m](../assets/images/YARN-8.png)
+ResourceManager|The master daemon that manages all resources and schedules applications|![r-m](../assets/images/YARN-6.png)
+NodeManager|per-node agent that monitors resource usage and reports back to the RM|![n-m](../assets/images/YARN-7.png)
+ApplicationMaster|A job-specific operation that uses resources from the RM and coordinates execution with NMs|![a-m](../assets/images/YARN-8.png)
 
 Job Scheduling is done by RM & Task Monitoring is done by AM.
 
