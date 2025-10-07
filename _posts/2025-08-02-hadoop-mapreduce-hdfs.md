@@ -13,7 +13,13 @@ A highly scalable, open-source and distributed computing platform developed by A
 - primarily Java-based
 - batch/offline processing system
 
-Its core components — HDFS for storage, MapReduce for processing, YARN for resource management, and Hadoop Common for essential utilities — continue to shape how data workflows are designed and scaled.
+Its core components: 
+— HDFS for storage
+— MapReduce for processing
+— YARN for resource management, and 
+— Hadoop Common for essential utilities 
+
+continue to shape how data workflows are designed and scaled.
 
 ![hadoop-evolution](../assets/images/HADOOP-9.png)
 
@@ -35,22 +41,22 @@ HDFS, MapReduce, Yarn & Hadoop Commons are the 4 primary pillars of Hadoop ecosy
 
 Hadoop was designed to deal with large amounts of data, so here are the five primary benefits:
 
-Name|Details
+Benefits|Details
 ---|---
-Speed|Hadoop's concurrent processing, MapReduce model, and HDFS enables this
-Diversity|HDFS can hold a variety of data forms, including structured, semi-structured, and unstructured data.
-Cost-Effective|Open-source and stores data on commodity technology
-Resilient|HDFS has the ability to replicate data over the network & provides replication factor of 3
-Scalable|Distributed in nature, we can quickly add extra servers to Hadoop & quickly scale it horizontally
+**Speed**|Hadoop's concurrent processing using MapReduce model, and HDFS enables this
+**Diversity**|HDFS can hold a variety of data forms, including structured, semi-structured, and unstructured data.
+**Cost-Effective**|Open-source and stores data on commodity technology
+**Resilient**|HDFS has the ability to replicate data over the network & provides replication factor of 3 by default
+**Scalable**|Distributed in nature, we can quickly add extra servers to Hadoop & horizontally scale it
 
 ## Challenges in Hadoop
 
-Name|Details
+Challenges|Details
 ---|---
-Security|Lot of confidential information. Hadoop still has to provide suitable identity, data encryption, provisioning, and auditing procedures.
-High Learning Curve|For running query in Hadoop, it requires developing MapReduce functions in Java. In addition, the ecosystem is made up of many other components.
-Not All Datasets can be Handled the Same|Hadoop does not provide a “one-size-fits-all” benefit. Different components operate in different ways, lot trial and error needed
-MapReduce is Limited|Although MapReduce is a fantastic programming model, it relies on a file-intensive technique which is tough to handle
+**Security**|Hadoop still has to provide suitable identity, data encryption, provisioning, and auditing procedures.
+**High Learning Curve**|For running query in Hadoop, it requires developing MapReduce functions in Java. In addition, the ecosystem is made up of many other components.
+**Not All Datasets can be Handled the Same**|Hadoop does not provide a “one-size-fits-all” benefit. Different components operate in different ways, lot trial and error needed
+**MapReduce is Limited**|Although MapReduce is a fantastic programming model, it relies on a file-intensive technique which is tough to handle
 
 ## Components of Hadoop
 
@@ -63,12 +69,14 @@ Yarn|![yarn-intro](../assets/images/HADOOP-3.png)
 ## Key Features of Hadoop
 
 These are mainly:
-- Distributed storage and processing allow it to store extremely large datasets and query them.
-- Horizontal scalability without requiring high-end machines.
-- Data locality optimization, moving computation to where the data resides.
-- Resilience to failure via replication and task re-execution.
+- **Distributed Storage and Processing** allow it to store extremely large datasets and query them.
+- **Horizontal scalability** without requiring high-end machines.
+- **Data locality optimization**, moving computation to where the data resides.
+- **Resilience to failure** via replication and task re-execution.
 
-These 4 features make Hadoop well-suited for batch data processing, log analysis, and ETL pipelines. Hadoop is a classic case study for distributed computing, where computation happens across multiple nodes to increase the overall efficiency and scale.
+`These 4 features make Hadoop well-suited for batch data processing, log analysis, and ETL pipelines.`
+
+Hadoop is a classic case study for distributed computing, where computation happens across multiple nodes to increase the overall efficiency and scale.
 
 ---
 
