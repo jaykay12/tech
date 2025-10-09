@@ -1,22 +1,20 @@
 ---
 layout: post
-title: MongoDB, Best Document NoSQL Database
+title: MongoDB, Document-Type NoSQL Database
 categories: [NoSQL Databases, Database]
 ---
 
-MongoDB is a
-  - cross-platform
-  - document-oriented NoSQL DB
+![mongodb](../assets/images/MONGODB-1.png)
 
-provides
+`MongoDB is a cross-platform document-oriented NoSQL DB`
+
+which provides
   - Easy scalability
   - High performance
   - High availability
 
-![mongodb](../assets/images/MONGODB-1.png)
 
-
-### Concepts & Terminologies
+### Introduction
 
 MongoDB works on the concept of Collections & Documents.
 
@@ -72,14 +70,14 @@ Reading package lists... Done
 **Step 2:**  Installation (Standard one)(Works for 12.04, 14.04, 16.04)
 ```bash
 jalaz@jalaz-personal:~$ sudo apt install -y mongodb
-jalaz@jalaz-indiamart:~$ mongo --version
+jalaz@jalaz-personal:~$ mongo --version
 ```
 
 **Additional:** For 18.04 MongoDB is not officially supported. Used ubuntu packages which are not maintained by MongoDB org. This step is a replacment to Step 1 & Step 2.
 
 ```bash
-jalaz@jalaz-indiamart:~$ sudo apt-get install mongodb
-jalaz@jalaz-indiamart:~$ mongo --version
+jalaz@jalaz-personal:~$ sudo apt-get install mongodb
+jalaz@jalaz-personal:~$ mongo --version
 MongoDB shell version v3.6.8
 ```
 
@@ -100,7 +98,9 @@ jalaz@jalaz-personal:~$ sudo systemctl status mongodb
 jalaz@jalaz-personal:~$ sudo systemctl stop mongodb
 ```
 
-#### MongoDB package components
+---
+
+#### Components of MongoDB
 
 - <ins>**Core Processes**</ins>
   - `mongod` : core database process
@@ -214,14 +214,15 @@ MongoDB provides 2 types of data models:
     db.COLLECTION_NAME.find().pretty()
     db.COLLECTIONNAME.findOne()
 
-|SQL DBs (RDBMS)|NoSQL DBs|
-|---|---|
-|where name = 'jalaz'|db.students.find({"name":"jalaz"})|
-|where likes < 50|db.students.find({"likes":{$lt:50}})|
-|where name in ["Raj", "Ram", "Raghu"]|db.students.find({"name":{$in:["Raj", "Ram", "Raghu"]}})|
-|where team = 'search' AND company = 'indiamart'|db.students.find({$and:[{"team":"search"},{"company": "indiamart"}]})|
-|where likes>10 AND (skill = 'solr' OR name = 'jalaz')|db.students.find({"likes":{$gt:10}, $or: [{"skill": "solr"},{"name": "jalaz"}]})|
-|where age is not greater than 25|db.students.find({"Age": {$not: {$gt:"25"}}})|
+
+SQL DBs (RDBMS)|NoSQL DBs
+---|---
+where name = 'jalaz'|db.students.find({"name":"jalaz"})
+where likes < 50|db.students.find({"likes":{$lt:50}})
+where name in ["Raj", "Ram", "Raghu"]|db.students.find({"name":{$in:["Raj", "Ram", "Raghu"]}})
+where team = 'search' AND company = 'indiamart'|db.students.find({$and:[{"team":"search"},{"company": "indiamart"}]})
+where likes>10 AND (skill = 'solr' OR name = 'jalaz')|db.students.find({"likes":{$gt:10}, $or: [{"skill": "solr"},{"name": "jalaz"}]})
+where age is not greater than 25|db.students.find({"Age": {$not: {$gt:"25"}}})
 
 <ins>**Projection & Advanced Querying**</ins>
 
@@ -233,8 +234,8 @@ MongoDB provides 2 types of data models:
 <ins>**Updation & Deletion**</ins>
 
 2 functions are used prominently:
-- update() : updates the value in the existing document.
-- save() : replaces the existing document with the document passed as argument.
+update() : updates the value in the existing document.
+save() : replaces the existing document with the document passed as argument.
 
 
     db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
@@ -247,9 +248,9 @@ MongoDB provides 2 types of data models:
     db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)
 
 <ins>**Indexing**</ins>
-- Indexes support the efficient resolution of queries
-- W/O indexes, MongoDB has to scan the humongous amount of data & that is quite inefficient.
-- Indexes are special Data structure which stores the small portion of data in easy-to-traverse form.
+Indexes support the efficient resolution of queries
+W/O indexes, MongoDB has to scan the humongous amount of data & that is quite inefficient.
+Indexes are special Data structure which stores the small portion of data in easy-to-traverse form.
 
 
     db.COLLECTION_NAME.createIndex({KEY:1})
@@ -260,19 +261,20 @@ MongoDB provides 2 types of data models:
     db.COLLECTION_NAME.getIndexes()
 
 <ins>**Aggregation**</ins>
-- Aggregation operation processes data records & returns computed results
-- Aggregation in MongoDB is equivalent to `count(*)` & `GROUP BY` of SQL.
-- Using aggregation, multiple documents can be grouped & final results are provided after performing various operations on this grouped data.
+Aggregation operation processes data records & returns computed results
+Aggregation in MongoDB is equivalent to `count(*)` & `GROUP BY` of SQL.
+Using aggregation, multiple documents can be grouped & final results are provided after performing various operations on this grouped data.
 
 
     db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+
 
 |SQL DB|NoSQL DB|
 |---|---|
 |SELECT author, count(*) FROM books GROUP BY author|db.books.aggregate([{$group : {_id : "$author", num_books : {$sum : 1}}}])|
 
 
-### Practical Usage
+## Demo Usage
 
 `Data Information`
 
@@ -533,7 +535,7 @@ test
 
 ### Advanced Concepts
 
-1. Sharding
+1. Sharding - https://jaykay12.github.io/tech/sharding-solrcloud/
 
 2. Replication
 
