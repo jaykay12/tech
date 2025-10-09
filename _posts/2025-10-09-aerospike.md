@@ -25,13 +25,42 @@ It is a multi-model DB that supports both Key-Value Store and Document Store mod
 
 ![aero-intro](../assets/images/AERO-2.jpeg)
 
-These are the 3 core saliant features:
+These are the saliant features:
 1. Scalability - Flash and Hybrid Memory Architectures allows Aerospike DB to scale PBs of data
-2. Speed - Low Latency is maintained at a high scale
+2. Speed - Low Latency is maintained at the high scale
 3. Low TCO - Due to hybrid memory architecture and compression, Aerospike provides significantly lower (~20%) total cost of operations
+4. Automatic Sharding - Distributes data automatically across nodes for load balancing and redundancy.
+5. ACID Compliance - Maintains data integrity, consistency, and durability, critical for transactional operations.
 
+Aerospike was developed by Srini Srinivasan and Brian Bulkowski, and it was first introduced in 2009. Currently Aerospike 8.0 is the most recent version.
 
-# Components of Aerospike
+![aero-logo](../assets/images/AERO-6.png)
+
+# Aerospike Details
+
+![shared-nothing](../assets/images/AERO-10.png)
+
+Aerospike's architecture:
+- built on a shared-nothing architecture
+- incorporates
+  - hybrid memory system
+  - smart client libraries,
+  - and self-managed clusters
+
+to efficiently balance loads, eliminate network hotspots, and recover quickly in failure situations.
+
+## Architecture Overview of Aerospike
+
+![aero-architecture](../assets/images/AERO-9.png)
+
+3 Primary Layers: Client, Distribution & Storage Layer.
+
+![aero-components](../assets/images/AERO-8.png)
+
+## Aerospike DB Details
+
+![aero-database](../assets/images/AERO-7.png)
+
 
 ## CAP Theorem & Aerospike
 
