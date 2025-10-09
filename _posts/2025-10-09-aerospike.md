@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Aerospike, Fastest NoSQL Database
+title: Aerospike, Key-Value NoSQL Database
 categories: [NoSQL Databases, Database]
 ---
 
@@ -9,3 +9,9 @@ categories: [NoSQL Databases, Database]
 # Architecture
 
 # Usage
+
+## Setting up in Local
+
+## AQL Commands
+
+# Demo
