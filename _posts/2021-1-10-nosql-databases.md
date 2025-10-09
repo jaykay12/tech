@@ -1,25 +1,27 @@
 ---
 layout: post
 title: NoSQL Databases
-categories: [Database]
+categories: [Database, No-SQL Database]
 ---
 
-NoSQL databases are non tabular, and store data differently than relational tables.
+NoSQL databases are non tabular, and store data in a different way than the relational databases.
 
 - Provides flexible schemas.
-- Scale easily with large amounts of data and high user loads.
+- Scale easily with large amounts of data and supports high user loads.
 
 **Features:**
 - Non relational
 - Schema-less
 - Distributed
-- Simple API
+- Provides Simple API
+
+![no-sql](../assets/images/NOSQL-1.png)
 
 ### Need for NoSQL
 
-- <ins>**Relationship data**</ins>
-  - NoSQL DBs store relationship data differently than relational databases do.
-  - Modeling relationship data is easier than in SQL databases.
+- <ins>**Data Relationships**</ins>
+  - NoSQL DBs store relationship data differently than how relational databases store
+  - Modeling the relationship between data is more easier
 
 
 - <ins>**Storage Cost**</ins>
@@ -28,9 +30,9 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 
 
 - <ins>**Randomness & Quanity of data**</ins>
-  - Data started coming in varied shapes & sizes.
-  - Amount of data generated & fed also increased manifold.
-  - NoSQL DBs allow developers to store huge amounts of unstructured data, giving them a lot of flexibility.
+  - Data started coming in different shapes & sizes.
+  - Amount of data generated & fed into the system has also increased manifold.
+  - NoSQL DBs allow developers to store huge amounts of unstructured data, providing a lot of flexibility.
 
 
 - <ins>**Introduction of cloud-computing**</ins>
@@ -38,46 +40,57 @@ NoSQL databases are non tabular, and store data differently than relational tabl
   - Also helped in better geo-placing their data.
   - NoSQL DBs like Mongo provided these capabilities
 
-![no-sql](../assets/images/NOSQL-1.png)
-
 #### Types of NoSQL Databases
 
+![nosql-db](../assets/images/NOSQL-3.png)
+
 <ins>**Document Databases:**</ins>
-- Stores data in documents similar to JSON objects.
+- Stores data in form of documents similar to JSON objects.
 - Each document contains pairs of fields and values.
 - Due to presence of variety of field types & powerful query languages, used as general purpose databases.
-- Can easily scale-out for storing humongous amount of data.
-- Example: MongoDB, MariaDB, Apache Solr
+- Can be easily scale-out for storing humongous amount of data.
+- Example:
+  - MongoDB - https://jaykay12.github.io/tech/mongodb-database/
+  - MariaDB
+  - Apache Solr - https://jaykay12.github.io/tech/apache-solr-indexing-configurations/
 
 
 <ins>**Key-value Databases:**</ins>
 - Store data in the form of keys and values.
-- Simpler type of database
-- Great when large amounts of data is stored but no need of performing complex queries to retrieve that data.
-- Great for caching purposes or storing user preferences.
-- Example: Redis, DyanoDB
+- Simpler database design
+- Great for storing large amounts of data but there is no need of performing complex queries to retrieve that data.
+- Useful for caching purposes or storing user preferences/context.
+- Example:
+  - Aerospike - https://jaykay12.github.io/tech/aerospike/
+  - Couchbase - https://jaykay12.github.io/tech/couchbase/
+  - Redis - https://jaykay12.github.io/tech/redis/
+  - DyanoDB
 
 
 <ins>**Wide-column Stores:**</ins>
-- Store data in tables, rows, and dynamic columns.
-- Provides lot of flexibility over relational databases as each row is not required to have the same columns.
+- Store data in the form of tables, rows, and dynamic columns.
+- Provides lot of flexibility over relational databases as each row is not required to have the exact same columns(schema less).
 - Great when large amounts of data is stored and the future query patterns can be preicted.
 - Commonly used for storing IoT data and user profile data. (Clickstream data)
-- Example: Cassandra, HBase
+- Example:
+  - Cassandra
+  - HBase
+
 
 <ins>**Graph Databases:**</ins>
-- Store data in nodes and edges
+- Store data in the form of nodes and edges
 - Nodes store information about entities(users, company, products) while edges store information about the relationships between these nodes.
 - Great for usecases where we need to traverse relationships to look for patterns such as social networks, fraud detection, and recommendation engines.
-- Example: Neo4j, JanusGraph
-
-![nosql-db](../assets/images/NOSQL-3.png)
+- Example:
+  - Neo4j
+  - JanusGraph
+  - Aerospike-Graph
 
 #### When should NoSQL be used over SQL
 
 - **Development Pace**
-  - Is higher for NoSQL as compared to SQL
-  - Due to sprints & frequent code changes, NoSQL supports quick changes as opposed to SQL, where schema needs to be updated by DB Admin, Data unload & Data load is required for each change.
+  - NoSQL development can be relatively faster as compared to SQL
+  - In case of frequent code changes, NoSQL supports quick changes as opposed to SQL, where schema needs to be updated by DB Admin, Data unload & Data load is required for each change.
 
 
 - **Mutli-form Data**
@@ -87,56 +100,58 @@ NoSQL databases are non tabular, and store data differently than relational tabl
 
 
 - **Supports large amount of data**
-  - NoSQL DBs use scale-out mechanism which is much better than the scale-up method of SQL DBs.
+  - NoSQL DBs use scale-out mechanism(Horizontally Scaling) which is much better than the scale-up(Vertical Scaling) method of SQL DBs.
   - Scale-out architecture is one of the most affordable ways to handle large volumes of traffic
   - Scale-out architectures also provide benefits such as being able to upgrade a database or change its structure with zero downtime.
 
 
 - **Multi Application paradigm support**
   - NoSQL can serve both transactional and analytical workloads from the same database. In SQL DBs, separate data warehouse is required to support analytics.
-  - NoSQL have superior integration capabilities with real-time streaming technologies.
+  - NoSQL have superior integration capabilities with real-time streaming technologies like aerospike ingestions.
 
-### Advantages
+### Advantages of No-SQL
 
 - <ins>**High Availability**</ins>
-  - Auto-replication feature of NoSQL DBs supports this.
+  - Supported by the Auto-replication feature of NoSQL DBs
   - In case of failure, data automatically replicates to a previous consistent state making the system available most of the time.
 
 - <ins>**High Scalability**</ins>
   - NoSQL DBs use sharding for horizontal scaling.
     - Sharding: Partitioning of data and placing it on multiple machines in such a way that the order of the data is preserved.
-  - NoSQL can handle such huge amount of data because of this scalability, as the data grows NoSQL scale itself to handle that data in efficient manner.
+  - NoSQL can handle such huge amount of data as they provide Horizontal Scaling by design, as the data grows NoSQL scale itself to handle that data in an more efficient manner.
 
 ![scale-up-scale-out](../assets/images/NOSQL-2.png)
 
-### Drawbacks
+### Drawbacks of No-SQL
 
 - <ins>**Narrow focus**</ins>
-  - Mainly designed for storage & lacks transactional management best features.
+  - Mainly designed for storage capabilities & lacks the transactional management features.
 
-- <ins>**Open-source**</ins>
+- <ins>**Mostly Open-source**</ins>
   - Due to this, no reliable software standards.
 
 - <ins>**No GUI**</ins>
-  - GUI mode tools for db access are not available.
+  - GUI mode tools for db access are not available, CLI tools are there.
 
 - <ins>**Large document size**</ins>
-  - Data stored is of immense size & stored in formats like JSON making these packets quite costly in networking.
+  - Data stored is of bigger size & stored in formats like JSON makes these packets transfer costly in network bandwidth
 
 - <ins>**Management challenge**</ins>
   - Data management in NoSQL is more challenging than SQL DBs.
-  - Setting up of NoSQL is also cumbersome.
+  - Setting up of NoSQL DB is more cumbersome.
+ 
+---
 
 ### SQL vs NoSQL Databases
 
-`CAP theorem` states that it's impossible for a distributed data store to offer more than two out of three:
+`CAP theorem` states that it's impossible for a distributed data store to offer all three of these at a time, we have to settle with any 2 of them:
 
 - **Consistency:**
-  - Data should remain consistent even after the execution of an operation.
-  - Once data is written, any future read request should contain that data.
+  - Data should remain consistent after the execution of an operation.
+  - Once data is written, any future read request should contain that version of the data.
 
 - **Availability:**
-  - DB should always be available and responsive.
+  - Database should always be available and responsive.
   - Should not have any downtime.
 
 - **Partition Tolerance:**
