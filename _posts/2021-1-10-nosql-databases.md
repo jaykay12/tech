@@ -49,10 +49,13 @@ NoSQL databases are non tabular, and store data in a different way than the rela
 - Each document contains pairs of fields and values.
 - Due to presence of variety of field types & powerful query languages, used as general purpose databases.
 - Can be easily scale-out for storing humongous amount of data.
-- Example:
+- Examples:
   - MongoDB - https://jaykay12.github.io/tech/mongodb-database/
-  - MariaDB
+  - CouchDB
   - Apache Solr - https://jaykay12.github.io/tech/apache-solr-indexing-configurations/
+  - Couchbase Server - https://jaykay12.github.io/tech/couchbase-server/
+  - Aerospike - https://jaykay12.github.io/tech/aerospike/
+  - Google Firebase Firestore
 
 
 <ins>**Key-value Databases:**</ins>
@@ -60,11 +63,12 @@ NoSQL databases are non tabular, and store data in a different way than the rela
 - Simpler database design
 - Great for storing large amounts of data but there is no need of performing complex queries to retrieve that data.
 - Useful for caching purposes or storing user preferences/context.
-- Example:
+- Examples:
   - Aerospike - https://jaykay12.github.io/tech/aerospike/
-  - Couchbase - https://jaykay12.github.io/tech/couchbase/
+  - Couchbase Server - https://jaykay12.github.io/tech/couchbase/
   - Redis - https://jaykay12.github.io/tech/redis/
-  - DyanoDB
+  - Amazon DynamoDB
+  - RocksDB
 
 
 <ins>**Wide-column Stores:**</ins>
@@ -72,19 +76,24 @@ NoSQL databases are non tabular, and store data in a different way than the rela
 - Provides lot of flexibility over relational databases as each row is not required to have the exact same columns(schema less).
 - Great when large amounts of data is stored and the future query patterns can be preicted.
 - Commonly used for storing IoT data and user profile data. (Clickstream data)
-- Example:
-  - Cassandra
-  - HBase
+- Examples:
+  - Apache Cassandra
+  - Apache HBase
+  - ScyllaDB
+  - Google Bigtable
+  - Azure Cosmos DB
 
 
 <ins>**Graph Databases:**</ins>
 - Store data in the form of nodes and edges
 - Nodes store information about entities(users, company, products) while edges store information about the relationships between these nodes.
 - Great for usecases where we need to traverse relationships to look for patterns such as social networks, fraud detection, and recommendation engines.
-- Example:
+- Examples:
   - Neo4j
   - JanusGraph
   - Aerospike-Graph
+  - Amazon Neptune
+  - Azure Cosmos DB
 
 #### When should NoSQL be used over SQL
 
