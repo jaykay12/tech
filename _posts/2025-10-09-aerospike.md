@@ -4,7 +4,7 @@ title: Aerospike, Realtime NoSQL Database
 categories: [NoSQL Databases, Database]
 ---
 
-![aero](../assets/images/AERO-1.jpeg)
+![aero-logo](../assets/images/AERO-6.png)
 
 `The realtime database built for massive scale, speed and savings`
 
@@ -33,8 +33,6 @@ These are the saliant features of Aerospike:
 5. **ACID Compliance** - Maintains data integrity, consistency, and durability, critical for transactional operations.
 
 Aerospike was developed by Srini Srinivasan and Brian Bulkowski, and it was first introduced in 2009. Currently Aerospike 8.0 is the most recent version.
-
-![aero-logo](../assets/images/AERO-6.png)
 
 # Aerospike Details
 
@@ -166,9 +164,9 @@ Hybrid Memory Architecture™ delivers RAM-like performance with SSDs that scale
 
 ## Industry Usecases
 
-![aero-database](../assets/images/AERO-3.jpeg)
-
-![aero-business](../assets/images/AERO-4.jpeg)
+Tech Usecase|Business Usecase
+---|---
+![aero-database](../assets/images/AERO-3.jpeg)|![aero-business](../assets/images/AERO-4.jpeg)
 
 ## Head on Head Comparision with Redis
 
@@ -199,3 +197,5 @@ To scale Redis, more nodes and DRAM are needed because it’s a single-threaded 
 ## AQL Commands
 
 # Demo
+
+![aero](../assets/images/AERO-1.jpeg)
